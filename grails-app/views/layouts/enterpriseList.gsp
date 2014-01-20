@@ -1,1 +1,0 @@
-<tr><td>"${it.name}"</td><td>"${it.activeDate}"</td></tr>
