@@ -9,7 +9,7 @@ class SysadminController {
     def index() {
         def allEnts = Enterprise.getAll()
 
-        render(view: "index", model: [allEnts: allEnts])
+        render(view: "index", model: [allEnts: allEnts, entityName: 'Enterprise'])
     }
 
     def getListOfEnterprises() {

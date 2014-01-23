@@ -43,8 +43,8 @@ class BootStrap {
             println "Test environment"
             //println "Executing BootStrapTest"
             def activeDt = new Date()
-            def e1 = new Enterprise(name: 'ent1', activeDate: activeDt).save(flush: true)
-            def e2 = new Enterprise(name: 'ent2', activeDate: activeDt).save(flush: true)
+            def e1 = new Enterprise(name: 'City of Longmont', activeDate: activeDt).save(flush: true)
+            def e2 = new Enterprise(name: 'Colorado DOT', activeDate: activeDt).save(flush: true)
 
             assert Enterprise.count() == 2
             //  new BootStrapTest().init()
