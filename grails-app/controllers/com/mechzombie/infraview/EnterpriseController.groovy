@@ -1,28 +1,32 @@
 package com.mechzombie.infraview
 
 
-
+import grails.plugins.springsecurity.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
-@Transactional(readOnly = true)
+@Transactional(readOnly = true )
 class EnterpriseController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
+    
+    @Secured(['ROLE_SUPERUSER'])
     def index(Integer max) {
         params.max = Math.min(max ?: 10, 100)
         respond Enterprise.list(params), model:[enterpriseInstanceCount: Enterprise.count()]
     }
 
+    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def show(Enterprise enterpriseInstance) {
         respond enterpriseInstance
     }
 
+    @Secured(['ROLE_SUPERUSER'])
     def create() {
         respond new Enterprise(params)
     }
-
+    
+    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
     def save(Enterprise enterpriseInstance) {
         if (enterpriseInstance == null) {
@@ -46,10 +50,12 @@ class EnterpriseController {
         }
     }
 
+    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def edit(Enterprise enterpriseInstance) {
         respond enterpriseInstance
     }
 
+    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
     def update(Enterprise enterpriseInstance) {
         if (enterpriseInstance == null) {
@@ -73,6 +79,7 @@ class EnterpriseController {
         }
     }
 
+    @Secured(['ROLE_SUPERUSER'])
     @Transactional
     def delete(Enterprise enterpriseInstance) {
 

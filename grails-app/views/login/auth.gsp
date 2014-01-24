@@ -4,7 +4,6 @@
 	<title><g:message code="springSecurity.login.title"/></title>
 	<r:require modules='application, login' />
 </head>
-
 <body>
 <div id='login'>
 	<div class='inner'>
