@@ -69,7 +69,7 @@
                 <span id="users-label" class="property-label"><g:message code="enterprise.users.label" default="Users" /></span>
 
                 <g:each in="${enterpriseInstance.users}" var="u">
-                    <span class="property-value" aria-labelledby="users-label"><g:link controller="user" action="show" id="${u.id}">${u?.encodeAsHTML()}</g:link></span>
+                    <span class="property-value" aria-labelledby="users-label"><g:link controller="user" action="show" id="${u.id}">${u?.username} -> ${u?.getAuthorities().authority}</g:link></span>
                 </g:each>
 
             </li>
