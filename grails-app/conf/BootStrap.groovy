@@ -33,9 +33,9 @@ class BootStrap {
         //}
         
         //println 'init 2'
-        def testUserBasic = new User(username: 'user@longmont.gov', enabled: true, password: 'pass')//, enterprise: e1)
-        def testUser = new User(username: 'admin@longmont.gov', enabled: true, password: 'pass')//, enterprise: e1)
-        def su = new User(username: 'su@infraview.com', enabled: true, password: 'pass')//, enterprise: rootEnterprise)
+        def testUserBasic = new User(username: 'user@longmont.gov', enabled: true, password: 'pass', enterprise: e1)
+        def testUser = new User(username: 'admin@longmont.gov', enabled: true, password: 'pass', enterprise: e1)
+        def su = new User(username: 'su@infraview.com', enabled: true, password: 'pass', enterprise: rootEnterprise)
 
         testUser.save(flush: true)
         testUserBasic.save(flush: true)
@@ -43,9 +43,9 @@ class BootStrap {
         //println 'init 3'
         assert User.count() == 3
         
-        rootEnterprise.addToUsers(su)
-        e1.addToUsers(testUser)
-        e1.addToUsers(testUserBasic)
+//        rootEnterprise.addToUsers(su)
+//        e1.addToUsers(testUser)
+//        e1.addToUsers(testUserBasic)
         
         
 

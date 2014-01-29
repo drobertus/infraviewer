@@ -14,7 +14,7 @@ class User {
     //user added
     //String firstName
     //String lastName
-    //Enterprise enterprise
+    Enterprise enterprise
 
     static constraints = {
         username blank: false, unique: true, email: true
@@ -28,7 +28,13 @@ class User {
     Set<Role> getAuthorities() {
         UserRole.findAllByUser(this).collect { it.role } as Set
     }
-
+//
+//    Enterprise getEnterprise() {
+//        def ent = Enterprise.findAllByUser(this)
+//        println ent.name
+//        ent
+//    }
+    
     def beforeInsert() {
         encodePassword()
     }
