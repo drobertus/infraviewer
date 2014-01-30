@@ -28,12 +28,6 @@ class User {
     Set<Role> getAuthorities() {
         UserRole.findAllByUser(this).collect { it.role } as Set
     }
-//
-//    Enterprise getEnterprise() {
-//        def ent = Enterprise.findAllByUser(this)
-//        println ent.name
-//        ent
-//    }
     
     def beforeInsert() {
         encodePassword()

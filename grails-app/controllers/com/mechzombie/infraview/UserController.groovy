@@ -23,12 +23,17 @@ class UserController {
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def create() {
-        respond new User(params)
+        
+        println 'createing user'
+        def newUser = new User(params)
+       
+        respond newUser
     }
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
     def save(User userInstance) {
+        println 'saving user'
         if (userInstance == null) {
             notFound()
             return
@@ -38,7 +43,13 @@ class UserController {
             respond userInstance.errors, view:'create'
             return
         }
-
+        println('userroles=' + userInstance.authorities)
+        println('params=' + params)
+         params.roles.each() {
+            println 'creating user role ' + it
+           // newUser.addToUserRole(user: newUser, role: Role.getById(it))
+        }
+        
         userInstance.save flush:true
 
         request.withFormat {
@@ -52,12 +63,14 @@ class UserController {
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def edit(User userInstance) {
+        println 'editing user'
         respond userInstance
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
     def update(User userInstance) {
+        println 'updating user'
         if (userInstance == null) {
             notFound()
             return
@@ -67,9 +80,16 @@ class UserController {
             respond userInstance.errors, view:'edit'
             return
         }
-
+        
         userInstance.save flush:true
 
+        println('userroles=' + userInstance.authorities)
+        println('params=' + params)
+        params.roles.each() {     
+            println 'creating user role ' + it
+            UserRole.create( userInstance, Role.findById(it), true)
+        }
+        
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'User.label', default: 'User'), userInstance.username])
