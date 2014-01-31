@@ -15,7 +15,7 @@
         <g:message code="user.password.label" default="Password" />
         <span class="required-indicator">*</span>
     </label>
-    <g:textField name="password" required="" value="${userInstance?.password}"/>
+    <g:passwordField name="password" required="" value="${userInstance?.password}"/>
 </div>
 
 
@@ -24,16 +24,16 @@
         <g:message code="user.enterprise.label" default="Enterprise" />
 
     </label>
-    <g:select name="enterprise" from="${Enterprise.list()}" value="${user?.enterprise?.id}" 
+    <g:select name="enterprise" from="${Enterprise.list()}" value="${userInstance.enterprise?.id}" 
         optionKey="id" optionValue="name" />
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'authorities.role', 'error')} ">
-    <label for="roles">
-        <g:message code="user.role.label" default="Role" />
+<div class="fieldcontain ${hasErrors(bean: userInstance, field: 'authorities?.all', 'error')} ">
+    <label for="authorities">
+        <g:message code="user.authorities.label" default="Roles" />
 
     </label>
-    <g:select name="roles" from="${Role.list()}" value="${user?.authorities?.role?.id}" 
+    <g:select name="authorities" from="${Role.list()}" value="${userInstance.authorities?.id}" 
         optionKey="id" optionValue="authority" multiple='true' />
 </div>
 

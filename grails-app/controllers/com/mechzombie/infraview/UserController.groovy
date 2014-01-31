@@ -64,7 +64,8 @@ class UserController {
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def edit(User userInstance) {
         println 'editing user'
-        respond userInstance
+        //def userRoles = UserRole.findAllByUser(userInstance).collect { it.role } as List
+        respond userInstance //, model:[enterprise: userInstance.enterprise, authorities: userRoles]
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
