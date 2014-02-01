@@ -23,11 +23,7 @@ class UserController {
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def create() {
-        
-        println 'createing user'
-        def newUser = new User(params)
-       
-        respond newUser
+        respond new User(params)
     }
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
@@ -44,14 +40,17 @@ class UserController {
             return
         }
         println('userroles=' + userInstance.authorities)
-        println('params=' + params)
-         params.roles.each() {
-            println 'creating user role ' + it
-           // newUser.addToUserRole(user: newUser, role: Role.getById(it))
-        }
+        
         
         userInstance.save flush:true
-
+        println('params=' + params)
+        UserRole.deleteByUser(userInstance)
+         params.authorities.each() {
+            println 'creating user role ' + it
+            UserRole.create( userInstance, Role.getById(it), true)
+            //UserRole.addToUserRoles(user: newUser, role: Role.getById(it))
+        }
+        
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'userInstance.label', default: 'User'), userInstance.username])
@@ -64,8 +63,7 @@ class UserController {
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def edit(User userInstance) {
         println 'editing user'
-        //def userRoles = UserRole.findAllByUser(userInstance).collect { it.role } as List
-        respond userInstance //, model:[enterprise: userInstance.enterprise, authorities: userRoles]
+        respond userInstance 
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
@@ -82,14 +80,30 @@ class UserController {
             return
         }
         
-        userInstance.save flush:true
-
         println('userroles=' + userInstance.authorities)
         println('params=' + params)
-        params.roles.each() {     
+        
+        def existingRoles = userInstance.getAuthorities()
+        def paramAuths = params.authorities
+        paramAuths.each() {
             println 'creating user role ' + it
-            UserRole.create( userInstance, Role.findById(it), true)
+            def theRole = Role.findById(it)
+            if(!existingRoles.contains(theRole)) {
+                UserRole.create( userInstance, theRole, true)
+            }
         }
+
+        Role.list().each() { role->            
+            def hasRole = existingRoles.contains(role)
+            def auth = false
+            if(hasRole){
+                if(!paramAuths.contains(role.id.toString() ) ) {
+                    UserRole.delete(userInstance, hasRole, true)
+                }
+            }
+        }
+        
+        userInstance.save flush:true
         
         request.withFormat {
             form {

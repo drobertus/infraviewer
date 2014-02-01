@@ -40,8 +40,8 @@
 	</label>
 	
 <ul class="one-to-many">
-<g:each in="${enterpriseInstance?.users?}" var="u">
-    <li><g:link controller="user" action="show" id="${u.id}">${u?.encodeAsHTML()}</g:link></li>
+<g:each in="${enterpriseInstance?.users}" var="u">
+    <li><g:link controller="user" action="show" id="${u.id}">${u?.username}</g:link></li>
 </g:each>
 <li class="add">
 <g:link controller="user" action="create" params="['enterprise.id': enterpriseInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'user.label', default: 'User')])}</g:link>
