@@ -39,18 +39,16 @@ class UserController {
             respond userInstance.errors, view:'create'
             return
         }
-        println('userroles=' + userInstance.authorities)
-        
-        
+                
         userInstance.save flush:true
-        println('params=' + params)
-        UserRole.deleteByUser(userInstance)
-         params.authorities.each() {
-            println 'creating user role ' + it
-            UserRole.create( userInstance, Role.getById(it), true)
-            //UserRole.addToUserRoles(user: newUser, role: Role.getById(it))
-        }
         
+        def paramAuths = params.authorities
+        paramAuths.each() {
+            println 'creating user role ' + it
+            def theRole = Role.findById(it)
+            UserRole.create( userInstance, theRole, true)
+        }
+      
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'userInstance.label', default: 'User'), userInstance.username])
@@ -83,23 +81,20 @@ class UserController {
         println('userroles=' + userInstance.authorities)
         println('params=' + params)
         
-        def existingRoles = userInstance.getAuthorities()
+        def existingRoles = userInstance.getAuthorities()       
         def paramAuths = params.authorities
         paramAuths.each() {
             println 'creating user role ' + it
             def theRole = Role.findById(it)
             if(!existingRoles.contains(theRole)) {
-                UserRole.create( userInstance, theRole, true)
+              UserRole.create( userInstance, theRole, true)
             }
         }
 
-        Role.list().each() { role->            
-            def hasRole = existingRoles.contains(role)
-            def auth = false
-            if(hasRole){
-                if(!paramAuths.contains(role.id.toString() ) ) {
-                    UserRole.delete(userInstance, hasRole, true)
-                }
+        existingRoles.each() {
+            if(!paramAuths.contains(it.id.toString() ) ) {
+                log.info(" removing role ${it} from user ${userInstance}")
+                UserRole.remove(userInstance, it, true)
             }
         }
         

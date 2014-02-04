@@ -26,7 +26,12 @@ class User {
     }
 
     Set<Role> getAuthorities() {
-        return UserRole.findAllByUser(this).collect { it.role } as Set
+        if(id) {
+            return UserRole.findAllByUser(this).collect { it.role } as Set
+        }
+        else {
+            return new HashSet<Role>()
+        }
     }
     
     def beforeInsert() {
