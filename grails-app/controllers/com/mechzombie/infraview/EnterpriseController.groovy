@@ -12,12 +12,19 @@ class EnterpriseController {
     
     @Secured(['ROLE_SUPERUSER'])
     def index(Integer max) {
+        log.info "Showing list of ents"
         params.max = Math.min(max ?: 10, 100)
+        //println("shoping enterprise ${enterpriseInstance.name}")
         respond Enterprise.list(params), model:[enterpriseInstanceCount: Enterprise.count()]
     }
 
-    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN'])
     def show(Enterprise enterpriseInstance) {
+        println("showing enterprise ${enterpriseInstance.name}")
+        //def roleNames = principal.authorities*.authority
+        //if (roleNames.contains('ROLE_SUPERUSER')) {
+        session['activeEnterprise'] = enterpriseInstance
+        //}
         respond enterpriseInstance
     }
 
@@ -50,12 +57,12 @@ class EnterpriseController {
         }
     }
 
-    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN'])
     def edit(Enterprise enterpriseInstance) {
         respond enterpriseInstance
     }
 
-    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
+    @Secured(['ROLE_ADMIN'])
     @Transactional
     def update(Enterprise enterpriseInstance) {
         if (enterpriseInstance == null) {

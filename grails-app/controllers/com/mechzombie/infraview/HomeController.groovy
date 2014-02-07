@@ -19,11 +19,23 @@ class HomeController {
             redirect controller: 'sysadmin', params: params
             return
         }
+        else if (roleNames.contains('ROLE_ADMIN')) {
+            redirect action: 'adminOnly'
+            return
+        }
 
     }
 
     @Secured(['ROLE_ADMIN'])
     def adminOnly() {
-        render 'admin only stuff'
+        
+        println 'admin only redirect'
+        def theAdmin = User.findByUsername(principal.username)
+       //model:[enterpriseInstanceCount: Enterprise.count()
+       println "enterprise = ${theAdmin.enterprise.name}"
+        //params[enterpriseInstance] = theAdmin.enterprise
+        //respond Enterprise.list(params), model:[enterpriseInstanceCount: Enterprise.count()]
+        redirect theAdmin.enterprise //controller: 'enterprise', action: 'show', 
+        return
     }
 }

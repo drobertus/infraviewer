@@ -8,14 +8,67 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true )
 class UserController {
 
+    def springSecurityService
+    
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def index(Integer max) {
+        //println "params = " +params
+        //println "principal =" + principal
+        //def roleNames = principal.authorities*.authority
+        // TODO:  if the user is a super user we display the list of users for
+        // the enterprise that is "active"
+        // def theEnterprise
+        //if (roleNames.includes('ROLE_SUPERUSER')) {
+         def theEnterprise = session['activeEnterprise']
+        //}else {
+          //  def user = User.findByUsername(principal.username)
+        
+          //  println "theUser= ${user.id}"
+          //  theEnterprise = user.enterprise
+       // }
+        //params.max = Math.min(max ?: 10, 100)
+        //def user = User.findByUsername(principal.username)
+        
+        //println "theUser= ${user.id}"
+        //def theEnterprise = user.enterprise
+        
         params.max = Math.min(max ?: 10, 100)
-        respond User.list(params), model:[userInstanceCount: User.count()]
+        def theUsers = User.findAllByEnterprise(theEnterprise, params)
+        respond theUsers, model:[userInstanceCount: theUsers.size()]
+        
+        
+        //respond User.list(params), model:[userInstanceCount: User.count()]
     }
 
+    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
+    def enterpriseUsers(Integer max) {
+        
+        def roleNames = principal.authorities*.authority
+        // TODO:  if the user is a super user we display the list of users for
+        // the enterprise that is "active"
+        def theEnterprise
+        if (roleNames.includes('ROLE_SUPERUSER')) {
+            theEnterprise = session['activeEnterprise']
+        }else {
+            def user = User.findByUsername(principal.username)
+        
+            println "theUser= ${user.id}"
+            theEnterprise = user.enterprise
+        }
+        
+        //params.max = Math.min(max ?: 10, 100)
+        
+        //def theEnterprise = user.enterprise
+        
+        params.max = Math.min(max ?: 10, 100)
+        def theUsers = User.findAllByEnterprise(theEnterprise, params)
+        respond theUsers, model:[userInstanceCount: theUsers.size()]
+        
+    }
+
+    
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN', 'ROLE_USER'])
     def show(User userInstance) {
         respond userInstance
@@ -29,8 +82,8 @@ class UserController {
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
     def save(User userInstance) {
-        println 'saving user'
-        if (userInstance == null) {
+        
+        if (userInstance == null) {      
             notFound()
             return
         }
@@ -39,12 +92,11 @@ class UserController {
             respond userInstance.errors, view:'create'
             return
         }
-                
+        
         userInstance.save flush:true
         
         def paramAuths = params.authorities
         paramAuths.each() {
-            println 'creating user role ' + it
             def theRole = Role.findById(it)
             UserRole.create( userInstance, theRole, true)
         }
@@ -56,18 +108,18 @@ class UserController {
             }
             '*' { respond userInstance, [status: CREATED] }
         }
+        
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def edit(User userInstance) {
-        println 'editing user'
         respond userInstance 
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
     def update(User userInstance) {
-        println 'updating user'
+        
         if (userInstance == null) {
             notFound()
             return
@@ -78,13 +130,10 @@ class UserController {
             return
         }
         
-        println('userroles=' + userInstance.authorities)
-        println('params=' + params)
         
         def existingRoles = userInstance.getAuthorities()       
         def paramAuths = params.authorities
         paramAuths.each() {
-            println 'creating user role ' + it
             def theRole = Role.findById(it)
             if(!existingRoles.contains(theRole)) {
               UserRole.create( userInstance, theRole, true)
@@ -93,7 +142,6 @@ class UserController {
 
         existingRoles.each() {
             if(!paramAuths.contains(it.id.toString() ) ) {
-                log.info(" removing role ${it} from user ${userInstance}")
                 UserRole.remove(userInstance, it, true)
             }
         }
@@ -118,6 +166,7 @@ class UserController {
             return
         }
         //TODO: change this from a delete to a 'deactivate' - have lists not return deactivated users
+        UserRole.removeAll(userInstance)
         userInstance.delete flush:true
 
         request.withFormat {

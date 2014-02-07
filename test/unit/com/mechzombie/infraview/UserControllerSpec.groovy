@@ -1,19 +1,38 @@
 package com.mechzombie.infraview
 
-
-
+import grails.plugins.springsecurity.SpringSecurityService
 import grails.test.mixin.*
+import org.junit.Before
 import spock.lang.*
 
 @TestFor(UserController)
-@Mock(User)
+@Mock([User, Enterprise, UserRole])
 class UserControllerSpec extends Specification {
 
+    @Before
+    void setup() {
+        User.metaClass.encodePassword = { -> }
+    }
+    
     def populateValidParams(params) {
+        //setup:
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
-    }
+
+        def testEnt = new Enterprise(name: 'City of Longmont', activeDate: new Date()).save(flush: true)
+        
+        params["username"] = "someValidName@test.com"
+        
+        params["enterprise"] = testEnt.id 
+        params["enabled"] = true
+        params["password"] = "pass"
+        params["accountExpired"] = false
+        params["passwordExpired"] = false
+        params["accountLocked"] = false
+        params["authorities"] = ""
+    
+        
+     }
 
     void "Test the index action returns the correct model"() {
 
@@ -48,7 +67,7 @@ class UserControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             user = new User(params)
-
+            //user.springSecurityService = new SpringSecurityService() 
             controller.save(user)
 
         then:"A redirect is issued to the show action"
@@ -111,7 +130,9 @@ class UserControllerSpec extends Specification {
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            user = new User(params).save(flush: true)
+            user = new User(params)
+            //user.springSecurityService = new SpringSecurityService() 
+            user.save(flush: true)
             controller.update(user)
 
         then:"A redirect is issues to the show action"
@@ -130,7 +151,9 @@ class UserControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def user = new User(params).save(flush: true)
+            def user = new User(params)
+            //user.springSecurityService = new SpringSecurityService() 
+            user.save(flush: true)
 
         then:"It exists"
             User.count() == 1
