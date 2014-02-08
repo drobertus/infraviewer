@@ -7,7 +7,7 @@ import spock.lang.*
 /**
  *
  */
-class SysadminControllerSpec extends GroovyTestCase {
+class SysadminControllerIntegTest extends GroovyTestCase {
 
     def controller = new SysadminController()
     def initialEntCount

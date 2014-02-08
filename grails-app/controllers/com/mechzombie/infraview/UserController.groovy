@@ -166,7 +166,7 @@ class UserController {
             return
         }
         //TODO: change this from a delete to a 'deactivate' - have lists not return deactivated users
-        UserRole.removeAll(userInstance)
+        //UserRole.removeAll(userInstance)
         userInstance.delete flush:true
 
         request.withFormat {

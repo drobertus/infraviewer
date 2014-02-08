@@ -22,7 +22,6 @@ class User {
     }
 
     static mapping = {
-        table 'infraview_users'
         password column: '`password`'
     }
 
