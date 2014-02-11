@@ -2,13 +2,13 @@
 <html>
 	<head>
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title><g:layoutTitle default="Infraviewer - The Civic Infrastructure Manager"/></title>
+		<title><g:layoutTitle default="InfraViewer - The Civic Infrastructure Manager"/></title>
 		<g:layoutHead/>
 		<r:layoutResources />
 	</head>
 	<body>
 	<table><tr><td>
-	    <div align='left'>Infraviewer</div>
+	    <div align='left'>InfraViewer</div>
 	    </td><td>
 	    <div align='right'>
 	    <sec:ifLoggedIn>

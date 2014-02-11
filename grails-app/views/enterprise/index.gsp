@@ -5,6 +5,7 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'enterprise.label', default: 'Enterprise')}" />
 		<title><g:message code="default.list.label" args="[entityName]" /></title>
+                 <r:require module="application"/>
 	</head>
 	<body>
 		<a href="#list-enterprise" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
