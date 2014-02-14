@@ -14,60 +14,12 @@ class UserController {
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def index(Integer max) {
-        //println "params = " +params
-        //println "principal =" + principal
-        //def roleNames = principal.authorities*.authority
-        // TODO:  if the user is a super user we display the list of users for
-        // the enterprise that is "active"
-        // def theEnterprise
-        //if (roleNames.includes('ROLE_SUPERUSER')) {
-         def theEnterprise = session['activeEnterprise']
-        //}else {
-          //  def user = User.findByUsername(principal.username)
-        
-          //  println "theUser= ${user.id}"
-          //  theEnterprise = user.enterprise
-       // }
-        //params.max = Math.min(max ?: 10, 100)
-        //def user = User.findByUsername(principal.username)
-        
-        //println "theUser= ${user.id}"
-        //def theEnterprise = user.enterprise
+        def theEnterprise = session['activeEnterprise']
         
         params.max = Math.min(max ?: 10, 100)
         def theUsers = User.findAllByEnterprise(theEnterprise, params)
         respond theUsers, model:[userInstanceCount: theUsers.size()]
-        
-        
-        //respond User.list(params), model:[userInstanceCount: User.count()]
     }
-
-    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
-    def enterpriseUsers(Integer max) {
-        
-        def roleNames = principal.authorities*.authority
-        // TODO:  if the user is a super user we display the list of users for
-        // the enterprise that is "active"
-        def theEnterprise
-        if (roleNames.includes('ROLE_SUPERUSER')) {
-            theEnterprise = session['activeEnterprise']
-        }else {
-            def user = User.findByUsername(principal.username)
-        
-            println "theUser= ${user.id}"
-            theEnterprise = user.enterprise
-        }
-        
-        //params.max = Math.min(max ?: 10, 100)
-        
-        //def theEnterprise = user.enterprise
-        
-        params.max = Math.min(max ?: 10, 100)
-        def theUsers = User.findAllByEnterprise(theEnterprise, params)
-        respond theUsers, model:[userInstanceCount: theUsers.size()]
-        
-    }
-
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN', 'ROLE_USER'])
     def show(User userInstance) {
@@ -76,7 +28,14 @@ class UserController {
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def create() {
-        respond new User(params)
+        def theEnterprise = session.activeEnterprise
+        //println 'create user params=' + params
+        //println 'session variables=' + session
+        def roleNames = springSecurityService.principal.authorities*.authority
+        def roles = getAvailableRoles(theEnterprise, roleNames)
+        //println "params =" + params
+        render(view: 'create', model:[userInstance: new User(params), availableRoles: roles])
+
     }
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
@@ -113,7 +72,14 @@ class UserController {
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     def edit(User userInstance) {
-        respond userInstance 
+        def theEnterprise = session.activeEnterprise
+        //println 'create user params=' + params
+        //println 'session variables=' + session
+        def roleNames = springSecurityService.principal.authorities*.authority
+        def roles = getAvailableRoles(theEnterprise, roleNames)
+        //println "params =" + params
+        render(view: 'edit', model:[userInstance: userInstance, availableRoles: roles])
+        //respond userInstance 
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
@@ -186,5 +152,26 @@ class UserController {
             }
             '*'{ render status: NOT_FOUND }
         }
+    }
+    
+    
+    private List<Role> getAvailableRoles(Enterprise enterprise, List<String> userAuths) {
+        def roleList = []
+  
+        if ('InfraView' != enterprise?.name || !auths.contains('ROLE_SUPERUSER')) {
+            Role.findAllByAuthorityNotEqual('ROLE_SUPERUSER').each() {
+                roleList << it
+            } 
+        } 
+        else {
+            Role.all().each() {
+                roleList << it
+            }
+        }
+        roleList.each() {
+            println 'role=' + it.authority
+        }
+        return roleList
+        
     }
 }

@@ -20,7 +20,7 @@ class EnterpriseController {
 
     @Secured(['ROLE_ADMIN'])
     def show(Enterprise enterpriseInstance) {
-        //println("showing enterprise ${enterpriseInstance?.name}")
+        println("showing enterprise ${enterpriseInstance?.name}")
         //def roleNames = principal.authorities*.authority
         //if (roleNames.contains('ROLE_SUPERUSER')) {
         session['activeEnterprise'] = enterpriseInstance

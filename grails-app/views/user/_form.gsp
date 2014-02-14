@@ -20,12 +20,12 @@
 
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'enterprise', 'error')} ">
-    <label for="enterprise">
+    <label for="enterpriseName">
         <g:message code="user.enterprise.label" default="Enterprise" />
-
     </label>
-    <g:select name="enterprise" from="${Enterprise.list()}" value="${userInstance.enterprise?.id}" 
-        optionKey="id" optionValue="name" />
+    <g:hiddenField name="enterprise" value="${session.activeEnterprise.id}"/>
+    <g:textField name="enterpriseName" disabled="true" value="${session.activeEnterprise.name}"/>
+    
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: userInstance, field: 'authorities?.all', 'error')} ">
@@ -33,7 +33,7 @@
         <g:message code="user.authorities.label" default="Roles" />
 
     </label>
-    <g:select name="authorities" from="${Role.list()}" value="${userInstance.authorities?.id}" 
+    <g:select name="authorities" from="${availableRoles}" value="${userInstance.authorities?.id}" 
         optionKey="id" optionValue="authority" multiple='true' />
 </div>
 
