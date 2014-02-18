@@ -12,13 +12,10 @@
     <div class="nav" role="navigation">
         <ul>
             <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-            <sec:ifAnyGranted roles="ROLE_ADMIN">
-
-<!-- li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li-->
-                <li><g:link controller="sysadmin" action="index">List of Enterprises</g:link>
-
+            <sec:ifAnyGranted roles="ROLE_SUPERUSER">                 
+                <li><g:link controller="sysadmin" action="index">List of Enterprises</g:link>            
                 <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
-                </sec:ifAnyGranted>
+            </sec:ifAnyGranted>     
             </ul>
         </div>
         <div id="show-enterprise" class="content scaffold-show" role="main">

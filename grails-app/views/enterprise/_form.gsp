@@ -23,6 +23,7 @@
 		<g:message code="enterprise.assetClasses.label" default="Asset Classes" />
 		
 	</label>
+        <g:link controller="assetClass" action="index" params="['enterprise.id': enterpriseInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'assetClass.label', default: 'Asset Classes')])}</g:link>
 	<g:select name="assetClasses" from="${AssetClass.list()}" multiple="multiple" optionKey="id" size="5" value="${enterpriseInstance?.assetClasses*.id}" class="many-to-many"/>
 </div>
 
