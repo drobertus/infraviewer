@@ -26,24 +26,27 @@ class AssetClassController {
 
     @Transactional
     def save(AssetClass assetClassInstance) {
+        println 'params=' + params
         if (assetClassInstance == null) {
             notFound()
             return
         }
 
         if (assetClassInstance.hasErrors()) {
-            respond assetClassInstance.errors, view:'create'
+            println('errors found')
+            respond assetClassInstance.errors, view:'create', model:[enterprise: session.activeEnterprise]
             return
         }
-
+        def ent = Enterprise.get(params.enterprise)
+        println 'the Enterprise=' + ent.name
         assetClassInstance.save flush:true
-
+       
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'assetClassInstance.label', default: 'AssetClass'), assetClassInstance.id])
                 redirect assetClassInstance
             }
-            '*' { respond assetClassInstance, [status: CREATED] }
+            '*' { respond assetClassInstance, [status: CREATED]  }
         }
     }
 

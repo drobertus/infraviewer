@@ -43,7 +43,7 @@
                 <span id="assetClasses-label" class="property-label"><g:message code="enterprise.assetClasses.label" default="Asset Classes" /></span>
                 <g:if test="${enterpriseInstance?.assetClasses}">
                 <g:each in="${enterpriseInstance.assetClasses}" var="a">
-                    <span class="property-value" aria-labelledby="assetClasses-label"><g:link controller="assetClass" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
+                    <span class="property-value" aria-labelledby="assetClasses-label"><g:link controller="assetClass" action="show" id="${a.id}">${a?.name}</g:link></span>
                 </g:each>
                 </g:if>    
                 <g:else>

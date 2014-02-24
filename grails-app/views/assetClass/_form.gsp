@@ -1,4 +1,4 @@
-<%@ page import="com.mechzombie.infraview.AssetClass" %>
+<%@ page import="com.mechzombie.infraview.AssetClass;com.mechzombie.infraview.Enterprise;" %>
 
 
 
@@ -19,6 +19,14 @@
 
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'name', 'error')} ">
+	<label for="name">
+		<g:message code="assetClass.name.label" default="Name" />
+		
+	</label>
+	<g:textField name="name" value="${assetClassInstance?.name}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'description', 'error')} ">
 	<label for="description">
 		<g:message code="assetClass.description.label" default="Description" />
@@ -29,7 +37,7 @@
 
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'enterprise', 'error')} ">
     <label for="enterpriseName">
-        <g:message code="user.enterprise.label" default="Enterprise" />
+        <g:message code="assetClass.enterprise.label" default="Enterprise" />
     </label>
     <g:hiddenField name="enterprise" value="${enterprise.id}"/>
     <g:textField name="enterpriseName" disabled="true" value="${enterprise.name}"/>
@@ -46,47 +54,39 @@
 
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'expectedLifeSpanYears', 'error')} required">
 	<label for="expectedLifeSpanYears">
-		<g:message code="assetClass.expectedLifeSpanYears.label" default="Expected Life Span Years" />
+		<g:message code="assetClass.expectedLifeSpanYears.label" default="Expected Life Span (Years)" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field name="expectedLifeSpanYears" value="${fieldValue(bean: assetClassInstance, field: 'expectedLifeSpanYears')}" required=""/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'name', 'error')} ">
-	<label for="name">
-		<g:message code="assetClass.name.label" default="Name" />
-		
-	</label>
-	<g:textField name="name" value="${assetClassInstance?.name}"/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'standardInspectionSpanYears', 'error')} required">
 	<label for="standardInspectionSpanYears">
-		<g:message code="assetClass.standardInspectionSpanYears.label" default="Standard Inspection Span Years" />
+		<g:message code="assetClass.standardInspectionSpanYears.label" default="Standard Inspection Span (Years)" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field name="standardInspectionSpanYears" value="${fieldValue(bean: assetClassInstance, field: 'standardInspectionSpanYears')}" required=""/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'statusValueDestroyed', 'error')} required">
-	<label for="statusValueDestroyed">
-		<g:message code="assetClass.statusValueDestroyed.label" default="Status Value Destroyed" />
-		<span class="required-indicator">*</span>
-	</label>
-	<g:field name="statusValueDestroyed" value="${fieldValue(bean: assetClassInstance, field: 'statusValueDestroyed')}" required=""/>
-</div>
-
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'statusValueNew', 'error')} required">
 	<label for="statusValueNew">
-		<g:message code="assetClass.statusValueNew.label" default="Status Value New" />
+		<g:message code="assetClass.statusValueNew.label" default="Status Value When New" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field name="statusValueNew" value="${fieldValue(bean: assetClassInstance, field: 'statusValueNew')}" required=""/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'statusValueDestroyed', 'error')} required">
+	<label for="statusValueDestroyed">
+		<g:message code="assetClass.statusValueDestroyed.label" default="Status Value When Destroyed" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field name="statusValueDestroyed" value="${fieldValue(bean: assetClassInstance, field: 'statusValueDestroyed')}" required=""/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'statusValueReplace', 'error')} required">
 	<label for="statusValueReplace">
-		<g:message code="assetClass.statusValueReplace.label" default="Status Value Replace" />
+		<g:message code="assetClass.statusValueReplace.label" default="Status Value for Replacement" />
 		<span class="required-indicator">*</span>
 	</label>
 	<g:field name="statusValueReplace" value="${fieldValue(bean: assetClassInstance, field: 'statusValueReplace')}" required=""/>
