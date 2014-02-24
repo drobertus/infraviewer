@@ -55,9 +55,7 @@
         <g:if test="${enterpriseInstance?.location}">
             <li class="fieldcontain">
                 <span id="location-label" class="property-label"><g:message code="enterprise.location.label" default="Location" /></span>
-
                 <span class="property-value" aria-labelledby="location-label"><g:link controller="location" action="show" id="${enterpriseInstance?.location?.id}">${enterpriseInstance?.location?.encodeAsHTML()}</g:link></span>
-
             </li>
         </g:if>
 
@@ -66,7 +64,7 @@
                 <span id="users-label" class="property-label"><g:message code="enterprise.users.label" default="Users" /></span>
 
                 <g:each in="${enterpriseInstance.users}" var="u">
-                    <span class="property-value" aria-labelledby="users-label"><g:link controller="user" action="show" id="${u.id}">${u?.username} -> ${u?.getAuthorities().authority}</g:link></span>
+                    <span class="property-value" aria-labelledby="users-label"><g:link controller="user" action="show" id="${u.id}">${u?.username}</g:link></span>
                 </g:each>
 
             </li>

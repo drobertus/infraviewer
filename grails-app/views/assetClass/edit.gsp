@@ -1,4 +1,4 @@
-<%@ page import="com.mechzombie.infraview.AssetClass" %>
+<%@ page import="com.mechzombie.infraview.AssetClass;com.mechzombie.infraview.Enterprise;" %>
 <!DOCTYPE html>
 <html>
 	<head>

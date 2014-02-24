@@ -24,32 +24,30 @@
         </g:if>
         <ol class="property-list assetClass">
 
-            <g:if test="${assetClassInstance?.assets}">
-                <li class="fieldcontain">
-                    <span id="assets-label" class="property-label"><g:message code="assetClass.assets.label" default="Assets" /></span>
 
+            <li class="fieldcontain">
+                <span id="assets-label" class="property-label"><g:message code="assetClass.assets.label" default="Assets" /></span>
+                <g:if test="${assetClassInstance?.assets}">
                     <g:each in="${assetClassInstance.assets}" var="a">
                         <span class="property-value" aria-labelledby="assets-label"><g:link controller="asset" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
                     </g:each>
+                </g:if>
+                <g:else>
+                    <span class="property-value" aria-labelledby="assetClasses-label">None</span>
+                </g:else>
+            </li>
 
-                </li>
-            </g:if>
-            
             <g:if test="${assetClassInstance?.name}">
                 <li class="fieldcontain">
                     <span id="name-label" class="property-label"><g:message code="assetClass.name.label" default="Name" /></span>
-
                     <span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${assetClassInstance}" field="name"/></span>
-
                 </li>
             </g:if>
-          
+
             <g:if test="${assetClassInstance?.description}">
                 <li class="fieldcontain">
                     <span id="description-label" class="property-label"><g:message code="assetClass.description.label" default="Description" /></span>
-
                     <span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${assetClassInstance}" field="description"/></span>
-
                 </li>
             </g:if>
 
@@ -57,22 +55,19 @@
                 <li class="fieldcontain">
                     <span id="enterprise-label" class="property-label"><g:message code="assetClass.enterprise.label" default="Enterprise" /></span>
                     <span class="property-value" aria-labelledby="enterprise-label"><g:link controller="enterprise" action="show" id="${assetClassInstance?.enterprise?.id}">${assetClassInstance?.enterprise?.name}</g:link></span>
-                </li>
+                    </li>
             </g:if>
 
             <g:if test="${assetClassInstance?.expectedLifeSpanYears}">
                 <li class="fieldcontain">
                     <span id="expectedLifeSpanYears-label" class="property-label"><g:message code="assetClass.expectedLifeSpanYears.label" default="Expected Life Span Years" /></span>
-
                     <span class="property-value" aria-labelledby="expectedLifeSpanYears-label"><g:fieldValue bean="${assetClassInstance}" field="expectedLifeSpanYears"/></span>
-
                 </li>
             </g:if>
 
             <g:if test="${assetClassInstance?.standardInspectionSpanYears}">
                 <li class="fieldcontain">
                     <span id="standardInspectionSpanYears-label" class="property-label"><g:message code="assetClass.standardInspectionSpanYears.label" default="Standard Inspection Span Years" /></span>
-
                     <span class="property-value" aria-labelledby="standardInspectionSpanYears-label"><g:fieldValue bean="${assetClassInstance}" field="standardInspectionSpanYears"/></span>
 
                 </li>
@@ -84,17 +79,17 @@
                     <span class="property-value" aria-labelledby="statusValueNew-label"><g:fieldValue bean="${assetClassInstance}" field="statusValueNew"/></span>
                 </li>
             </g:if>
-           
-                <li class="fieldcontain">
-                    <span id="statusValueReplace-label" class="property-label"><g:message code="assetClass.statusValueReplace.label" default="Status Value Replace" /></span>
-                    <span class="property-value" aria-labelledby="statusValueReplace-label"><g:fieldValue bean="${assetClassInstance}" field="statusValueReplace"/></span>
-                </li>
- 
-                <li class="fieldcontain">
-                    <span id="statusValueDestroyed-label" class="property-label"><g:message code="assetClass.statusValueDestroyed.label" default="Status Value Destroyed" /></span>
-                    <span class="property-value" aria-labelledby="statusValueDestroyed-label"><g:fieldValue bean="${assetClassInstance}" field="statusValueDestroyed"/></span>
-                </li>
-            
+
+            <li class="fieldcontain">
+                <span id="statusValueReplace-label" class="property-label"><g:message code="assetClass.statusValueReplace.label" default="Status Value Replace" /></span>
+                <span class="property-value" aria-labelledby="statusValueReplace-label"><g:fieldValue bean="${assetClassInstance}" field="statusValueReplace"/></span>
+            </li>
+
+            <li class="fieldcontain">
+                <span id="statusValueDestroyed-label" class="property-label"><g:message code="assetClass.statusValueDestroyed.label" default="Status Value Destroyed" /></span>
+                <span class="property-value" aria-labelledby="statusValueDestroyed-label"><g:fieldValue bean="${assetClassInstance}" field="statusValueDestroyed"/></span>
+            </li>
+
         </ol>
         <g:form url="[resource:assetClassInstance, action:'delete']" method="DELETE">
             <fieldset class="buttons">

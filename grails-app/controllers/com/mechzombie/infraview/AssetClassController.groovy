@@ -51,7 +51,7 @@ class AssetClassController {
     }
 
     def edit(AssetClass assetClassInstance) {
-        respond assetClassInstance
+        respond assetClassInstance, model:[enterprise: session.activeEnterprise]
     }
 
     @Transactional
