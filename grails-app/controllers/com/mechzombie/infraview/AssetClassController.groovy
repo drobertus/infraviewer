@@ -13,7 +13,8 @@ class AssetClassController {
     def index(Integer max) {
         def theEnterprise = session['activeEnterprise']
         params.max = Math.min(max ?: 10, 100)
-        respond AssetClass.list(params), model:[assetClassInstanceCount: AssetClass.count(), enterprise: theEnterprise]
+        def assetClasses = AssetClass.findAllByEnterprise(theEnterprise, params)
+        respond assetClasses, model:[assetClassInstanceCount: assetClasses.size(), enterprise: theEnterprise]
     }
 
     def show(AssetClass assetClassInstance) {
@@ -43,7 +44,7 @@ class AssetClassController {
        
         request.withFormat {
             form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'assetClassInstance.label', default: 'AssetClass'), assetClassInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'assetClassInstance.label', default: 'AssetClass'), assetClassInstance.name])
                 redirect assetClassInstance
             }
             '*' { respond assetClassInstance, [status: CREATED]  }
@@ -70,7 +71,7 @@ class AssetClassController {
 
         request.withFormat {
             form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'AssetClass.label', default: 'AssetClass'), assetClassInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'AssetClass.label', default: 'AssetClass'), assetClassInstance.name])
                 redirect assetClassInstance
             }
             '*'{ respond assetClassInstance, [status: OK] }
@@ -89,7 +90,7 @@ class AssetClassController {
 
         request.withFormat {
             form {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'AssetClass.label', default: 'AssetClass'), assetClassInstance.id])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'AssetClass.label', default: 'AssetClass'), assetClassInstance.name])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }

@@ -24,29 +24,31 @@ class HomeController {
             session['activeEnterprise'] = theUser.enterprise
             if (roleNames.contains('ROLE_ADMIN')) {
                 
-                redirect action: 'adminOnly'
+                //redirect action: 'adminOnly'
+                render(view: "adminOnly", model: [user: theUser, isAdmin:true, enterprise: theUser.enterprise])
                 return
             }
             else
             {
                 //def theUser = User.findByUsername(principal.username)
                 respond view:'user_index' , model:[user: theUser, isAdmin: false, enterprise: theUser.enterprise]
+                return
             }
         }
 
     }
 
-    @Secured(['ROLE_ADMIN'])
-    def adminOnly() {
-        
-        def theUser = User.findByUsername(principal.username)
-        session['activeEnterprise'] = theUser.enterprise
-            
-        println 'admin only redirect'
-        // model:[enterpriseInstanceCount: Enterprise.count()]
-        println "enterprise = ${theUser.enterprise.name}"
-        //params[enterpriseInstance] = theAdmin.enterprise
-        //respond model:[user: thUser, isAdmin:true, enterprise: theUser.enterprise]
-        render(view: "adminOnly", model: [user: theUser, isAdmin:true, enterprise: theUser.enterprise])
-    }
+//    @Secured(['ROLE_ADMIN'])
+//    def adminOnly() {
+//        
+//        def theUser = User.findByUsername(principal.username)
+//        session['activeEnterprise'] = theUser.enterprise
+//            
+//        println 'admin only redirect'
+//        // model:[enterpriseInstanceCount: Enterprise.count()]
+//        println "enterprise = ${theUser.enterprise.name}"
+//        //params[enterpriseInstance] = theAdmin.enterprise
+//        //respond model:[user: thUser, isAdmin:true, enterprise: theUser.enterprise]
+//        render(view: "adminOnly", model: [user: theUser, isAdmin:true, enterprise: theUser.enterprise])
+//    }
 }
