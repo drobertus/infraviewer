@@ -8,6 +8,8 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true )
 class EnterpriseController {
 
+    //def springSecurityService
+    
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     
     @Secured(['ROLE_SUPERUSER'])
@@ -65,6 +67,7 @@ class EnterpriseController {
     @Secured(['ROLE_ADMIN'])
     @Transactional
     def update(Enterprise enterpriseInstance) {
+        println "params =${params}"
         if (enterpriseInstance == null) {
             notFound()
             return
@@ -74,9 +77,11 @@ class EnterpriseController {
             respond enterpriseInstance.errors, view:'edit'
             return
         }
-
+       
+        setAddress(enterpriseInstance, params)
         enterpriseInstance.save flush:true
-
+        println "address count=" + Address.count()
+        
         request.withFormat {
             form {
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Enterprise.label', default: 'Enterprise'), enterpriseInstance.id])
@@ -114,5 +119,43 @@ class EnterpriseController {
             }
             '*'{ render status: NOT_FOUND }
         }
+    }
+
+    def setAddress(Enterprise ent, def params) {
+        
+        println('creating address params = ' + params)
+        println('creating address enterprise = ' + ent)
+        if(!ent.location) {
+            def address = new Address(params)
+        if (address.hasErrors()) {
+            println "address errors = " + address.errors
+        }
+            
+            println("address ln1=" + address.addressLine1)
+            println("address state=" + address.state)
+            address.save(flush: true, failOnError: true)
+             println "add save errors=" + address.errors.allErrors
+//, insert: true)
+//            if (!address.isAttached()){
+//                address.attach()
+//            }
+            println("add id=" + address.id)
+            def newLoc = new Location(address: address, geometry: null)       
+            newLoc.save(flush: true, failOnError:true) //, insert: true)
+//            if (!newLoc.isAttached()){
+//                newLoc.attach()
+//            }
+            println("newLoc id = ${newLoc.id}")
+            println("newLoc address = ${newLoc.address}")
+            println("newLoc=" + newLoc)
+            ent.location = newLoc
+            
+        }
+        else {
+            println 'updateing exisitng address'
+            def theAdd = ent.location.address
+            theAdd.update(params, flush: true)
+        }
+        
     }
 }

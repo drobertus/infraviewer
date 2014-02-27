@@ -1,4 +1,5 @@
 import com.mechzombie.infraview.Role
+import com.mechzombie.infraview.State
 import com.mechzombie.infraview.User
 import com.mechzombie.infraview.UserRole
 import com.mechzombie.infraview.Enterprise
@@ -43,13 +44,6 @@ class BootStrap {
         //println 'init 3'
         assert User.count() == 3
         
-//        rootEnterprise.addToUsers(su)
-//        e1.addToUsers(testUser)
-//        e1.addToUsers(testUserBasic)
-        
-        
-
-        //println 'init 3.1'
         UserRole.create( testUser, adminRole, true)
         UserRole.create( testUser, userRole, true )
         UserRole.create( testUserBasic, userRole, true)
@@ -58,13 +52,17 @@ class BootStrap {
         UserRole.create (su, adminRole, true)
 
 
-        //println 'init 4'
-
+        
         assert UserRole.count() == 6
 
         println 'saved new user admin:pass, and user:pass, su:pass'
 
-
+        State.create("California", "CA", true)
+        State.create("Texas", "TX", true)
+        State.create("Colorado", "CO", true)
+        State.create("Florida", "FL", true)
+        State.create("New York", "NY", true)
+        
         
     }
     
