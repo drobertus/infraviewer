@@ -7,6 +7,7 @@ class Location {
 
     static constraints = {
         geometry blank: true, nullable: true
+        address blank: true, nullable: true
     }
     
     //return the states list

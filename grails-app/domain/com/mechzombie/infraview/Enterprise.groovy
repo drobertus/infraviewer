@@ -5,6 +5,7 @@ class Enterprise {
     String name
     Date activeDate
     Location location
+    boolean hasAddress
     static hasMany = [assetClasses: AssetClass, users: User ]
 
 

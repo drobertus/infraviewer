@@ -27,16 +27,12 @@
 
             <li class="fieldcontain">
                 <span id="name-label" class="property-label"><g:message code="enterprise.name.label" default="Name" /></span>
-
                 <span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${enterpriseInstance}" field="name"/></span>
-
             </li>
 
             <li class="fieldcontain">
                 <span id="activeDate-label" class="property-label"><g:message code="enterprise.activeDate.label" default="Active Date" /></span>
-
                 <span class="property-value" aria-labelledby="activeDate-label"><g:formatDate date="${enterpriseInstance?.activeDate}" /></span>
-
             </li>
         
             <li class="fieldcontain">
@@ -62,7 +58,6 @@
         <g:if test="${enterpriseInstance?.users}">
             <li class="fieldcontain">
                 <span id="users-label" class="property-label"><g:message code="enterprise.users.label" default="Users" /></span>
-
                 <g:each in="${enterpriseInstance.users}" var="u">
                     <span class="property-value" aria-labelledby="users-label"><g:link controller="user" action="show" id="${u.id}">${u?.username}</g:link></span>
                 </g:each>

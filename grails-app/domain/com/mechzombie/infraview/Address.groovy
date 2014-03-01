@@ -9,7 +9,9 @@ class Address {
     String postalCode
 
     static constraints = {
-        addressLine2 blank:false, nullable: true
+        addressLine2 blank:true, nullable: true
+        postalCode (nullable:false, blank:false,validator:{postalCode ->
+            (postalCode ==~ /^(\d{5}-\d{4})|(\d{5})$/) ? true : false})
     }
     
     def getFormattedAddress() {
