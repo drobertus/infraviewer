@@ -1,7 +1,5 @@
 <%@ page import="com.mechzombie.infraview.AssetClass;com.mechzombie.infraview.Enterprise;" %>
 
-
-
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'assets', 'error')} ">
 	<label for="assets">
 		<g:message code="assetClass.assets.label" default="Assets" />

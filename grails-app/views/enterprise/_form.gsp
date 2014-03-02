@@ -1,7 +1,5 @@
 <%@ page import="com.mechzombie.infraview.*" %>
 
-
-
 <div class="fieldcontain ${hasErrors(bean: enterpriseInstance, field: 'name', 'error')} ">
     <label for="name">
         <g:message code="enterprise.name.label" default="Name" />
@@ -10,26 +8,24 @@
     <g:textField name="name" value="${enterpriseInstance?.name}"/>
 </div>
 
+<g:hiddenField name="location" value="${enterpriseInstance?.location?.id}"/>
+<g:hiddenField name="location.address" value="${enterpriseInstance?.location?.address?.id}"/>   
 
-    <g:hiddenField name="location" value="${enterpriseInstance?.location?.id}"/>
-    <g:hiddenField name="location.address" value="${enterpriseInstance?.location?.address?.id}"/>   
-    
+<div>
+    <label for="hasAddress">
+        <g:message code="enterprise.hasAddress.label" default="Has Address" />
+
+    </label>
+    <g:checkBox name="hasAddress" value="${enterpriseInstance.hasAddress}"/>
+</div>
+        
 <div class="fieldcontain ${hasErrors(bean: enterpriseInstance?.location?.address, field: 'addressLine1', 'error')} required">
  
-    <div>
+    <g:if test="${enterpriseInstance.hasAddress == 'true'}"><div id="theAddressBlock"></g:if>
+    <g:else><div id="theAddressBlock" style="display:none" ></g:else>
         <label for="location">
             <g:message code="enterprise.location.address.label" default="Address" />
         </label>
-
-        <div>
-            <label for="hasAddress">
-                <g:message code="enterprise.hasAddress.label" default="Has Address" />
-                
-            </label>
-            <g:checkBox name="hasAddress" value="${enterpriseInstance.hasAddress}"/>
-        </div>
-    
-        
         <div>
             <label for="addressLine1">
                 <g:message code="enterprise.address.addressline1.label" default="Address Line 1" />
