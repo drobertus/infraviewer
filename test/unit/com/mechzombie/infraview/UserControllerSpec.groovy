@@ -6,7 +6,7 @@ import org.junit.Before
 import spock.lang.*
 
 @TestFor(UserController)
-@Mock([User, Enterprise, UserRole])
+@Mock([User, Enterprise, UserRole, Role])
 class UserControllerSpec extends Specification {
 
     @Before
@@ -45,6 +45,25 @@ class UserControllerSpec extends Specification {
     }
 
     void "Test the create action returns the correct model"() {
+        setup:
+        
+            def loggedInUser = Mock(User)
+            def suRole = new Role(authority: 'ROLE_SUPERUSER')
+            def adminRole = new Role(authority: 'ROLE_ADMIN')
+            def userRole = new Role(authority: 'ROLE_USER')
+        
+            def auths = [suRole, adminRole, userRole]
+            loggedInUser.authorities >> auths
+            //  new User(username: "Bob").save() // This way the user will have an ID
+            controller.springSecurityService = [
+            encodePassword: 'password',
+            reauthenticate: { String u -> true},
+            loggedIn: true,
+            principal: loggedInUser]
+
+            Role.metaClass.findAllByAuthorityNotEqual('ROLE_SUPERUSER') >>
+             [adminRole, userRole]
+        
         when:"The create action is executed"
             controller.create()
 
@@ -93,6 +112,24 @@ class UserControllerSpec extends Specification {
     }
 
     void "Test that the edit action returns the correct model"() {
+                setup:
+        
+            def loggedInUser = Mock(User)
+            def suRole = new Role(authority: 'ROLE_SUPERUSER')
+            def adminRole = new Role(authority: 'ROLE_ADMIN')
+            def userRole = new Role(authority: 'ROLE_USER')
+        
+            def auths = [suRole, adminRole, userRole]
+            loggedInUser.authorities >> auths
+            //  new User(username: "Bob").save() // This way the user will have an ID
+            controller.springSecurityService = [
+            encodePassword: 'password',
+            reauthenticate: { String u -> true},
+            loggedIn: true,
+            principal: loggedInUser]
+
+            Role.metaClass.findAllByAuthorityNotEqual('ROLE_SUPERUSER') >>
+             [adminRole, userRole]
         when:"The edit action is executed with a null domain"
             controller.edit(null)
 

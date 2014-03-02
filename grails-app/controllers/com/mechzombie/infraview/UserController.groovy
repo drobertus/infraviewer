@@ -78,8 +78,9 @@ class UserController {
         def roleNames = springSecurityService.principal.authorities*.authority
         def roles = getAvailableRoles(theEnterprise, roleNames)
         //println "params =" + params
-        render(view: 'edit', model:[userInstance: userInstance, availableRoles: roles])
-        //respond userInstance 
+        respond userInstance, model:[availableRoles: roles]
+        //render(view: 'edit', model:[userInstance: userInstance, availableRoles: roles])
+        
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
@@ -157,14 +158,14 @@ class UserController {
     
     private List<Role> getAvailableRoles(Enterprise enterprise, List<String> userAuths) {
         def roleList = []
-  
-        if ('InfraView' != enterprise?.name || !auths.contains('ROLE_SUPERUSER')) {
+        println("user auths = ${userAuths}")
+        if ('InfraView' != enterprise?.name || !userAuths.contains('ROLE_SUPERUSER')) {
             Role.findAllByAuthorityNotEqual('ROLE_SUPERUSER').each() {
                 roleList << it
             } 
         } 
         else {
-            Role.all().each() {
+            Role.findAll().each() {
                 roleList << it
             }
         }

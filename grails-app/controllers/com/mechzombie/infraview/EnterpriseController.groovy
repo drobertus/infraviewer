@@ -164,9 +164,6 @@ class EnterpriseController {
             address.postalCode = params.postalCode
             //if (theAdd.validate) {
             address.save(flush: true)            
-        } 
-        
-        
-                
+        }                 
     }
 }

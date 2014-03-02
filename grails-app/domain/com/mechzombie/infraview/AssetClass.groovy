@@ -14,6 +14,7 @@ class AssetClass {
 
     static constraints = {
         name( blank: false, nullable: false)
+        description (blank: true, nullable: true)
         enterprise (nullable: false, blank: false)
         statusValueNew(min: 1.0d, blank: false)
         statusValueDestroyed(min: 0.0d, blank: false)

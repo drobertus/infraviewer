@@ -5,6 +5,7 @@ package com.mechzombie.infraview
 import grails.test.mixin.*
 import spock.lang.*
 
+@Ignore
 @TestFor(LocationController)
 @Mock(Location)
 class LocationControllerSpec extends Specification {

@@ -8,18 +8,16 @@
         <title><g:message code="default.edit.label" args="[entityName]" /></title>
     <r:require module="application"/>
 <g:javascript>        
-$(document).ready(function() {        
-    //$("input[type='checkbox']").on('change', function(){
+$(document).ready(function() {
+    if ($('#hasAddress').is(':checked')) {
+      $('#theAddressBlock').show();  
+    }else { $('#theAddressBlock').hide(); }
+
     $("#hasAddress").on('change', function(){
-        if (this.checked){             
-            $('#theAddressBlock').show();
-        }
-        else {
-            $('#theAddressBlock').hide();
-        }        
+        if (this.checked){ $('#theAddressBlock').show(); }
+        else { $('#theAddressBlock').hide(); }        
     });
 });
-
 </g:javascript>
 </head>
 <body>
@@ -42,7 +40,12 @@ $(document).ready(function() {
             <ul class="errors" role="alert">
                 <g:eachError bean="${enterpriseInstance}" var="error">
                     <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
-                    </g:eachError>
+                </g:eachError>
+        </g:hasErrors>
+        <g:hasErrors bean="${enterpriseInstance?.location?.address}">            
+                <g:eachError bean="${enterpriseInstance?.location?.address}" var="error">
+                    <li <g:if test="${error in org.springframework.validation.FieldError}">data-field-id="${error.field}"</g:if>><g:message error="${error}"/></li>
+                </g:eachError>
             </ul>
         </g:hasErrors>
         <g:form url="[resource:enterpriseInstance, action:'update']" method="PUT" >

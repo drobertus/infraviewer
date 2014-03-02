@@ -6,13 +6,21 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(AssetClassController)
-@Mock(AssetClass)
+@Mock([AssetClass, Enterprise, Asset])
 class AssetClassControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        def testEnt = new Enterprise(name: 'City of Longmont', activeDate: new Date()).save(flush: true)
+        
+        params["name"] = 'hydrant'
+        params["statusValueNew"] = "10"
+        params["statusValueReplace"] = "5"
+        params["statusValueDestroyed"] = "0"
+        params["expectedLifeSpanYears"] = "35"
+        params["standardInspectionSpanYears"] = "1"
+        params["enterprise"] = testEnt
     }
 
     void "Test the index action returns the correct model"() {
@@ -48,10 +56,11 @@ class AssetClassControllerSpec extends Specification {
             response.reset()
             populateValidParams(params)
             assetClass = new AssetClass(params)
-
+            //println("the name =" + assetClass.name)
             controller.save(assetClass)
 
         then:"A redirect is issued to the show action"
+            //println("errors= ${assetClass.errors}")
             response.redirectedUrl == '/assetClass/show/1'
             controller.flash.message != null
             AssetClass.count() == 1
