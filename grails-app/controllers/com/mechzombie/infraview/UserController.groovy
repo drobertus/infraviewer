@@ -158,7 +158,7 @@ class UserController {
     
     private List<Role> getAvailableRoles(Enterprise enterprise, List<String> userAuths) {
         def roleList = []
-        println("user auths = ${userAuths}")
+        //println("user auths = ${userAuths}")
         if ('InfraView' != enterprise?.name || !userAuths.contains('ROLE_SUPERUSER')) {
             Role.findAllByAuthorityNotEqual('ROLE_SUPERUSER').each() {
                 roleList << it
@@ -169,9 +169,9 @@ class UserController {
                 roleList << it
             }
         }
-        roleList.each() {
-            println 'role=' + it.authority
-        }
+//        roleList.each() {
+//            println 'role=' + it.authority
+//        }
         return roleList
         
     }

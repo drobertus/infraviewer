@@ -45,7 +45,7 @@
                 <g:textField name="city" value="${enterpriseInstance?.location?.address?.city}"/>, 
             </span>
             <span class="fieldcontain ${hasErrors(bean: enterpriseInstance?.location?.address, field: 'state', 'error')} required">
-                <g:select name="state" from="${State.list(sort: "code", order: "asc")}" optionKey="id" optionValue="code" value="${enterpriseInstance?.location?.address?.state?.code}"/>, 
+                <g:select name="state" from="${State.list(sort: "code", order: "asc")}" optionKey="id" optionValue="code" value="${enterpriseInstance?.location?.address?.state?.id}"/>, 
             </span>
 
             <span class="fieldcontain ${hasErrors(bean: enterpriseInstance?.location?.address, field: 'postalCode', 'error')} required">

@@ -131,39 +131,26 @@ class EnterpriseController {
         
         if (!ent.hasAddress) {
             // TODO: if there is a location delete the address reference
-            
+            def entLoc = ent.location
+            if(entLoc) {
+                entLoc.address = null;
+                entLoc.save flush: true
+            }
             return
         }
-        
-        def theLoc = null
-        
-        def address = ent?.location?.address
-        if(!address) {            
-            address = new Address(params)          
-            address.save(flush: true)
-        
-            println('creating address params = ' + params)
-            println('creating address enterprise = ' + ent)
-            
-            def newLoc = ent.location
-            if(!newLoc) {
-                newLoc = new Location()
-                newLoc.save(flush: true)//, failOnError:true) //, insert: true)
-                println("newLoc id = ${newLoc.id}")
-                ent.location = newLoc
 
-            }
-            newLoc.address = address
+        def theState = State.get(params.state)
+        def updateAdd = Address.findOrSaveWhere(addressLine1: params.addressLine1,
+            addressLine2: params.addressLine2, city: params.city, state: theState,
+            postalCode: params.postalCode)
+
+        def newLoc = ent.location
+        if(!newLoc) {
+            newLoc = new Location()
+            newLoc.save(flush: true)//, failOnError:true) //, insert: true)
+            println("newLoc id = ${newLoc.id}")
+            ent.location = newLoc
         }
-        else {                                   
-            println 'updating exisitng address'            
-            address.addressLine1 = params.addressLine1
-            address.addressLine2 = params.addressLine2
-            address.city = params.city
-            address.state = State.get(params.state)
-            address.postalCode = params.postalCode
-            //if (theAdd.validate) {
-            address.save(flush: true)            
-        }                 
+        newLoc.address = updateAdd
     }
 }
