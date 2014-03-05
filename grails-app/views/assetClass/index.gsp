@@ -26,19 +26,19 @@
                 <tr>
                     <g:sortableColumn property="name" title="${message(code: 'assetClass.name.label', default: 'Name')}" />
                     <g:sortableColumn property="description" title="${message(code: 'assetClass.description.label', default: 'Description')}" />
-                    <g:sortableColumn property="expectedLifeSpanYears" title="${message(code: 'assetClass.expectedLifeSpanYears.label', default: 'Expected Life Span Years')}" />                  
-                    <g:sortableColumn property="standardInspectionSpanYears" title="${message(code: 'assetClass.standardInspectionSpanYears.label', default: 'Standard Inspection Span Years')}" />
-                    <g:sortableColumn property="statusValueDestroyed" title="${message(code: 'assetClass.statusValueDestroyed.label', default: 'Status Value Destroyed')}" />
+                    <g:sortableColumn property="expectedLifeSpanYears" title="${message(code: 'assetClass.expectedLifeSpanYears.label', default: 'Life Span')}" />                  
+                    <g:sortableColumn property="standardInspectionSpanYears" title="${message(code: 'assetClass.standardInspectionSpanYears.label', default: 'Inspection Interval')}" />
+                    
                 </tr>
             </thead>
             <tbody>
                 <g:each in="${assetClassInstanceList}" status="i" var="assetClassInstance">
                     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                        <td><g:link action="show" id="${assetClassInstance.id}">${fieldValue(bean: assetClassInstance, field: "name")}</g:link></td>
+                        <td width='175'><g:link action="show" id="${assetClassInstance.id}">${fieldValue(bean: assetClassInstance, field: "name")}</g:link></td>
                         <td>${fieldValue(bean: assetClassInstance, field: "description")}</td>					
                         <td>${fieldValue(bean: assetClassInstance, field: "expectedLifeSpanYears")}</td>
                         <td>${fieldValue(bean: assetClassInstance, field: "standardInspectionSpanYears")}</td>					
-                        <td>${fieldValue(bean: assetClassInstance, field: "statusValueDestroyed")}</td>
+                        
                     </tr>
                 </g:each>
             </tbody>

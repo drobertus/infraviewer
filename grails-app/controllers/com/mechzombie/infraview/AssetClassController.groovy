@@ -1,7 +1,7 @@
 package com.mechzombie.infraview
 
 
-
+import grails.plugins.springsecurity.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -21,10 +21,12 @@ class AssetClassController {
         respond assetClassInstance
     }
 
+    @Secured(['ROLE_ADMIN'])    
     def create() {
         respond new AssetClass(params), model:[enterprise: session['activeEnterprise']]
     }
-
+    
+    @Secured(['ROLE_ADMIN'])
     @Transactional
     def save(AssetClass assetClassInstance) {
 //        println 'params=' + params
@@ -53,10 +55,12 @@ class AssetClassController {
         }
     }
 
+    @Secured(['ROLE_ADMIN'])
     def edit(AssetClass assetClassInstance) {
         respond assetClassInstance, model:[enterprise: session.activeEnterprise]
     }
 
+    @Secured(['ROLE_ADMIN'])
     @Transactional
     def update(AssetClass assetClassInstance) {
         if (assetClassInstance == null) {
@@ -80,6 +84,7 @@ class AssetClassController {
         }
     }
 
+    @Secured(['ROLE_ADMIN'])
     @Transactional
     def delete(AssetClass assetClassInstance) {
 

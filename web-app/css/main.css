@@ -75,7 +75,7 @@ a:hover, a:active {
 h1 {
 	color: #48802c;
 	font-weight: normal;
-	font-size: 1.25em;
+	font-size: 1.1em;
 	margin: 0.8em 0 0.3em 0;
 }
 
@@ -111,9 +111,9 @@ img {
 	background: #abbf78;
 	color: #000;
 	clear: both;
-	font-size: 0.8em;
-	margin-top: 1.5em;
-	padding: 1em;
+	font-size: 0.65em;
+	margin-top: 1.0em;
+	padding: .5em;
 	min-height: 1em;
 }
 
@@ -248,8 +248,8 @@ label {
 input, select, textarea {
 	background-color: #fcfcfc;
 	border: 1px solid #cccccc;
-	font-size: 1em;
-	padding: 0.2em 0.4em;
+	font-size: .75em;
+	padding: 0.2em 0.2em;
 }
 
 select {
@@ -261,8 +261,8 @@ select[multiple] {
 }
 
 textarea {
-	width: 250px;
-	height: 150px;
+	width: 400px;
+	height: 100px;
 	overflow: auto; /* IE always renders vertical scrollbar without this */
 	vertical-align: top;
 }
@@ -328,7 +328,7 @@ fieldset.embedded legend {
 
 .errors,
 .message {
-	font-size: 0.8em;
+	font-size: 0.5em;
 	line-height: 2;
 	margin: 1em 2em;
 	padding: 0.25em;
