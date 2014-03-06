@@ -12,7 +12,7 @@ class UserController {
     
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     
-    @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
+    @Secured(['ROLE_USER'])
     def index(Integer max) {
         def theEnterprise = session['activeEnterprise']
         

@@ -8,7 +8,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true )
 class EnterpriseController {
 
-    //def springSecurityService
+    def springSecurityService
     
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     
@@ -20,7 +20,7 @@ class EnterpriseController {
         respond Enterprise.list(params), model:[enterpriseInstanceCount: Enterprise.count()]
     }
 
-    @Secured(['ROLE_ADMIN'])
+    //@Secured(['ROLE_ADMIN'])
     def show(Enterprise enterpriseInstance) {
         println("showing enterprise ${enterpriseInstance?.name}")
         //def roleNames = principal.authorities*.authority

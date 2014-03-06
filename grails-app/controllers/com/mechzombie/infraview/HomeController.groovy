@@ -31,7 +31,7 @@ class HomeController {
             else
             {
                 //def theUser = User.findByUsername(principal.username)
-                respond view:'user_index' , model:[user: theUser, isAdmin: false, enterprise: theUser.enterprise]
+                render(view:'index' , model:[user: theUser, isAdmin: false, enterprise: theUser.enterprise])
                 return
             }
         }
