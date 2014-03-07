@@ -51,9 +51,7 @@
             <span class="fieldcontain ${hasErrors(bean: enterpriseInstance?.location?.address, field: 'postalCode', 'error')} required">
                 <g:textField name="postalCode" value="${enterpriseInstance?.location?.address?.postalCode}" size="5"/>
             </span>
-   
     </div>
-
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: enterpriseInstance, field: 'activeDate', 'error')} required">

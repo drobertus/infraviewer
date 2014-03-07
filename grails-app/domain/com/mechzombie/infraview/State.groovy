@@ -8,7 +8,7 @@ class State {
     static constraints = {
     }
     
-    def getStateList() {
+    static def getStateList() {
         State.list(sort: "code", order: "asc")
     }
     

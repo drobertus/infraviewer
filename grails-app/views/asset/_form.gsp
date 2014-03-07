@@ -1,4 +1,4 @@
-<%@ page import="com.mechzombie.infraview.Asset" %>
+<%@ page import="com.mechzombie.infraview.*" %>
 
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'externalId', 'error')} ">
     <label for="externalId">
@@ -18,17 +18,44 @@
 		<g:message code="asset.assetClass.label" default="Asset Class" />
         <span class="required-indicator">*</span>
     </label>
-	<g:hiddenField name="assetClass.id" value="$assetClass.id}"/>
-        <g:textField name="assetClass.name" disabled="true" value="${assetClass.name}"/>
+	<g:hiddenField name="asset.assetClass.id" value="${assetInstance.assetClass.id}"/>
+        <g:textField name="asset.assetClass.name" disabled="true" value="${assetInstance.assetClass.name}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'location', 'error')} required">
-    <label for="location">
-        <g:message code="asset.location.label" default="Location" />
-        <span class="required-indicator">*</span>
-    </label>
-	<g:select id="location" name="location.id" from="${com.mechzombie.infraview.Location.list()}" optionKey="id" required="" value="${assetInstance?.location?.id}" class="many-to-one"/>
+<div class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'addressLine1', 'error')} required">
+ 
+    <div id="theAddressBlock">    
+        <label for="location">
+            <g:message code="asset.location.address.label" default="Address" />
+        </label>
+        <div>
+            <label for="addressLine1">
+                <g:message code="assetddress.addressline1.label" default="Address Line 1" />
+                <span class="required-indicator">*</span>
+            </label>
+            <g:textField name="addressLine1" value="${assetInstance?.location?.address?.addressLine1}"/>
+        </div>
+        <div>
+            <label for="addressLine2">
+                <g:message code="assetInstance.address.addressLine2.label" default="Line 2"/>
+            </label>
+            <g:textField name="addressLine2" value="${assetInstance?.location?.address?.addressLine2}" />
+        </div>
+        
+        <label>City, State, Zip Code<span class="required-indicator">*</span></label>        
+            <span class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'city', 'error')} required">
+                <g:textField name="city" value="${assetInstance?.location?.address?.city}"/>, 
+            </span>
+            <span class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'state', 'error')} required">
+                <g:select name="state" from="${State.getStateList()}" optionKey="id" optionValue="code" value="${assetInstance?.location?.address?.state?.id}"/>, 
+            </span>
+
+            <span class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'postalCode', 'error')} required">
+                <g:textField name="postalCode" value="${assetInstance?.location?.address?.postalCode}" size="5"/>
+            </span>
+    </div>
 </div>
+
 
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'statusHistory', 'error')} ">
     <label for="statusHistory">

@@ -8,9 +8,15 @@ class AssetClass {
     Double statusValueReplace
     Double statusValueDestroyed
     Double expectedLifeSpanYears
-    Double standardInspectionSpanYears
+    Double standardInspectionInterval
+    Double standardMaintenanceInterval
     Enterprise enterprise
     static hasMany = [assets: Asset]
+    
+    // TODO: add configurations for "has/requires [Address, Geometry, Location, external id] 
+    // plus possibly notes (per enterprise) about id source
+    // for an asset class, types of acceptable Geometry (is it a point, line, area, network?
+    //
 
     static constraints = {
         name( blank: false, nullable: false)

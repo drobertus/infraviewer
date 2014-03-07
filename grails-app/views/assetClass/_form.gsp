@@ -58,15 +58,23 @@
 	<g:field name="expectedLifeSpanYears" value="${fieldValue(bean: assetClassInstance, field: 'expectedLifeSpanYears')}" required=""/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'standardInspectionSpanYears', 'error')} required">
-	<label for="standardInspectionSpanYears">
-		<g:message code="assetClass.standardInspectionSpanYears.label" default="Standard Inspection Span (Years)" />
+<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'standardInspectionInterval', 'error')} required">
+	<label for="standardInspectionInterval">
+		<g:message code="assetClass.standardInspectionInterval.label" default="Inspection Interval (Years)" />
 		<span class="required-indicator">*</span>
 	</label>
-	<g:field name="standardInspectionSpanYears" value="${fieldValue(bean: assetClassInstance, field: 'standardInspectionSpanYears')}" required=""/>
+	<g:field name="standardInspectionInterval" value="${fieldValue(bean: assetClassInstance, field: 'standardInspectionInterval')}" required=""/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'statusValueNew', 'error')} required">
+<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'standardMaintenanceInterval', 'error')} required">
+	<label for="standardMaintenanceInterval">
+		<g:message code="assetClass.standardMaintenanceInterval.label" default="Maintenance Interval (Years)" />
+		<span class="required-indicator">*</span>
+	</label>
+	<g:field name="standardMaintenanceInterval" value="${fieldValue(bean: assetClassInstance, field: 'standardMaintenanceInterval')}" required=""/>
+</div>
+
+      <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'statusValueNew', 'error')} required">
 	<label for="statusValueNew">
 		<g:message code="assetClass.statusValueNew.label" default="Status Value When New" />
 		<span class="required-indicator">*</span>

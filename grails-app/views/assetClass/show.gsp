@@ -35,6 +35,9 @@
                 <g:else>
                     <span class="property-value" aria-labelledby="assetClasses-label">None</span>
                 </g:else>
+                <span id="addNewAsset" class="property-label">
+                    <g:link class="create" action="create" controller="asset"><g:message code="default.new.label" args="[entityName]" />New Asset</g:link>
+                </span>
             </li>
 
             <g:if test="${assetClassInstance?.name}">
@@ -65,10 +68,10 @@
                 </li>
             </g:if>
 
-            <g:if test="${assetClassInstance?.standardInspectionSpanYears}">
+            <g:if test="${assetClassInstance?.standardInspectionInterval}">
                 <li class="fieldcontain">
-                    <span id="standardInspectionSpanYears-label" class="property-label"><g:message code="assetClass.standardInspectionSpanYears.label" default="Standard Inspection Span Years" /></span>
-                    <span class="property-value" aria-labelledby="standardInspectionSpanYears-label"><g:fieldValue bean="${assetClassInstance}" field="standardInspectionSpanYears"/></span>
+                    <span id="standardInspectionInterval-label" class="property-label"><g:message code="assetClass.standardInspectionInterval.label" default="Inspection Interval (Years)" /></span>
+                    <span class="property-value" aria-labelledby="standardInspectionInterval-label"><g:fieldValue bean="${assetClassInstance}" field="standardInspectionInterval"/></span>
 
                 </li>
             </g:if>
