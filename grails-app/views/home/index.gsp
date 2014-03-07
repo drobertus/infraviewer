@@ -12,7 +12,7 @@
     <p>InfraViewer Home for ${enterprise.name}</p>
     <div>        
         <div>            
-            <div>Calendar</div>
+            <div>My Calendar</div>
             <div>Work Orders</div>
             <div>Infrastructure</div>
             <div><g:link controller="enterprise" action="show" id="${enterprise.id}">My Organization</g:link></div>

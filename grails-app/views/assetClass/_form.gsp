@@ -8,7 +8,7 @@
 	
 <ul class="one-to-many">
 <g:each in="${assetClassInstance?.assets?}" var="a">
-    <li><g:link controller="asset" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></li>
+    <li><g:link controller="asset" action="show" id="${a.id}">${a?.id}</g:link></li>
 </g:each>
 <li class="add">
 <g:link controller="asset" action="create" params="['assetClass.id': assetClassInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'asset.label', default: 'Asset')])}</g:link>
