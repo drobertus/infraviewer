@@ -18,8 +18,8 @@
 		<g:message code="asset.assetClass.label" default="Asset Class" />
         <span class="required-indicator">*</span>
     </label>
-	<g:hiddenField name="asset.assetClass.id" value="${assetInstance.assetClass.id}"/>
-        <g:textField name="asset.assetClass.name" disabled="true" value="${assetInstance.assetClass.name}"/>
+	<g:hiddenField name="assetClass.id" value="${assetInstance.assetClass.id}"/>
+        <g:textField name="assetClass.name" disabled="true" value="${assetInstance.assetClass.name}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'addressLine1', 'error')} required">

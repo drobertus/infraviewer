@@ -25,12 +25,12 @@ class AssetController {
 
     @Secured(['ROLE_USER'])
     def create(AssetClass assetClass) {
-        println('params for asset:' + params)
+        //println('params for asset:' + params)
         //def assetClass = AssetClass.get(params['assetClass.id'])
-        println('ac id=' + assetClass.id)
+       // println('ac id=' + assetClass.id)
         def asset = new Asset(params)
-        asset.assetClass = assetClass
-        println('asset class for asset = ' + asset.assetClass.id)
+        //asset.assetClass = assetClass
+        //println('asset class for asset = ' + asset.assetClass.id)
         respond asset, model:[assetClass: assetClass] 
     }
 
@@ -38,22 +38,22 @@ class AssetController {
     @Transactional
     def save(Asset assetInstance) {
         
-        //println('params=' + params)
+        println('params=' + params)
         if (assetInstance == null) {
-           // println('returning null')
+            println('returning null')
             notFound()
             return
         }
 
         if (assetInstance.hasErrors()) {
-          //  println("errors found ${assetInstance.getErrors()}")
+            println("errors found ${assetInstance.getErrors()}")
             respond assetInstance.errors, view:'create'
             return
         }
 
         assetInstance.save flush:true
 
-       // println("errors found post save: ${assetInstance.getErrors()}")
+       println("errors found post save: ${assetInstance.getErrors()}")
         
         request.withFormat {
             form {

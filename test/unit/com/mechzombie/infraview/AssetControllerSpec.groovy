@@ -6,20 +6,13 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(AssetController)
-@Mock([Asset, AssetClass])
+@Mock([Asset, AssetClass, Enterprise])
 class AssetControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-         def testAC = new AssetClass(name: 'hydrant', id: 12,
-            statusValueNew: 10.0,
-             statusValueReplace: 7,
-             statusValueDestroyed: 0,
-             expectedLifeSpanYears: 30,
-             standardInspectionInterval: 1,
-             standardMaintenanceInterval: 5,
-             enterprise: 1).save(flush: true)
+         def testAC = makeAssetClass()
     //static hasMany = [assets: Asset]
         params['assetClass'] = testAC
         params['externalId'] = 'HYD0032'
@@ -41,12 +34,13 @@ class AssetControllerSpec extends Specification {
 
     void "Test the create action returns the correct model"() {
         when:"The create action is executed"
-        
-        params['assetClass.id'] = 12
+            def testAC = makeAssetClass()
+            params['assetClass.id'] = testAC.id
             controller.create()
 
         then:"The model is correctly created"
             model.assetInstance!= null
+            model.assetInstance.assetClass.id != null
     }
 
     void "Test the save action correctly persists an instance"() {
@@ -158,5 +152,27 @@ class AssetControllerSpec extends Specification {
             Asset.count() == 0
             response.redirectedUrl == '/asset/index'
             flash.message != null
+    }
+    
+    def makeAssetClass() {
+        
+        def testEnt = new Enterprise(name: 'testEnt', activeDate: new Date())
+        testEnt.save(flush: true)
+       def testAC = new AssetClass(name: 'hydrant', 
+            statusValueNew: 10.0,
+             statusValueReplace: 7,
+             statusValueDestroyed: 0,
+             expectedLifeSpanYears: 30,
+             standardInspectionInterval: 1,
+             standardMaintenanceInterval: 5,
+             enterprise: testEnt)
+        testAC.validate()
+         //println "errors =" + testAC.getErrors()
+        
+        
+        testAC.save(flush: true) 
+        // log.info("testAC id = ${testAC.id}")
+        
+        return testAC
     }
 }

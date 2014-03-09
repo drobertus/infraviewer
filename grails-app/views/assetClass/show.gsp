@@ -36,7 +36,7 @@
                     <span class="property-value" aria-labelledby="assetClasses-label">None</span>
                 </g:else>
                 <span id="addNewAsset" class="property-label">
-                    <g:link class="create" action="create" controller="asset"><g:message code="default.new.label" args="[entityName]" />New Asset</g:link>
+                    <g:link class="create" action="create" controller="asset" params="['assetClass.id': assetClassInstance.id]">New Asset</g:link>
                 </span>
             </li>
 
