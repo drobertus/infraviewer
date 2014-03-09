@@ -13,7 +13,7 @@ class EnterpriseControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
+      
         params["name"] = 'ent1'
         params["activeDate"] = new Date()
     }

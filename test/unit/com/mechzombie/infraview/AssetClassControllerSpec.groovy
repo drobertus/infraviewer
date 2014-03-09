@@ -11,7 +11,7 @@ class AssetClassControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
-        // TODO: Populate valid properties like...
+ 
         def testEnt = new Enterprise(name: 'City of Longmont', activeDate: new Date()).save(flush: true)
         
         params["name"] = 'hydrant'
@@ -19,8 +19,10 @@ class AssetClassControllerSpec extends Specification {
         params["statusValueReplace"] = "5"
         params["statusValueDestroyed"] = "0"
         params["expectedLifeSpanYears"] = "35"
-        params["standardInspectionSpanYears"] = "1"
+        params["standardInspectionInterval"] = "1"
+        params["standardMaintenanceInterval"] = "3"
         params["enterprise"] = testEnt
+
     }
 
     void "Test the index action returns the correct model"() {

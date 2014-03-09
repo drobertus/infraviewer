@@ -8,7 +8,7 @@ import grails.transaction.Transactional
 @Transactional(readOnly = true)
 class AssetClassController {
 
-    def springSecurityService
+    //def springSecurityService
     
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -31,22 +31,22 @@ class AssetClassController {
     @Secured(['ROLE_ADMIN'])
     @Transactional
     def save(AssetClass assetClassInstance) {
-//        println 'params=' + params
+        // println 'params=' + params
         if (assetClassInstance == null) {
-            //println("asset class is null")
+        //    println("asset class is null")
             notFound()
             return
         }
 
         if (assetClassInstance.hasErrors()) {
-            //println('errors found' + assetClassInstance.errors)
+       //     println('errors found' + assetClassInstance.errors)
             respond assetClassInstance.errors, view:'create', model:[enterprise: session.activeEnterprise]
             return
         }
         //def ent = Enterprise.get(params.enterprise)
        // println 'the Enterprise=' + ent.name
         assetClassInstance.save flush:true
-  //      println('errors found' + assetClassInstance.errors)
+        // println('errors found post save:' + assetClassInstance.errors)
         
         request.withFormat {
             form {

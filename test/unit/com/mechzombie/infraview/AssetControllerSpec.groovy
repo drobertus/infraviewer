@@ -6,13 +6,27 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(AssetController)
-@Mock(Asset)
+@Mock([Asset, AssetClass])
 class AssetControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+         def testAC = new AssetClass(name: 'hydrant', id: 12,
+            statusValueNew: 10.0,
+             statusValueReplace: 7,
+             statusValueDestroyed: 0,
+             expectedLifeSpanYears: 30,
+             standardInspectionInterval: 1,
+             standardMaintenanceInterval: 5,
+             enterprise: 1).save(flush: true)
+    //static hasMany = [assets: Asset]
+        params['assetClass'] = testAC
+        params['externalId'] = 'HYD0032'
+        params['description'] = 'NA'
+        params['notes'] = '3 plugs'
+        params['location'] = new Location();
+        params['assetClass.id'] = 12
     }
 
     void "Test the index action returns the correct model"() {
@@ -27,6 +41,8 @@ class AssetControllerSpec extends Specification {
 
     void "Test the create action returns the correct model"() {
         when:"The create action is executed"
+        
+        params['assetClass.id'] = 12
             controller.create()
 
         then:"The model is correctly created"

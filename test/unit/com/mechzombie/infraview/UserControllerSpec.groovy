@@ -17,7 +17,6 @@ class UserControllerSpec extends Specification {
     def populateValidParams(params) {
         //setup:
         assert params != null
-        // TODO: Populate valid properties like...
 
         def testEnt = new Enterprise(name: 'City of Longmont', activeDate: new Date()).save(flush: true)
         
