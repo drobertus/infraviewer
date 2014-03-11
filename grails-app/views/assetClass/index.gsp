@@ -29,7 +29,7 @@
                     <g:sortableColumn property="expectedLifeSpanYears" title="${message(code: 'assetClass.expectedLifeSpanYears.label', default: 'Life Span')}" />                  
                     <g:sortableColumn property="standardInspectionInterval" title="${message(code: 'assetClass.standardInspectionInterval.label', default: 'Inspection</br>Interval')}" />
                     <g:sortableColumn property="standardMaintenanceInterval" title="${message(code: 'assetClass.standardMaintenanceInterval.label', default: 'Maintenance</br>Interval')}" />
-                    <g:sortableColumn property="id" title="New Asset" />
+                    <g:sortableColumn property="id" title="Actions" />
                 </tr>
             </thead>
             <tbody>

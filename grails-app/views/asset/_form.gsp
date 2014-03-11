@@ -22,6 +22,7 @@
         <g:textField name="assetClass.name" disabled="true" value="${assetInstance.assetClass.name}"/>
 </div>
 
+<g:hiddenField name="location.id" value="${assetInstance?.location?.id}"/>
 <div class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'addressLine1', 'error')} required">
  
     <div id="theAddressBlock">    

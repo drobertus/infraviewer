@@ -45,6 +45,12 @@ class AssetController {
             return
         }
 
+        if(!assetInstance.location) {
+            assetInstance.location = new Location().save(flush:true)
+            println "new location id = ${assetInstance.location.id}"
+        }
+        assetInstance.validate()
+        
         if (assetInstance.hasErrors()) {
             println("errors found ${assetInstance.getErrors()}")
             respond assetInstance.errors, view:'create'
