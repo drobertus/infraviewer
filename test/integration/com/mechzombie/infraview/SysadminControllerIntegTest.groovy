@@ -15,7 +15,8 @@ class SysadminControllerIntegTest extends GroovyTestCase {
 
     void setUp() {
         initialEntCount = Enterprise.count()
-        new Enterprise(name: entName, activeDate: new Date()).save(flush: true)
+        new Enterprise(name: entName, activeDate: new Date(),
+         location: new Location(hasAddress:false).save()).save(flush: true)
         assert Enterprise.count == initialEntCount + 1
     }
 

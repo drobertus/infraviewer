@@ -101,4 +101,19 @@ class LocationController {
             '*'{ render status: NOT_FOUND }
         }
     }
+    
+//    def buildAddress(Location loc, def params) {
+//        
+//        if (!loc.hasAddress) {
+//            entLoc.address = null;
+//            entLoc.save flush: true            
+//            return
+//        }
+//
+//        def theState = State.get(params.state)
+//        loc.address = Address.findOrSaveWhere(addressLine1: params.addressLine1,
+//            addressLine2: params.addressLine2, city: params.city, state: theState,
+//            postalCode: params.postalCode)
+//        
+//    }
 }

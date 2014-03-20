@@ -16,17 +16,17 @@
         <g:message code="enterprise.hasAddress.label" default="Has Address" />
 
     </label>
-    <g:checkBox name="hasAddress" value="${enterpriseInstance.hasAddress}"/>
+    <g:checkBox name="hasAddress" value="${enterpriseInstance?.location?.hasAddress}"/>
 </div>
         
 <div class="fieldcontain ${hasErrors(bean: enterpriseInstance?.location?.address, field: 'addressLine1', 'error')} required">
  
-    <g:if test="${enterpriseInstance.hasAddress == 'true'}"><div id="theAddressBlock"></g:if>
+    <g:if test="${enterpriseInstance?.location?.hasAddress == 'true'}"><div id="theAddressBlock"></g:if>
     <g:else><div id="theAddressBlock" style="display:none" ></g:else>
         <label for="location">
             <g:message code="enterprise.location.address.label" default="Address" />
         </label>
-        <div>
+        <div class="fieldcontain ${hasErrors(bean: enterpriseInstance?.location?.address, field: 'addressLine1', 'error')} required">
             <label for="addressLine1">
                 <g:message code="enterprise.address.addressline1.label" default="Address Line 1" />
                 <span class="required-indicator">*</span>
@@ -59,7 +59,7 @@
         <g:message code="enterprise.activeDate.label" default="Active Date" />
         <span class="required-indicator">*</span>
     </label>
-    <g:datePicker name="activeDate" precision="day"  value="${enterpriseInstance?.activeDate}"  />
+    <g:datePicker name="activeDate" precision="day"  relativeYears="[-25..2]" value="${enterpriseInstance?.activeDate}"  />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: enterpriseInstance, field: 'assetClasses', 'error')} ">

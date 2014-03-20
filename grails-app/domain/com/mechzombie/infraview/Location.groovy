@@ -7,6 +7,7 @@ class Location {
     def centroidLon
     Address address
     Geometry geometry
+    boolean hasAddress
     
     static constraints = {
         locationNotes blank:true, nullable: true
@@ -16,15 +17,11 @@ class Location {
         centroidLon blank: true, nullable: true
     }
     
-    def hasAddress() {
-        return (!address == null)
-    }
-    
     /**
     *This returns a String formatted for list display
     */
     def getLocationString() {
-        if(hasAddress()) {
+        if(hasAddress) {
             return address.getFormattedAddress()
         }
         if(centroidLat && centroidLon){

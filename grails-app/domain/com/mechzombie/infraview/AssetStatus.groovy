@@ -11,7 +11,8 @@ class AssetStatus {
     }
 
     static constraints = {
-        statusDate()
-        status()
+        //statusDate()
+        //status()
+
     }
 }

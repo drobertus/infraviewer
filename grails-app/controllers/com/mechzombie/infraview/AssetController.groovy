@@ -14,8 +14,16 @@ class AssetController {
 
     @Secured(['ROLE_USER']) 
     def index(Integer max) {
+        
+        //TODO: this needs to bring in an asset Class Id
+        //do we stash the "active" assetClass in the session for convenience?
+        //(also check that the active user belongs to the same eneterprise as the asset class
+        // for security purposed)
+        println ('create params = ' + params)
+        def assetClass = AssetClass.get(params['assetClass.id'])
+        println "assetClass = ${assetClass}"
         params.max = Math.min(max ?: 10, 100)
-        respond Asset.list(params), model:[assetInstanceCount: Asset.count()]
+        respond Asset.list(params), model:[assetInstanceCount: Asset.count(), assetClass: assetClass]
     }
 
     @Secured(['ROLE_USER'])
@@ -25,30 +33,36 @@ class AssetController {
 
     @Secured(['ROLE_USER'])
     def create(AssetClass assetClass) {
-        //println('params for asset:' + params)
-        //def assetClass = AssetClass.get(params['assetClass.id'])
-       // println('ac id=' + assetClass.id)
+        println 'create params=' + params
         def asset = new Asset(params)
-        //asset.assetClass = assetClass
-        //println('asset class for asset = ' + asset.assetClass.id)
-        respond asset, model:[assetClass: assetClass] 
+        if (!assetClass) {
+            println "no asset class found for create! ${params}"
+        }
+        assetClass = AssetClass.get(params['assetClass.id'])
+        println("assetClass = ${assetClass.name}")
+        asset.assetClass  = assetClass
+        respond asset //, model:[assetClass: assetClass] 
     }
 
     @Secured(['ROLE_USER'])
     @Transactional
     def save(Asset assetInstance) {
         
-        println('params=' + params)
+        println('save params=' + params)
         if (assetInstance == null) {
             println('returning null')
             notFound()
             return
         }
 
+        //TODO: we only want to create a Location when the 
+        //asset is going to be saved
         if(!assetInstance.location) {
-            assetInstance.location = new Location().save(flush:true)
-            println "new location id = ${assetInstance.location.id}"
+            assetInstance.location = new Location().save(flush: true)
+            println "new location id = ${assetInstance.location.id}"            
         }
+        
+        
         assetInstance.validate()
         
         if (assetInstance.hasErrors()) {
@@ -56,11 +70,26 @@ class AssetController {
             respond assetInstance.errors, view:'create'
             return
         }
-
-        assetInstance.save flush:true
-
-       println("errors found post save: ${assetInstance.getErrors()}")
+    
+        println(" assetClass id = " + params['assetClass.id'])
         
+        assetInstance.save flush:true
+        println("errors found post  save: ${assetInstance.getErrors()}")
+       
+//        def recentStatus = new Double(params['mostRecentStatus.status'])
+//        println('creating a new status' + recentStatus)
+//        def updateAdd = AssetStatus.findOrSaveWhere(asset: assetInstance,
+//            statusDate: params['mostRecentStatus.statusDate'], status: recentStatus)
+//        
+//        assetInstance.mostRecentStatus = updateAdd
+//
+//        if (assetInstance.mostRecentStatus.hasErrors()) {
+//            println("status errors ${assetInstance.mostRecentStatus.errors}")
+//            //enterpriseInstance.errors << enterpriseInstance.location.address.errors
+//            respond assetInstance.mostRecentStatus.errors, view: 'create'
+//            return;
+//        }
+//        
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'assetInstance.label', default: 'Asset'), assetInstance.id])
@@ -128,4 +157,6 @@ class AssetController {
             '*'{ render status: NOT_FOUND }
         }
     }
+    
+     
 }

@@ -1,21 +1,24 @@
 package com.mechzombie.infraview
 
-
-
 import grails.test.mixin.*
+import org.junit.Before
 
 import spock.lang.Specification
 //import spock.lang.*
 
 @TestFor(EnterpriseController)
-@Mock(Enterprise)
+@Mock([Enterprise, Location, State, Address])
 class EnterpriseControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
       
+        def location = new Location(hasAddress:false).save(flush: true)    
         params["name"] = 'ent1'
         params["activeDate"] = new Date()
+        params["location"] = location
+        params["hasAddress"] = location.hasAddress
+        params["_hasAddress"] = null
     }
 
     void "Test the index action returns the correct model"() {
@@ -38,6 +41,9 @@ class EnterpriseControllerSpec extends Specification {
 
     void "Test the save action correctly persists an instance"() {
 
+        setup:
+            controller.addressHandlingService = new AddressHandlingService()
+            
         when:"The save action is executed with an invalid instance"
             def enterprise = new Enterprise()
             enterprise.validate()
@@ -47,6 +53,7 @@ class EnterpriseControllerSpec extends Specification {
             model.enterpriseInstance!= null
             view == 'create'
 
+             
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
@@ -93,6 +100,9 @@ class EnterpriseControllerSpec extends Specification {
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
+        setup:
+            controller.addressHandlingService = new AddressHandlingService()   
+        
         when:"Update is called for a domain instance that doesn't exist"
             controller.update(null)
 

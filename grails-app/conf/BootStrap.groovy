@@ -3,6 +3,8 @@ import com.mechzombie.infraview.State
 import com.mechzombie.infraview.User
 import com.mechzombie.infraview.UserRole
 import com.mechzombie.infraview.Enterprise
+import com.mechzombie.infraview.AssetClass
+import com.mechzombie.infraview.Location
 import grails.util.Environment
 
 class BootStrap {
@@ -17,19 +19,16 @@ class BootStrap {
         assert Role.count() == 3
         
         def activeDt = new Date()
-        def rootEnterprise = new Enterprise(name: 'InfraView', activeDate: activeDt).save(flush: true)
+        def rootEnterprise = new Enterprise(name: 'InfraView', activeDate: activeDt, location: new Location().save(flush:true)).save(flush: true)
         
-        //if (Environment.current == Environment.TEST ||
-        //        Environment.current == Environment.DEVELOPMENT) {
-            println "Test environment"
-            //println "Executing BootStrapTest"
-            
-            def e1 = new Enterprise(name: 'City of Longmont', activeDate: activeDt).save(flush: true)
-            def e2 = new Enterprise(name: 'Colorado DOT', activeDate: activeDt).save(flush: true)
+        println "Test environment"
 
-            assert Enterprise.count() == 3
-            //  new BootStrapTest().init()
-            println "Finished BootStrapTest"
+        def e1 = new Enterprise(name: 'City of Longmont', activeDate: activeDt, location: new Location().save()).save(flush: true)
+        def e2 = new Enterprise(name: 'Colorado DOT', activeDate: activeDt, location: new Location().save()).save(flush: true)
+
+        assert Enterprise.count() == 3
+        //  new BootStrapTest().init()
+        println "Finished BootStrapTest"
 
         //}
         
@@ -63,7 +62,16 @@ class BootStrap {
         State.create("Florida", "FL", true)
         State.create("New York", "NY", true)
         
+        println 'creating asset class'
         
+        def hydrants = new AssetClass(name:'Hydrant', enterprise: e1, 
+            description: 'Fire hydrant',
+    statusValueNew: 10.0,
+    statusValueReplace: 7.0,
+    statusValueDestroyed: 0.0,
+    expectedLifeSpanYears: 35.0,
+    standardInspectionInterval: 2.0,
+    standardMaintenanceInterval: 5.0).save(flush: true)
     }
     
     def destroy = {

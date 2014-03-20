@@ -24,24 +24,18 @@
 			<thead>
 					<tr>
 					
-						<g:sortableColumn property="name" title="${message(code: 'enterprise.name.label', default: 'Name')}" />
-					
-						<g:sortableColumn property="activeDate" title="${message(code: 'enterprise.activeDate.label', default: 'Active Date')}" />
-					
-						<th><g:message code="enterprise.location.label" default="Location" /></th>
+						<g:sortableColumn property="name" title="${message(code: 'enterprise.name.label', default: 'Name')}" />					
+						<g:sortableColumn property="activeDate" title="${message(code: 'enterprise.activeDate.label', default: 'Active Date')}" />					
+						<th><g:message code="enterprise.location.label" default="Address" /></th>
 					
 					</tr>
 				</thead>
 				<tbody>
 				<g:each in="${enterpriseInstanceList}" status="i" var="enterpriseInstance">
-					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-					
-						<td><g:link action="show" id="${enterpriseInstance.id}">${fieldValue(bean: enterpriseInstance, field: "name")}</g:link></td>
-					
-						<td><g:formatDate date="${enterpriseInstance.activeDate}" /></td>
-					
-						<td>${fieldValue(bean: enterpriseInstance, field: "location")}</td>
-					
+					<tr class="${(i % 2) == 0 ? 'even' : 'odd'}">					
+						<td><g:link action="show" id="${enterpriseInstance.id}">${fieldValue(bean: enterpriseInstance, field: "name")}</g:link></td>					
+						<td><g:formatDate date="${enterpriseInstance.activeDate}" /></td>					
+						<td>${enterpriseInstance.location?.address.getFormattedAddress()}</td>					
 					</tr>
 				</g:each>
 				</tbody>

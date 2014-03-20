@@ -9,6 +9,7 @@ import grails.transaction.Transactional
 class EnterpriseController {
 
     def springSecurityService
+    AddressHandlingService addressHandlingService
     
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     
@@ -42,12 +43,32 @@ class EnterpriseController {
             notFound()
             return
         }
-
+        def theLoc
+        if (!enterpriseInstance.location) {
+            theLoc = new Location(hasAddress: (params['_hasAddress'] != null))            
+            theLoc.validate()
+            if (theLoc.hasErrors()) {
+                println("newLoc Errors" + theLoc.getErrors())
+            }
+            theLoc.save(flush:true)
+           enterpriseInstance.location = theLoc
+        }
+        
+        enterpriseInstance.validate()
         if (enterpriseInstance.hasErrors()) {
             respond enterpriseInstance.errors, view:'create'
             return
         }
 
+        addressHandlingService.buildAddress(enterpriseInstance.location, params)
+        if (enterpriseInstance?.location?.address?.hasErrors()) {
+            //println("found errors ${enterpriseInstance.location.address.errors}")
+            //enterpriseInstance.errors << enterpriseInstance.location.address.errors
+            respond enterpriseInstance.location.address.errors, view: 'create'
+            return;
+        }
+        
+        println("new ent = " + enterpriseInstance)
         enterpriseInstance.save flush:true
 
         request.withFormat {
@@ -67,20 +88,21 @@ class EnterpriseController {
     @Secured(['ROLE_ADMIN'])
     @Transactional
     def update(Enterprise enterpriseInstance) {
-        println "params =${params}"
+        //println "params =${params}"
         if (enterpriseInstance == null) {
             notFound()
             return
         }
 
+        
         if (enterpriseInstance.hasErrors()) {
+          //  println("errors are: ${enterpriseInstance.getErrors()}")
             respond enterpriseInstance.errors, view:'edit'
             return
         }
-              
-        buildAddress(enterpriseInstance, params)
+        addressHandlingService.buildAddress(enterpriseInstance.location, params)
         if (enterpriseInstance?.location?.address?.hasErrors()) {
-            println("found errors ${enterpriseInstance.location.address.errors}")
+            //println("found errors ${enterpriseInstance.location.address.errors}")
             //enterpriseInstance.errors << enterpriseInstance.location.address.errors
             respond enterpriseInstance.errors, view: 'edit'
             return;
@@ -127,30 +149,28 @@ class EnterpriseController {
         }
     }
 
-    def buildAddress(Enterprise ent, def params) {
+ //   def buildAddress(Location loc, def params) {
         
-        if (!ent.hasAddress) {
-            // TODO: if there is a location delete the address reference
-            def entLoc = ent.location
-            if(entLoc) {
-                entLoc.address = null;
-                entLoc.save flush: true
-            }
-            return
-        }
-
-        def theState = State.get(params.state)
-        def updateAdd = Address.findOrSaveWhere(addressLine1: params.addressLine1,
-            addressLine2: params.addressLine2, city: params.city, state: theState,
-            postalCode: params.postalCode)
-
-        def newLoc = ent.location
-        if(!newLoc) {
-            newLoc = new Location()
-            newLoc.save(flush: true)//, failOnError:true) //, insert: true)
-            println("newLoc id = ${newLoc.id}")
-            ent.location = newLoc
-        }
-        newLoc.address = updateAdd
-    }
+       //
+//        
+//        if (!params['_hasAddress']) {
+//            loc.hasAddress = false
+//            loc.address = null;
+//            loc.save flush: true            
+//            println("deleted Address")
+//            return
+//        }
+//        println("creaing or saving address")
+//        loc.hasAddress = true
+//        def theState = State.get(params.state)
+//        
+//        
+//        //println("the state id " + theState.id)
+//        loc.address = Address.findOrSaveWhere(addressLine1: params.addressLine1,
+//            addressLine2: params.addressLine2, city: params.city, state: theState,
+//            postalCode: params.postalCode)
+//        //println("find or saved address " + loc.address.id)
+//        loc.address.validate()
+//       // println("errros in addy are:" + loc.address.getErrors())
+    //}
 }

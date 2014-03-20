@@ -7,25 +7,35 @@
 	<g:textField name="externalId" value="${assetInstance?.externalId}"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'description', 'error')} ">
-    <label for="description">
-		<g:message code="asset.description.label" default="Description" />	
-    </label>
-	<g:textField name="description" value="${assetInstance?.description}"/>
-</div>
-<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'assetClass', 'error')} required">
-    <label for="assetClass">
-		<g:message code="asset.assetClass.label" default="Asset Class" />
-        <span class="required-indicator">*</span>
-    </label>
-	<g:hiddenField name="assetClass.id" value="${assetInstance.assetClass.id}"/>
-        <g:textField name="assetClass.name" disabled="true" value="${assetInstance.assetClass.name}"/>
+<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'mostRecentStatus', 'error')} ">
+    <g:hiddenField name="mostRecentStatus.id" value="${assetInstance?.mostRecentStatus?.id}"/>
+    <label for="mostRecentStatus.status">Last Inspection Status</br>(max:${assetInstance.assetClass.statusValueNew} min:${assetInstance.assetClass.statusValueDestroyed})</label>
+    <g:textField name="mostRecentStatus.status" value="${assetInstance?.mostRecentStatus?.status}"/>
+    <span><g:message code="asset.mostRecentStatus.statusDate.label" default="Date" />
+    <g:datePicker name="mostRecentStatus.statusDate" precision="day" relativeYears="[-100..0]" value="${assetInstance?.mostRecentStatus?.statusDate}"  />
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'description', 'error')} ">
+    <label for="description">
+        <g:message code="asset.description.label" default="Description" />	
+    </label>
+    <g:textField name="description" value="${assetInstance?.description}"/>
+</div>
+
+<g:hiddenField name="assetClass.id" value="${assetInstance.assetClass.id}"/>
 <g:hiddenField name="location.id" value="${assetInstance?.location?.id}"/>
+<div>
+    <label for="hasAddress">
+        <g:message code="asset.location.hasAddress.label" default="Has Address" />
+    </label>
+    <g:checkBox name="hasAddress" value="${assetInstance?.location?.hasAddress}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'addressLine1', 'error')} required">
- 
-    <div id="theAddressBlock">    
+   
+    <g:if test="${assetInstance?.location?.hasAddress == 'true'}"><div id="theAddressBlock"></g:if>
+    <g:else><div id="theAddressBlock" style="display:none" ></g:else>  
+    
         <label for="location">
             <g:message code="asset.location.address.label" default="Address" />
         </label>
@@ -42,9 +52,9 @@
             </label>
             <g:textField name="addressLine2" value="${assetInstance?.location?.address?.addressLine2}" />
         </div>
-        
-        <label>City, State, Zip Code<span class="required-indicator">*</span></label>        
-            <span class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'city', 'error')} required">
+        <div>
+            <label>City, State, Zip Code<span class="required-indicator">*</span></label>        
+               <span class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'city', 'error')} required">
                 <g:textField name="city" value="${assetInstance?.location?.address?.city}"/>, 
             </span>
             <span class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'state', 'error')} required">
@@ -54,24 +64,10 @@
             <span class="fieldcontain ${hasErrors(bean: assetInstance?.location?.address, field: 'postalCode', 'error')} required">
                 <g:textField name="postalCode" value="${assetInstance?.location?.address?.postalCode}" size="5"/>
             </span>
+        </div>
     </div>
 </div>
 
-
-<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'statusHistory', 'error')} ">
-    <label for="statusHistory">
-	<g:message code="asset.statusHistory.label" default="Status History" />		
-    </label>	
-    <ul class="one-to-many">
-        <g:each in="${assetInstance?.statusHistory?}" var="s">
-            <li><g:link controller="assetStatus" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></li>
-        </g:each>
-        <li class="add">
-            <g:link controller="assetStatus" action="create" params="['asset.id': assetInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'assetStatus.label', default: 'AssetStatus')])}</g:link>
-        </li>
-    </ul>
-
-</div>
 
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'notes', 'error')} ">
     <label for="notes">

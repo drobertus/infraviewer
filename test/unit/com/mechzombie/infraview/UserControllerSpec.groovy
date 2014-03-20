@@ -6,7 +6,7 @@ import org.junit.Before
 import spock.lang.*
 
 @TestFor(UserController)
-@Mock([User, Enterprise, UserRole, Role])
+@Mock([User, Enterprise, UserRole, Role, Location])
 class UserControllerSpec extends Specification {
 
     @Before
@@ -18,7 +18,7 @@ class UserControllerSpec extends Specification {
         //setup:
         assert params != null
 
-        def testEnt = new Enterprise(name: 'City of Longmont', activeDate: new Date()).save(flush: true)
+        def testEnt = new Enterprise(name: 'City of Longmont', activeDate: new Date(), location: new Location(hasAddress: false).save(flush: true)).save(flush: true)
         
         params["username"] = "someValidName@test.com"
         

@@ -20,6 +20,7 @@ class AssetClassController {
     }
 
     def show(AssetClass assetClassInstance) {
+        session['activeAssetClass'] = assetClassInstance
         respond assetClassInstance
     }
 
@@ -47,7 +48,7 @@ class AssetClassController {
        // println 'the Enterprise=' + ent.name
         assetClassInstance.save flush:true
         // println('errors found post save:' + assetClassInstance.errors)
-        
+        session['activeAssetClass'] = assetClassInstance
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'assetClassInstance.label', default: 'Asset Class'), assetClassInstance.name])

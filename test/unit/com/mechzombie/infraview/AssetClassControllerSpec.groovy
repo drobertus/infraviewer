@@ -6,13 +6,16 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(AssetClassController)
-@Mock([AssetClass, Enterprise, Asset])
+@Mock([AssetClass, Enterprise, Asset, Location])
 class AssetClassControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
  
-        def testEnt = new Enterprise(name: 'City of Longmont', activeDate: new Date()).save(flush: true)
+        def testEnt = new Enterprise(name: 'City of Longmont', 
+            activeDate: new Date(), 
+            location: new Location().save(flush: true))
+            .save(flush: true)
         
         params["name"] = 'hydrant'
         params["statusValueNew"] = "10"

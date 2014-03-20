@@ -1,5 +1,5 @@
 
-<%@ page import="com.mechzombie.infraview.Asset" %>
+<%@ page import="com.mechzombie.infraview.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -13,11 +13,12 @@
     <div class="nav" role="navigation">
         <ul>
             <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-            <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+            <!-- li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li -->
+            <li><g:link class="create" controller="asset" action="create" params="['assetClass.id': assetClass.id]"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
             </ul>
         </div>
         <div id="list-asset" class="content scaffold-list" role="main">
-            <h1><g:message code="default.list.label" args="[entityName]" /></h1>
+            <h1><g:message code="default.list.label" args="[entityName]" /> for ${assetClass.name}</h1>
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
         </g:if>
@@ -38,7 +39,7 @@
                         <td>${fieldValue(bean: assetInstance, field: "externalId")}</td>
                         <td>${fieldValue(bean: assetInstance, field: "description")}</td>
                         <td>${fieldValue(bean: assetInstance, field: "notes")}</td>                                                
-                        <td>${fieldValue(bean: assetInstance, field: "location.getLocationString()")}</td>
+                        <td>${fieldValue(bean: assetInstance.location, method: "getLocationString()")}</td>
                     </tr>
                 </g:each>
             </tbody>

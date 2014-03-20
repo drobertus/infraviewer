@@ -9,6 +9,7 @@ import spock.lang.*
  * See the API for {@link grails.test.mixin.web.ControllerUnitTestMixin} for usage instructions
  */
 @TestFor(SysadminController)
+@Mock([Enterprise, Location])
 class SysadminControllerSpec extends Specification {
 
     def controller
@@ -16,8 +17,8 @@ class SysadminControllerSpec extends Specification {
 
     def setup() {
         controller = new SysadminController()
-        entList << new Enterprise(name: 'ent1')
-        entList << new Enterprise(name: 'ent2')
+        entList << new Enterprise(name: 'ent1', location: Mock(Location))
+        entList << new Enterprise(name: 'ent2', location: Mock(Location))
     }
 
     def cleanup() {

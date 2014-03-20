@@ -4,6 +4,19 @@
 		<meta name="layout" content="main">
 		<g:set var="entityName" value="${message(code: 'enterprise.label', default: 'Enterprise')}" />
 		<title><g:message code="default.create.label" args="[entityName]" /></title>
+                <r:require module="application"/>
+<g:javascript>        
+$(document).ready(function() {
+if ($('#hasAddress').is(':checked')) {
+      $('#theAddressBlock').show();  
+    }else { $('#theAddressBlock').hide(); }
+
+    $("#hasAddress").on('change', function(){
+        if (this.checked){ $('#theAddressBlock').show(); }
+        else { $('#theAddressBlock').hide(); }        
+    });
+});
+</g:javascript>
 	</head>
 	<body>
 		<a href="#create-enterprise" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>

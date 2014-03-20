@@ -6,7 +6,7 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(AssetController)
-@Mock([Asset, AssetClass, Enterprise])
+@Mock([Asset, AssetClass, Enterprise, Location])
 class AssetControllerSpec extends Specification {
 
     def populateValidParams(params) {

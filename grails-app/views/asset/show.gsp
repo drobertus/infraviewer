@@ -14,11 +14,11 @@
         <ul>
             <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
             <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
-            <li><g:link class="create" action="create"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
+            <li><g:link class="create" action="create" params="['assetClass.id': assetInstance.assetClass.id]"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
             </ul>
         </div>
         <div id="show-asset" class="content scaffold-show" role="main">
-            <h1><g:message code="default.show.label" args="[entityName]" /></h1>
+            <h1><g:message code="default.show.label" args="[entityName]" /> of type ${assetInstance.assetClass.name}</<h1>
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
         </g:if>
@@ -45,13 +45,6 @@
                 </li>
             </g:if>
 
-            <g:if test="${assetInstance?.assetClass}">
-                <li class="fieldcontain">
-                    <span id="assetClass-label" class="property-label"><g:message code="asset.assetClass.label" default="Asset Class" /></span>
-                    <span class="property-value" aria-labelledby="assetClass-label"><g:link controller="assetClass" action="show" id="${assetInstance.assetClass.id}">${assetInstance.assetClass.name}</g:link></span>
-                </li>
-            </g:if>
-
             <g:if test="${assetInstance?.location}">
                 <li class="fieldcontain">
                     <span id="location-label" class="property-label"><g:message code="asset.location.label" default="Location" /></span>
@@ -59,6 +52,15 @@
                 </li>
             </g:if>
 
+            
+            <g:if test="${assetInstance?.mostRecentStatus}">
+                <li class="fieldcontain">
+                    <span id="mostReccentStatus-label" class="property-label"><g:message code="asset.mostRecentStatus.label" default="Last Inspection" /></span>
+                    <span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${assetInstance.mostRecentStatus}" field="status"/>
+                    at <g:formatDate format="yyyy-MM-dd" date="${assetInstance.mostRecentStatus.statusDate}"/></span>
+                </li>
+            </g:if>
+            
             <g:if test="${assetInstance?.statusHistory}">
                 <li class="fieldcontain">
                     <span id="statusHistory-label" class="property-label"><g:message code="asset.statusHistory.label" default="Status History" /></span>
