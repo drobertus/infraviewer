@@ -6,8 +6,8 @@ import spock.lang.Specification
 /**
  * See the API for {@link grails.test.mixin.domain.DomainClassUnitTestMixin} for usage instructions
  */
-@TestFor(AssetStatus)
-class AssetStatusSpec extends Specification {
+@TestFor(AssetStatusEvent)
+class AssetStatusEventSpec extends Specification {
 
     def setup() {
     }

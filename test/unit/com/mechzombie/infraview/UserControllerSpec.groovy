@@ -18,8 +18,11 @@ class UserControllerSpec extends Specification {
         //setup:
         assert params != null
 
-        def testEnt = new Enterprise(name: 'City of Longmont', activeDate: new Date(), location: new Location(hasAddress: false).save(flush: true)).save(flush: true)
-        
+        def testEnt = new Enterprise(name: 'City of Test', 
+            activeDate: new Date(), 
+            location: new Location(hasAddress: false).save(flush: true))
+        .save(flush: true)
+        println("test ent = ${testEnt.id}")
         params["username"] = "someValidName@test.com"
         
         params["enterprise"] = testEnt.id 
@@ -30,7 +33,7 @@ class UserControllerSpec extends Specification {
         params["accountLocked"] = false
         params["authorities"] = ""
     
-        
+        println("user conteroller save params = " + params)
      }
 
     void "Test the index action returns the correct model"() {

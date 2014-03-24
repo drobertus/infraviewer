@@ -7,8 +7,8 @@ class Asset {
     String notes
     Location location
     AssetClass assetClass
-    AssetStatus mostRecentStatus
-    static hasMany = [statusHistory: AssetStatus]
+    private AssetStatusEvent mostRecentStatus
+    static hasMany = [statusHistory: AssetStatusEvent]
 
     static constraints = {
         description blank:true, nullable: true
@@ -16,4 +16,20 @@ class Asset {
         mostRecentStatus blank: true, nullable: true
     }
     
+    AssetStatusEvent findMostRecentStatusEvent() {
+                   
+        def criteria = AssetStatusEvent.createCriteria()
+        mostRecentStatus =  criteria.get(){
+            asset{
+                idEq(ident())
+            }
+            order("statusDate", "desc")
+            maxResults 1
+        }
+        return mostRecentStatus
+    }
+    
+    Double getCurrentProjectedStatus() {
+        null
+    }
 }
