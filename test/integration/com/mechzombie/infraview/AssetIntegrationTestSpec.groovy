@@ -18,6 +18,8 @@ class AssetIntegrationTestSpec extends Specification {
         def nonSelectedAsset
     
         //println("runnig asset integ setup")
+        //TODO: there is one asset class loaded by default in the setup data
+        //this test is dependent on that.  Stabilize that dependency if not found
         testAsset = new Asset(assetClass: AssetClass.load(1), 
             externalId: 'externalId', 
             location: new Location(hasAddress: false).save())

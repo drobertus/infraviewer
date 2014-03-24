@@ -7,7 +7,7 @@ class AssetStatusEvent {
     Asset asset
 
     static mapping = {
-
+        sort statusDate: "desc"
     }
 
     static constraints = {
