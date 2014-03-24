@@ -13,7 +13,7 @@ class Asset {
     static constraints = {
         description blank:true, nullable: true
         notes blank:true, nullable: true
-    
+        externalId unique: 'assetClass' 
     }
     
     AssetStatusEvent findMostRecentStatusEvent() {

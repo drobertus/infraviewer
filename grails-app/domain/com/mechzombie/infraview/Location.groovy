@@ -25,7 +25,7 @@ class Location {
             return address.getFormattedAddress()
         }
         if(centroidLat && centroidLon){
-            return "" + centroidLat + "/" + centroidLon
+            return "lat/lng: " + centroidLat + "/" + centroidLon
         }
         if(geometry){
             return "Geo"

@@ -39,7 +39,7 @@
                         <td>${fieldValue(bean: assetInstance, field: "externalId")}</td>
                         <td>${fieldValue(bean: assetInstance, field: "description")}</td>
                         <td>${fieldValue(bean: assetInstance, field: "notes")}</td>                                                
-                        <td>${fieldValue(bean: assetInstance.location, method: "getLocationString()")}</td>
+                        <td>${assetInstance.location.getLocationString()}</td>
                     </tr>
                 </g:each>
             </tbody>

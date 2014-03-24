@@ -9,7 +9,7 @@ import grails.transaction.Transactional
 class EnterpriseController {
 
     def springSecurityService
-    AddressHandlingService addressHandlingService
+    def addressHandlingService
     
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
     

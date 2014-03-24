@@ -13,7 +13,7 @@
     <div class="nav" role="navigation">
         <ul>
             <li><a class="home" href="${createLink(uri: '/')}"><g:message code="default.home.label"/></a></li>
-            <li><g:link class="list" action="index"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
+            <li><g:link class="list" action="index" params="['assetClass.id': assetInstance.assetClass.id]"><g:message code="default.list.label" args="[entityName]" /></g:link></li>
             <li><g:link class="create" action="create" params="['assetClass.id': assetInstance.assetClass.id]"><g:message code="default.new.label" args="[entityName]" /></g:link></li>
             </ul>
         </div>
@@ -52,12 +52,12 @@
                 </li>
             </g:if>
 
-            
-            <g:if test="${assetInstance?.mostRecentStatus}">
+            <g:set var="mostRecentStatus" value="${assetInstance?.findMostRecentStatusEvent()}" />
+            <g:if test="${mostRecentStatus}">
                 <li class="fieldcontain">
                     <span id="mostReccentStatus-label" class="property-label"><g:message code="asset.mostRecentStatus.label" default="Last Inspection" /></span>
-                    <span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${assetInstance.mostRecentStatus}" field="status"/>
-                    at <g:formatDate format="yyyy-MM-dd" date="${assetInstance.mostRecentStatus.statusDate}"/></span>
+                    <span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${mostRecentStatus}" field="status"/>
+                    at <g:formatDate format="yyyy-MM-dd" date="${mostRecentStatus.statusDate}"/></span>
                 </li>
             </g:if>
             

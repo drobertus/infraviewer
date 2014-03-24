@@ -9,6 +9,7 @@ import grails.transaction.Transactional
 class AssetController {
 
     def springSecurityService
+    def addressHandlingService
     
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
 
@@ -20,8 +21,11 @@ class AssetController {
         //(also check that the active user belongs to the same eneterprise as the asset class
         // for security purposed)
         println ('create params = ' + params)
-        def assetClass = AssetClass.get(params['assetClass.id'])
-        println "assetClass = ${assetClass}"
+        def assetClassId = params["assetClass.id"]
+        println('assetclass id =[' + assetClassId + "]")
+        def assetClass = AssetClass.get( assetClassId )
+        println "assetClass = ${assetClass.name}"
+       // assertNotNull assetClass
         params.max = Math.min(max ?: 10, 100)
         respond Asset.list(params), model:[assetInstanceCount: Asset.count(), assetClass: assetClass]
     }
@@ -62,7 +66,13 @@ class AssetController {
             println "new location id = ${assetInstance.location.id}"            
         }
         
-        
+        addressHandlingService.buildAddress(assetInstance.location, params)
+        if (assetInstance?.location?.address?.hasErrors()) {
+            //println("found errors ${enterpriseInstance.location.address.errors}")
+            //enterpriseInstance.errors << enterpriseInstance.location.address.errors
+            respond assetInstance.location.address.errors, view: 'create'
+            return;
+        }
         assetInstance.validate()
         
         if (assetInstance.hasErrors()) {
@@ -76,23 +86,9 @@ class AssetController {
         assetInstance.save flush:true
         println("errors found post  save: ${assetInstance.getErrors()}")
        
-//        def recentStatus = new Double(params['mostRecentStatus.status'])
-//        println('creating a new status' + recentStatus)
-//        def updateAdd = AssetStatus.findOrSaveWhere(asset: assetInstance,
-//            statusDate: params['mostRecentStatus.statusDate'], status: recentStatus)
-//        
-//        assetInstance.mostRecentStatus = updateAdd
-//
-//        if (assetInstance.mostRecentStatus.hasErrors()) {
-//            println("status errors ${assetInstance.mostRecentStatus.errors}")
-//            //enterpriseInstance.errors << enterpriseInstance.location.address.errors
-//            respond assetInstance.mostRecentStatus.errors, view: 'create'
-//            return;
-//        }
-//        
         request.withFormat {
             form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'assetInstance.label', default: 'Asset'), assetInstance.id])
+                flash.message = message(code: 'default.created.message', args: [message(code: 'assetInstance.label', default: 'Asset'), assetInstance.externalId])
                 redirect assetInstance
             }
             '*' { respond assetInstance, [status: CREATED] }
@@ -117,11 +113,19 @@ class AssetController {
             return
         }
 
+        addressHandlingService.buildAddress(assetInstance.location, params)
+        if (assetInstance?.location?.address?.hasErrors()) {
+            //println("found errors ${enterpriseInstance.location.address.errors}")
+            //enterpriseInstance.errors << enterpriseInstance.location.address.errors
+            respond assetInstance.location.address.errors, view: 'edit'
+            return;
+        }
+        
         assetInstance.save flush:true
 
         request.withFormat {
             form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'Asset.label', default: 'Asset'), assetInstance.id])
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'Asset.label', default: 'Asset'), assetInstance.externalId])
                 redirect assetInstance
             }
             '*'{ respond assetInstance, [status: OK] }

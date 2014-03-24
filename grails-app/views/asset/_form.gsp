@@ -7,12 +7,13 @@
 	<g:textField name="externalId" value="${assetInstance?.externalId}"/>
 </div>
 
+<g:set var="mostRecentStatus" value="${assetInstance?.findMostRecentStatusEvent()}" />
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'mostRecentStatus', 'error')} ">
-    <g:hiddenField name="mostRecentStatus.id" value="${assetInstance?.mostRecentStatus?.id}"/>
+    <g:hiddenField name="mostRecentStatus.id" value="${mostRecentStatus?.id}"/>
     <label for="mostRecentStatus.status">Last Inspection Status</br>(max:${assetInstance.assetClass.statusValueNew} min:${assetInstance.assetClass.statusValueDestroyed})</label>
-    <g:textField name="mostRecentStatus.status" value="${assetInstance?.mostRecentStatus?.status}"/>
+    <g:textField name="mostRecentStatus.status" value="${mostRecentStatus?.status}"/>
     <span><g:message code="asset.mostRecentStatus.statusDate.label" default="Date" />
-    <g:datePicker name="mostRecentStatus.statusDate" precision="day" relativeYears="[-100..0]" value="${assetInstance?.mostRecentStatus?.statusDate}"  />
+    <g:datePicker name="mostRecentStatus.statusDate" precision="day" relativeYears="[-100..0]" value="${mostRecentStatus?.statusDate}"  />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'description', 'error')} ">
