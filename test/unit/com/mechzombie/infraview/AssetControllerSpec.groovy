@@ -23,7 +23,9 @@ class AssetControllerSpec extends Specification {
     }
 
     void "Test the index action returns the correct model"() {
-
+        setup:
+            def ac=makeAssetClass()
+            params["assetClass.id"] = ac.id
         when:"The index action is executed"
             controller.index()
 
@@ -44,7 +46,9 @@ class AssetControllerSpec extends Specification {
     }
 
     void "Test the save action correctly persists an instance"() {
-
+        setup:
+            controller.addressHandlingService = new AddressHandlingService()
+        
         when:"The save action is executed with an invalid instance"
             def asset = new Asset()
             asset.validate()
@@ -100,6 +104,9 @@ class AssetControllerSpec extends Specification {
     }
 
     void "Test the update action performs an update on a valid domain instance"() {
+        setup:
+            controller.addressHandlingService = new AddressHandlingService()
+        
         when:"Update is called for a domain instance that doesn't exist"
             controller.update(null)
 
@@ -156,9 +163,8 @@ class AssetControllerSpec extends Specification {
     
     def makeAssetClass() {
         
-        def testEnt = new Enterprise(name: 'testEnt', activeDate: new Date())
-        testEnt.save(flush: true)
-       def testAC = new AssetClass(name: 'hydrant', 
+        def testEnt = Enterprise.load(1)
+        def testAC = new AssetClass(name: 'hydrant', 
             statusValueNew: 10.0,
              statusValueReplace: 7,
              statusValueDestroyed: 0,
@@ -167,11 +173,8 @@ class AssetControllerSpec extends Specification {
              standardMaintenanceInterval: 5,
              enterprise: testEnt)
         testAC.validate()
-         //println "errors =" + testAC.getErrors()
-        
         
         testAC.save(flush: true) 
-        // log.info("testAC id = ${testAC.id}")
         
         return testAC
     }

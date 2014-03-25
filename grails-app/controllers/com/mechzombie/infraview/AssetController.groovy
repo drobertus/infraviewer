@@ -20,11 +20,11 @@ class AssetController {
         //do we stash the "active" assetClass in the session for convenience?
         //(also check that the active user belongs to the same eneterprise as the asset class
         // for security purposed)
-        println ('create params = ' + params)
+       // println ('create params = ' + params)
         def assetClassId = params["assetClass.id"]
-        println('assetclass id =[' + assetClassId + "]")
+        //println('assetclass id =[' + assetClassId + "]")
         def assetClass = AssetClass.get( assetClassId )
-        println "assetClass = ${assetClass.name}"
+       // println "assetClass = ${assetClass.name}"
        // assertNotNull assetClass
         params.max = Math.min(max ?: 10, 100)
         respond Asset.list(params), model:[assetInstanceCount: Asset.count(), assetClass: assetClass]
@@ -38,12 +38,12 @@ class AssetController {
     @Secured(['ROLE_USER'])
     def create(AssetClass assetClass) {
         println 'create params=' + params
-        def asset = new Asset(params)
+        //def asset = new Asset(params)
         if (!assetClass) {
             println "no asset class found for create! ${params}"
         }
         assetClass = AssetClass.get(params['assetClass.id'])
-        println("assetClass = ${assetClass.name}")
+        //println("assetClass = ${assetClass.name}")
         asset.assetClass  = assetClass
         respond asset //, model:[assetClass: assetClass] 
     }
@@ -52,7 +52,7 @@ class AssetController {
     @Transactional
     def save(Asset assetInstance) {
         
-        println('save params=' + params)
+        //println('save params=' + params)
         if (assetInstance == null) {
             println('returning null')
             notFound()
@@ -76,15 +76,15 @@ class AssetController {
         assetInstance.validate()
         
         if (assetInstance.hasErrors()) {
-            println("errors found ${assetInstance.getErrors()}")
+          //  println("errors found ${assetInstance.getErrors()}")
             respond assetInstance.errors, view:'create'
             return
         }
     
-        println(" assetClass id = " + params['assetClass.id'])
+        //println(" assetClass id = " + params['assetClass.id'])
         
         assetInstance.save flush:true
-        println("errors found post  save: ${assetInstance.getErrors()}")
+        //println("errors found post  save: ${assetInstance.getErrors()}")
        
         request.withFormat {
             form {
