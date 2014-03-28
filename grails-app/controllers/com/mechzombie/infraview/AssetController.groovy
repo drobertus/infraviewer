@@ -20,11 +20,11 @@ class AssetController {
         //do we stash the "active" assetClass in the session for convenience?
         //(also check that the active user belongs to the same eneterprise as the asset class
         // for security purposed)
-       // println ('create params = ' + params)
+        //println ('create params = ' + params)
         def assetClassId = params["assetClass.id"]
         //println('assetclass id =[' + assetClassId + "]")
         def assetClass = AssetClass.get( assetClassId )
-       // println "assetClass = ${assetClass.name}"
+        //println "assetClass = ${assetClass.name}"
        // assertNotNull assetClass
         params.max = Math.min(max ?: 10, 100)
         respond Asset.list(params), model:[assetInstanceCount: Asset.count(), assetClass: assetClass]
@@ -37,14 +37,17 @@ class AssetController {
 
     @Secured(['ROLE_USER'])
     def create(AssetClass assetClass) {
-        println 'create params=' + params
-        //def asset = new Asset(params)
-        if (!assetClass) {
-            println "no asset class found for create! ${params}"
-        }
-        assetClass = AssetClass.get(params['assetClass.id'])
-        //println("assetClass = ${assetClass.name}")
-        asset.assetClass  = assetClass
+       // println 'create params=' + params
+        def asset = new Asset(params)
+        //if (!assetClass) {
+        //    println "no asset class found for create! ${params}"
+        //}
+        def assetClassId = params["assetClass.id"]
+        //println('assetclass id =[' + assetClassId + "]")
+        def assetClass1 = AssetClass.get(assetClassId )
+        //println("assetClass name = ${assetClass.name}")
+        //println("assetClass1 name = ${assetClass1.name}")
+        asset.assetClass  = assetClass1
         respond asset //, model:[assetClass: assetClass] 
     }
 

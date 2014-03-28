@@ -1,5 +1,5 @@
 
-<%@ page import="com.mechzombie.infraview.Asset" %>
+<%@ page import="com.mechzombie.infraview.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -7,6 +7,8 @@
         <g:set var="entityName" value="${message(code: 'asset.label', default: 'Asset')}" />
         <title><g:message code="default.show.label" args="[entityName]" /></title>
     <r:require module="application"/>
+<g:javascript>
+</g:javascript> 
 </head>
 <body>
     <a href="#show-asset" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
@@ -18,7 +20,7 @@
             </ul>
         </div>
         <div id="show-asset" class="content scaffold-show" role="main">
-            <h1><g:message code="default.show.label" args="[entityName]" /> of type ${assetInstance.assetClass.name}</<h1>
+            <h1><g:message code="default.show.label" args="[entityName]" /> of type ${assetInstance.assetClass.name}</h1>
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
         </g:if>
@@ -52,23 +54,55 @@
                 </li>
             </g:if>
 
-            <g:set var="mostRecentStatus" value="${assetInstance?.findMostRecentStatusEvent()}" />
-            <g:if test="${mostRecentStatus}">
-                <li class="fieldcontain">
-                    <span id="mostReccentStatus-label" class="property-label"><g:message code="asset.mostRecentStatus.label" default="Last Inspection" /></span>
-                    <span class="property-value" aria-labelledby="description-label"><g:fieldValue bean="${mostRecentStatus}" field="status"/>
-                    at <g:formatDate format="yyyy-MM-dd" date="${mostRecentStatus.statusDate}"/></span>
-                </li>
-            </g:if>
-            
-            <g:if test="${assetInstance?.statusHistory}">
-                <li class="fieldcontain">
-                    <span id="statusHistory-label" class="property-label"><g:message code="asset.statusHistory.label" default="Status History" /></span>
-                    <g:each in="${assetInstance.statusHistory}" var="s">
-                        <span class="property-value" aria-labelledby="statusHistory-label"><g:link controller="assetStatus" action="show" id="${s.id}">${s?.encodeAsHTML()}</g:link></span>
-                    </g:each>
-                </li>
-            </g:if>
+            <li class="fieldcontain">
+                <div id="statusHistory-label" class="property-label"><g:message code="statusHistory.label" default="Status History" /></div>
+                <div>    
+                    <table>
+                        <thead>
+                            <tr>
+                                <g:sortableColumn style="width: 400px" property="statusDate" title="${message(code: 'assetStatusEvent.statusDate.label', default: 'Date')}" />
+                                <g:sortableColumn style="width: 200px" property="status" title="${message(code: 'assetStatusEvent.status.label', default: 'Status')}" />
+                                <g:sortableColumn property="eventType" title="${message(code: 'assetStatusEvent.eventType.label', default: 'Event Type')}" />
+                                <g:sortableColumn property="status" title="${message(code: 'assetStatusEvent.actions.label', default: 'Actions')}" />                    
+                            </tr>
+                        </thead>
+                        <tbody>
+                            
+                            <!-- TODO: add a first row to allow direect entry with a SAVE button on the side -->
+                            <g:formRemote  name="addAssetStatusEventForm" on404="alert('not found!')" update="updateMe"
+                                url="[controller: 'assetStatusEvent', action:'saveToAssetPage']" onSuccess ="refresh()"
+                                onFailure="alert('Error!')">
+                            <tr>
+                                <g:hiddenField name="asset.id" value="${assetInstance.id}"/>
+                                <td><g:datePicker name="statusDate" precision="day" relativeYears="[-100..0]" /></td>
+                                <td><g:textField style="width: 50px" name="status" /></td>
+                                <td><g:select name="eventType" from="${AssetStatusEventType.values()}" 
+                                        keys="${AssetStatusEventType.values()}" />
+                                </td>
+                                <td><g:submitButton name="Save" value="Save" /></td>
+                            </tr>
+                            </g:formRemote>
+                            <tr>
+                            <td colspan="4"><div id="updateMe"></div></td>
+                            </tr>
+                            <g:each in="${assetInstance.getSortedStatusHistory()}" status="i" var="assetStatusEvent">
+                                <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
+                                    <td>${fieldValue(bean: assetStatusEvent, field: "statusDate")}</td>
+                                    <td>${fieldValue(bean: assetStatusEvent, field: "status")}</td>
+                                    <td>${fieldValue(bean: assetStatusEvent, field: "eventType")}</td>
+                                    <td>
+                                        <g:remoteLink method="DELETE" controller="assetStatusEvent" class="delete" action="delete" id="${assetStatusEvent.ident()}" 
+                                        update="success" before="if(!confirm('Are you sure?')) return false" onSuccess="refresh()">
+                                        <g:message code="assetStatus.button.delete.label" default="Delete" />
+                                        </g:remoteLink>
+                                    </td>
+                                        
+                                </tr>
+                            </g:each>
+                        </tbody>
+                    </table>
+                </div>
+            </li>          
         </ol>
         <g:form url="[resource:assetInstance, action:'delete']" method="DELETE">
             <fieldset class="buttons">

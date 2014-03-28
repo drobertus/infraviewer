@@ -6,16 +6,24 @@
     </label>
 	<g:textField name="externalId" value="${assetInstance?.externalId}"/>
 </div>
-
+<!--
 <g:set var="mostRecentStatus" value="${assetInstance?.findMostRecentStatusEvent()}" />
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'mostRecentStatus', 'error')} ">
     <g:hiddenField name="mostRecentStatus.id" value="${mostRecentStatus?.id}"/>
+    <span>
     <label for="mostRecentStatus.status">Last Inspection Status</br>(max:${assetInstance.assetClass.statusValueNew} min:${assetInstance.assetClass.statusValueDestroyed})</label>
-    <g:textField name="mostRecentStatus.status" value="${mostRecentStatus?.status}"/>
+    <g:textField name="mostRecentStatus.status" value="${mostRecentStatus?.status}"/></span>
     <span><g:message code="asset.mostRecentStatus.statusDate.label" default="Date" />
     <g:datePicker name="mostRecentStatus.statusDate" precision="day" relativeYears="[-100..0]" value="${mostRecentStatus?.statusDate}"  />
+    </span>
+    <span>
+    <label for="eventType">Event Type</label>
+    
+    <g:select name="eventType" from="${AssetStatusEventType.values()}" 
+    keys="${AssetStatusEventType.values()}"
+    value="${mostRecentStatus?.status}" /></span>
 </div>
-
+-->
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'description', 'error')} ">
     <label for="description">
         <g:message code="asset.description.label" default="Description" />	

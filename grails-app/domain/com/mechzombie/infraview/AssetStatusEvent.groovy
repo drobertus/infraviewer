@@ -4,8 +4,10 @@ class AssetStatusEvent {
 
     Date statusDate
     double status
+    String eventType
     Asset asset
-
+    // workorder
+    
     static mapping = {
         sort statusDate: "desc"
     }
@@ -13,7 +15,7 @@ class AssetStatusEvent {
     static constraints = {
         //statusDate()
         //status()
-
+        eventType inList: AssetStatusEventType.values()*.toString(), nullable: false, blank:true //['Installation', 'Repair', 'Inspection', 'Removal']
     }
     
     static findMostRecentStatusEvent(Asset assetId) {
