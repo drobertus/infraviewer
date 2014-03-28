@@ -70,7 +70,7 @@
                             
                             <!-- TODO: add a first row to allow direect entry with a SAVE button on the side -->
                             <g:formRemote  name="addAssetStatusEventForm" on404="alert('not found!')" update="updateMe"
-                                url="[controller: 'assetStatusEvent', action:'saveToAssetPage']" onSuccess ="refresh()"
+                                url="[controller: 'assetStatusEvent', action:'saveToAssetPage']" onSuccess =""
                                 onFailure="alert('Error!')">
                             <tr>
                                 <g:hiddenField name="asset.id" value="${assetInstance.id}"/>
@@ -87,16 +87,15 @@
                             </tr>
                             <g:each in="${assetInstance.getSortedStatusHistory()}" status="i" var="assetStatusEvent">
                                 <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                                    <td>${fieldValue(bean: assetStatusEvent, field: "statusDate")}</td>
+                                    <td><g:formatDate format="MM-dd-yyyy" date="${assetStatusEvent.statusDate}"/></td>
                                     <td>${fieldValue(bean: assetStatusEvent, field: "status")}</td>
                                     <td>${fieldValue(bean: assetStatusEvent, field: "eventType")}</td>
                                     <td>
                                         <g:remoteLink method="DELETE" controller="assetStatusEvent" class="delete" action="delete" id="${assetStatusEvent.ident()}" 
-                                        update="success" before="if(!confirm('Are you sure?')) return false" onSuccess="refresh()">
+                                        update="updateMe" before="if(!confirm('Are you sure?')) return false" onSuccess="">
                                         <g:message code="assetStatus.button.delete.label" default="Delete" />
                                         </g:remoteLink>
-                                    </td>
-                                        
+                                    </td>                                        
                                 </tr>
                             </g:each>
                         </tbody>
