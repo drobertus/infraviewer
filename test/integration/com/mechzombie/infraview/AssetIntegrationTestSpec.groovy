@@ -39,7 +39,7 @@ class AssetIntegrationTestSpec extends Specification {
         while ( y-- > 0 ) {
             def eventDate = new Date() - (y * 10)
             def statusEvent = new AssetStatusEvent(asset: nonSelectedAsset, statusDate: eventDate,
-                status: y).save()
+                status: y, eventType: AssetStatusEventType.Inspection).save()
             //println "status event (shouldnt appear)= ${statusEvent.id} ${statusEvent.statusDate} ${statusEvent.asset.id}  "
             nonSelectedAsset.addToStatusHistory(statusEvent)//.save(flush:true)
         }
@@ -48,7 +48,7 @@ class AssetIntegrationTestSpec extends Specification {
         while ( y-- > 0 ) {
             def eventDate = new Date() - (y * 10)
             def statusEvent = new AssetStatusEvent(asset: testAsset, statusDate: eventDate,
-                status: y).save()//flush: true)
+                status: y, eventType: AssetStatusEventType.Inspection).save()
             //println "status event on testAsset= ${statusEvent.id} ${statusEvent.statusDate} ${statusEvent.asset.id}  "
             testAsset.addToStatusHistory(statusEvent)//.save(flush:true)
             lastAssetStatus = statusEvent.id

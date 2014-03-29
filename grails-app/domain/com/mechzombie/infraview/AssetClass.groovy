@@ -4,9 +4,9 @@ class AssetClass {
 
     String name
     String description
-    Double statusValueNew
-    Double statusValueReplace
-    Double statusValueDestroyed
+    Integer statusValueNew
+    Integer statusValueReplace
+    Integer statusValueDestroyed
     Double expectedLifeSpanYears
     Double standardInspectionInterval
     Double standardMaintenanceInterval
@@ -22,8 +22,9 @@ class AssetClass {
         name( blank: false, nullable: false)
         description (blank: true, nullable: true)
         enterprise (nullable: false, blank: false)
-        statusValueNew(min: 1.0d, blank: false)
-        statusValueDestroyed(min: 0.0d, blank: false)
-        expectedLifeSpanYears(min:0.01d, blank: false, nullable:false)
+        statusValueNew(min: 1, blank: false)
+        statusValueDestroyed(min: 0, blank: false)
+        expectedLifeSpanYears(min: 0.01d, blank: false, nullable:false)
+        standardMaintenanceInterval(blank: true, nullable: true)
     }
 }

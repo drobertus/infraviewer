@@ -10,6 +10,20 @@ import java.math.RoundingMode;
 class DepreciationCalculatorService {
     private static final int moneyPrecision = 2;
 
+    
+    
+    double estimateCurrentStatus(asset ) {
+        def assetClass = asset.assetClass
+        def mostRecentStatus = asset.findMostRecentStatusEvent()
+        
+        def timeSinceLastEval = ( new Date().minus(mostRecentStatus.statusDate)) /365.25
+        //TODO: convert date math results to yrs
+        def currStatus = getFutureStatus(mostRecentStatus.status, assetClass.statusValueNew,
+        assetClass.statusValueDestroyed, assetClass.statusValueReplace,
+        assetClass.expectedLifeSpanYears, timeSinceLastEval)
+    
+        
+    }
     /**
      * Projects the status of an asset in the future based on current status.  Assumes no replacement
      * so this will not return a value less than a "destroyed" value.
@@ -31,7 +45,7 @@ class DepreciationCalculatorService {
         if (futureVal < destroyedStatus) {
             futureVal = destroyedStatus;
         }
-        return futureVal;
+        return futureVal.round(2);
     }
 
 
@@ -44,7 +58,7 @@ class DepreciationCalculatorService {
         double depreciationPerYear = (newStatus - replacementStatus) / yearsToReplace;
         double statusToReplace = currentStatus - replacementStatus;
 
-        return statusToReplace / depreciationPerYear;
+        return (statusToReplace / depreciationPerYear).round(3);
     }
     /**
      * This function computed the number of times that an asset will need to be replaced

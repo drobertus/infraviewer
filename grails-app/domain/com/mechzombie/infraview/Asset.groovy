@@ -36,6 +36,7 @@ class Asset {
     }
     
     Double getCurrentProjectedStatus() {
-        null
+        def mostrecent = findMostRecentStatusEvent();
+        
     }
 }
