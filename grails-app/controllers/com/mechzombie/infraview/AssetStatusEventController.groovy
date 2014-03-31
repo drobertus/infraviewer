@@ -9,9 +9,13 @@ class AssetStatusEventController {
     def delete() {
         println("delete params = ${params}")
         def deleted = AssetStatusEvent.get(params["id"])
+        def parentAsset = deleted.asset;
         deleted.delete(flush: true)
-        render "BLEAH!"
         
+        //render "BLEAH!"
+        render(template:"assetStatusEventHistory", 
+            model:[assetStatusEventList: parentAsset.getSortedStatusHistory(),
+                assetInstance: parentAsset])
     }
     
     def saveToAssetPage() {
@@ -27,8 +31,11 @@ class AssetStatusEventController {
         theAsset.save(flush:true)
         //statusEvent.save(flush: true)
         println "newStatusEvent = ${statusEvent.ident()}"
-        render "status event = ${statusEvent.ident()}"
+        //render "status event = ${statusEvent.ident()}"
         //[assetStatusEvent: statusEvent] //${statusEvent.ident()}"
+        render(template:"assetStatusEventHistory", model:[assetStatusEventList: theAsset.getSortedStatusHistory(),
+            assetInstance: theAsset])
+        //render(template: 'assetStatusEventHistory', collection: theAsset.getSortedStatusHistory())
         
     }
 }

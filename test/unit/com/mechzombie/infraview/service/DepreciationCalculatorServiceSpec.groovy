@@ -20,29 +20,26 @@ class DepreciationCalculatorServiceSpec extends Specification {
     def "test liveObjects" () {
         
         setup:
-        def testEnt = Enterprise.load(1)
-        def params = [:]
-        params["name"] = 'hydrant'
-        params["statusValueNew"] = "10"
-        params["statusValueReplace"] = "5"
-        params["statusValueDestroyed"] = "0"
-        params["expectedLifeSpanYears"] = "35"
-        params["standardInspectionInterval"] = "1"
-        params["standardMaintenanceInterval"] = "3"
-        params["enterprise"] = testEnt
-    
-        def assetClass = new AssetClass(params)        
+            def testEnt = Enterprise.load(1)
+            def params = [:]
+            params["name"] = 'hydrant'
+            params["statusValueNew"] = "10"
+            params["statusValueReplace"] = "5"
+            params["statusValueDestroyed"] = "0"
+            params["expectedLifeSpanYears"] = "20"
+            params["standardInspectionInterval"] = "1"
+            params["standardMaintenanceInterval"] = "3"
+            params["enterprise"] = testEnt
 
-        def location = Location.load(1)
-        def asset = new Asset(assetClass: assetClass, externalId: "HYD 12", location: location).save()
-//            Date statusDate
-//    double status
-//    String eventType
-        def statusDate = new Date() - 100 
-        def assetStatus = new AssetStatusEvent(statusDate: statusDate, status: 8.3,
-        eventType: AssetStatusEventType.Inspection)
-        
-        Asset.metaClass.findMostRecentStatusEvent = { -> assetStatus}
+            def assetClass = new AssetClass(params)        
+
+            def location = Location.load(1)
+            def asset = new Asset(assetClass: assetClass, externalId: "HYD 12", location: location).save()
+            def statusDate = new Date() - (5 * 365) 
+            def assetStatus = new AssetStatusEvent(statusDate: statusDate, status: 8.0,
+                eventType: AssetStatusEventType.Inspection)
+
+            Asset.metaClass.findMostRecentStatusEvent = { -> assetStatus}
         
         when:
         
@@ -50,7 +47,7 @@ class DepreciationCalculatorServiceSpec extends Specification {
             println("projected status= ${projectedStatus}")
         
         then:
-            assertEquals 8.26, projectedStatus
+            assertEquals 6.75, projectedStatus
             
     }
     

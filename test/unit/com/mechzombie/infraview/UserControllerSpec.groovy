@@ -21,8 +21,8 @@ class UserControllerSpec extends Specification {
         def testEnt = new Enterprise(name: 'City of Test', 
             activeDate: new Date(), 
             location: new Location(hasAddress: false).save(flush: true))
-        .save(flush: true)
-        println("test ent = ${testEnt.id}")
+            .save(flush: true)
+        //println("test ent = ${testEnt.id}")
         params["username"] = "someValidName@test.com"
         
         params["enterprise"] = testEnt.id 
@@ -33,7 +33,7 @@ class UserControllerSpec extends Specification {
         params["accountLocked"] = false
         params["authorities"] = ""
     
-        println("user conteroller save params = " + params)
+        //println("user conteroller save params = " + params)
      }
 
     void "Test the index action returns the correct model"() {
@@ -78,6 +78,7 @@ class UserControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             def user = new User()
             user.validate()
+            println("user errors invlaid= ${user.errors}")
             controller.save(user)
 
         then:"The create view is rendered again with the correct model"
@@ -89,6 +90,8 @@ class UserControllerSpec extends Specification {
             populateValidParams(params)
             user = new User(params)
             //user.springSecurityService = new SpringSecurityService() 
+            user.validate()
+            println("user errors= ${user.errors}")
             controller.save(user)
 
         then:"A redirect is issued to the show action"
