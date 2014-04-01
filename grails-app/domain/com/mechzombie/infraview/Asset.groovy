@@ -2,6 +2,8 @@ package com.mechzombie.infraview
 
 class Asset {
 
+    def depreciationCalculatorService
+    
     String externalId
     String description
     String notes
@@ -35,8 +37,7 @@ class Asset {
         return mostRecentStatus
     }
     
-    Double getCurrentProjectedStatus() {
-        def mostrecent = findMostRecentStatusEvent();
-        
+    def getProjectedStatus() {
+        return depreciationCalculatorService.estimateCurrentStatus(this)
     }
 }

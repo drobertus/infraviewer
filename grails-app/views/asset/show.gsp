@@ -52,17 +52,14 @@
                     <span id="location-label" class="property-label"><g:message code="asset.location.label" default="Location" /></span>
                     <span class="property-value" aria-labelledby="location-label"><g:link controller="location" action="show" id="${assetInstance?.location?.id}">${assetInstance?.location?.getLocationString()}</g:link></span>
                 </li>
-            </g:if>
-
+            </g:if>            
+            
             <li class="fieldcontain">
-                <div id="statusHistory-label" class="property-label"><g:message code="statusHistory.label" default="Status History" /></div>
                 <div id="updateMe">    
                     <g:render template="/assetStatusEvent/assetStatusEventHistory" 
-                                model="['assetStatusEventList': assetInstance.getSortedStatusHistory() , 
-                                'assetInstance': assetInstance ]" />
-                    
-                </div>
-            </li>          
+                                model="['assetInstance': assetInstance]" />
+                </div>               
+            </li>
         </ol>
         <g:form url="[resource:assetInstance, action:'delete']" method="DELETE">
             <fieldset class="buttons">

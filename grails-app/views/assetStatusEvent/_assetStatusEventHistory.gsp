@@ -1,6 +1,32 @@
 <%@ page import="com.mechzombie.infraview.*" %>
+
 <table>
     <thead>
+        <tr>
+            <th>Calculation</th>
+            <th>Value</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td>Projected Status</td>
+            <td>${assetInstance.getProjectedStatus()}</td>
+        </tr>
+        <tr>
+            <td>Next Projected Inspection</td>
+            <td>TODO</td>
+        </tr>
+        <tr>
+            <td>Next Projected Maintenance</td>
+            <td>TODO</td>
+        </tr>
+    </tbody>
+</table>
+
+
+    <div id="statusHistory-label" class="property-label"><g:message code="statusHistory.label" default="Status History" /></div><table>
+    <table>
+        <thead>
         <tr>
             <g:sortableColumn style="width: 400px" property="statusDate" title="${message(code: 'assetStatusEvent.statusDate.label', default: 'Date')}" />
             <g:sortableColumn style="width: 200px" property="status" title="${message(code: 'assetStatusEvent.status.label', default: 'Status')}" />
@@ -24,7 +50,7 @@
             <td><g:submitButton name="Save" value="Save" /></td>
         </tr>
         </g:formRemote>
-<g:each in="${assetStatusEventList}" status="i" var="assetStatusEvent">
+<g:each in="${assetInstance.getSortedStatusHistory()}" status="i" var="assetStatusEvent">
     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
         <td><g:formatDate format="MM-dd-yyyy" date="${assetStatusEvent.statusDate}"/></td>
         <td>${fieldValue(bean: assetStatusEvent, field: "status")}</td>
@@ -40,3 +66,5 @@
 
     </tbody>
 </table>
+    </div>
+  

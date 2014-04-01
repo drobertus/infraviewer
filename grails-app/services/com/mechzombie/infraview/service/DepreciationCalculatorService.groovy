@@ -12,10 +12,12 @@ class DepreciationCalculatorService {
 
     
     
-    double estimateCurrentStatus(asset ) {
+    Double estimateCurrentStatus(asset ) {
         def assetClass = asset.assetClass
         def mostRecentStatus = asset.findMostRecentStatusEvent()
-        
+        if (!mostRecentStatus) {
+            return null;
+        }
         def timeSinceLastEval = ( new Date().minus(mostRecentStatus.statusDate)) /365.25
         //TODO: convert date math results to yrs
         def currStatus = getFutureStatus(mostRecentStatus.status, assetClass.statusValueNew,
