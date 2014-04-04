@@ -1,24 +1,26 @@
 <%@ page import="com.mechzombie.infraview.*" %>
 
-<table>
+<!-- TODO:  add tabbed panes rather than table under table -->
+<div>
+<table style="width: 75%">
     <thead>
         <tr>
-            <th>Calculation</th>
-            <th>Value</th>
+            <th style="text-align:center">Calculation</th>
+            <th style="text-align:center">Value</th>
         </tr>
     </thead>
     <tbody>
         <tr>
-            <td>Projected Status</td>
-            <td>${assetInstance.getProjectedStatus()}</td>
+            <td style="text-align:left">Projected Status</td>
+            <td style="text-align:center">${assetInstance.getProjectedStatus()}</td>
         </tr>
         <tr>
-            <td>Next Projected Inspection</td>
-            <td>TODO</td>
+            <td style="text-align:left">Next Projected Maintenance</td>
+            <td style="text-align:center"><g:formatDate format="MM-dd-yyyy" date="${assetInstance.getNextProjectedMaintenance()}"/> </td>
         </tr>
         <tr>
-            <td>Next Projected Maintenance</td>
-            <td>TODO</td>
+            <td style="text-align:left">Next Projected Inspection</td>
+            <td style="text-align:center"><g:formatDate format="MM-dd-yyyy" date="${assetInstance.getNextProjectedInspection()}"/></td>
         </tr>
     </tbody>
 </table>
@@ -50,7 +52,8 @@
             <td><g:submitButton name="Save" value="Save" /></td>
         </tr>
         </g:formRemote>
-<g:each in="${assetInstance.getSortedStatusHistory()}" status="i" var="assetStatusEvent">
+        <g:set var="history" value="${assetInstance.statusHistory.sort{-it.statusDate.getTime()}}"/> 
+<g:each in="${history}" status="i" var="assetStatusEvent">
     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
         <td><g:formatDate format="MM-dd-yyyy" date="${assetStatusEvent.statusDate}"/></td>
         <td>${fieldValue(bean: assetStatusEvent, field: "status")}</td>

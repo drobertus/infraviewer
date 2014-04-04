@@ -14,10 +14,8 @@ class AssetStatusEventController {
         def parentAsset = deleted.asset;
         deleted.delete(flush: true)
         
-        def estStatus = depreciationCalculatorService.estimateCurrentStatus(parentAsset)
-        
         render(template:"assetStatusEventHistory", 
-            model:[ assetInstance: parentAsset, projectedStatus: estStatus])
+            model:[ assetInstance: parentAsset])
     }
     
     def saveToAssetPage() {
@@ -33,10 +31,9 @@ class AssetStatusEventController {
         parentAsset.save(flush:true)
         
         //println "newStatusEvent = ${statusEvent.ident()}"
-        def estStatus = depreciationCalculatorService.estimateCurrentStatus(parentAsset)
-        
+                
         render(template:"assetStatusEventHistory", 
-            model:[assetInstance: parentAsset, projectedStatus: estStatus])
+            model:[assetInstance: parentAsset])
         
     }
     
