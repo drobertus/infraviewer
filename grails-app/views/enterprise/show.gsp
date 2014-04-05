@@ -30,6 +30,22 @@
                 <span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${enterpriseInstance}" field="name"/></span>
             </li>
 
+        <g:if test="${enterpriseInstance?.parentEnterprise}">    
+            <li class="fieldcontain">
+                <span id="parent-label" class="property-label"><g:message code="enterprise.parent.label" default="Parent" /></span>
+                <span class="property-value" aria-labelledby="parent-label"><g:fieldValue bean="${enterpriseInstance.parentEnterprise}" field="name"/></span>
+            </li>
+        </g:if>
+
+        <g:if test="${enterpriseInstance?.childEnterprises}">    
+            <li class="fieldcontain">
+                <span id="childEnterprise-label" class="property-label"><g:message code="enterprise.chileEnterprises.label" default="Child Enterprises" /></span>
+                <g:each in="${enterpriseInstance.childEnterprises}" var="childEnt">
+                    <span class="property-value" aria-labelledby="childEnterprise-label"><g:link controller="enterprise" action="show" id="${childEnt.id}">${childEnt.name}</g:link></span>
+                </g:each>
+            </li>
+        </g:if>
+        
             <li class="fieldcontain">
                 <span id="activeDate-label" class="property-label"><g:message code="enterprise.activeDate.label" default="Active Date" /></span>
                 <span class="property-value" aria-labelledby="activeDate-label"><g:formatDate date="${enterpriseInstance?.activeDate}" /></span>

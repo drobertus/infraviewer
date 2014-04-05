@@ -1,3 +1,4 @@
+
 package com.mechzombie.infraview
 
 /**
@@ -5,6 +6,15 @@ package com.mechzombie.infraview
  * @author David
  */
 enum AssetStatusEventType {
-    Installation, Repair, Inspection, Removal
+    Installation(false), Repair(true), Inspection(true), Removal(false)
+	
+	AssetStatusEventType(repeatingEvent) {
+		isRepeating = repeatingEvent
+	}
+	private final isRepeating
+	
+	def isRepeating() {
+		isRepeating
+	}
 }
 

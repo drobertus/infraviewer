@@ -24,9 +24,13 @@ class BootStrap {
         println "Test environment"
 
         def e1 = new Enterprise(name: 'City of Longmont', activeDate: activeDt, location: new Location().save()).save(flush: true)
+        def e1forestry = new Enterprise(
+            name: 'Forestry Department', activeDate: activeDt, location: new Location().save(), parentEnterprise: e1).save(flush: true)
+        e1.addToChildEnterprises(e1forestry).save(flush:true)
+        
         def e2 = new Enterprise(name: 'Colorado DOT', activeDate: activeDt, location: new Location().save()).save(flush: true)
 
-        assert Enterprise.count() == 3
+        assert Enterprise.count() == 4
         //  new BootStrapTest().init()
         println "Finished BootStrapTest"
 
@@ -34,6 +38,7 @@ class BootStrap {
         
         //println 'init 2'
         def testUserBasic = new User(username: 'user@longmont.gov', enabled: true, password: 'pass', enterprise: e1)
+        def forestryUser = new User(username: 'admin@forestry.gov', enabled: true, password: 'pass', enterprise: e1forestry).save(flush:true)
         def testUser = new User(username: 'admin@longmont.gov', enabled: true, password: 'pass', enterprise: e1)
         def su = new User(username: 'su@infraview.com', enabled: true, password: 'pass', enterprise: rootEnterprise)
 
@@ -41,10 +46,12 @@ class BootStrap {
         testUserBasic.save(flush: true)
         su.save(flush: true)
         //println 'init 3'
-        assert User.count() == 3
+        assert User.count() == 4
         
         UserRole.create( testUser, adminRole, true)
         UserRole.create( testUser, userRole, true )
+        UserRole.create( forestryUser, adminRole, true)
+        UserRole.create( forestryUser, userRole, true )
         UserRole.create( testUserBasic, userRole, true)
         UserRole.create (su, suRole, true)
         UserRole.create (su, userRole, true)
@@ -52,9 +59,9 @@ class BootStrap {
 
 
         
-        assert UserRole.count() == 6
+        assert UserRole.count() == 8
 
-        println 'saved new user admin:pass, and user:pass, su:pass'
+        println 'saved new user admin:pass, and user:pass, su:pass, forestry:pass'
 
         State.create("California", "CA", true)
         State.create("Texas", "TX", true)
