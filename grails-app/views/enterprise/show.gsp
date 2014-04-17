@@ -32,8 +32,8 @@
 
         <g:if test="${enterpriseInstance?.parentEnterprise}">    
             <li class="fieldcontain">
-                <span id="parent-label" class="property-label"><g:message code="enterprise.parent.label" default="Parent" /></span>
-                <span class="property-value" aria-labelledby="parent-label"><g:fieldValue bean="${enterpriseInstance.parentEnterprise}" field="name"/></span>
+                <span id="parent-label" class="property-label"><g:message code="enterprise.parent.label" default="Parent Enterprise" /></span>
+                <span class="property-value" aria-labelledby="parent-label"><g:link controller="enterprise" action="show" id="${enterpriseInstance.parentEnterprise.id}">${enterpriseInstance.parentEnterprise.name}</g:link></span>
             </li>
         </g:if>
 
@@ -53,14 +53,12 @@
         
             <li class="fieldcontain">
                 <span id="assetClasses-label" class="property-label"><g:message code="enterprise.assetClasses.label" default="Asset Classes" /></span>
-                <g:if test="${enterpriseInstance?.assetClasses}">
-                <g:each in="${enterpriseInstance.assetClasses}" var="a">
-                    <span class="property-value" aria-labelledby="assetClasses-label"><g:link controller="assetClass" action="show" id="${a.id}">${a?.name}</g:link></span>
-                </g:each>
-                </g:if>    
-                <g:else>
-                    <span class="property-value" aria-labelledby="assetClasses-label">None</span>
-                </g:else>
+                
+                <span class="property-value" aria-labelledby="assetClasses-label">
+                    <g:link controller="assetClass" action="index" params="['enterprise.id': enterpriseInstance?.id]">Show</g:link>
+                    <g:link controller="assetClass" action="create" params="['enterprise.id': enterpriseInstance?.id]">Create</g:link>
+                </span>
+                    
             </li>
         
 

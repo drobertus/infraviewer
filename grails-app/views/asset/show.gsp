@@ -56,6 +56,7 @@
             
             
             <li class="fieldcontain">
+
                 <div id="updateMe">    
                     <g:render template="/assetStatusEvent/assetStatusEventHistory" 
                                 model="['assetInstance': assetInstance]" />

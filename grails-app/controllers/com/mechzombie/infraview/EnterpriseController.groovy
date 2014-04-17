@@ -20,6 +20,22 @@ class EnterpriseController {
         //println("shoping enterprise ${enterpriseInstance.name}")
         respond Enterprise.list(params), model:[enterpriseInstanceCount: Enterprise.count()]
     }
+    
+    def treeView(Integer top) {
+    
+        //
+        
+        def startEnts = []
+        if(top) {
+            startEnts << Enterprise.get(top)
+        }
+        else{
+            startEnts << Enterprise.findAllByParentEnterprise(null)            
+        }
+
+        
+        
+    }
 
     //@Secured(['ROLE_ADMIN'])
     def show(Enterprise enterpriseInstance) {

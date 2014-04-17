@@ -16,4 +16,5 @@ class Enterprise {
         name( blank: false, nullable: false, unique: true )
         parentEnterprise blank:true, nullable: true
     }
+	
 }

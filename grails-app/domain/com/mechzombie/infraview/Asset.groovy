@@ -11,7 +11,6 @@ class Asset {
     Location location
     AssetClass assetClass
     
-    SortedSet statusHistory 
     static hasMany = [statusHistory: AssetStatusEvent]
 
         //TODO: make the assetStatusEvent history display in date sorted order
@@ -26,25 +25,25 @@ class Asset {
         statusHistory nullable: true
     }
     
-//    def getStatusHistory() {
-//        statusHistory = AssetStatusEvent.findAllByAsset(this, [sort: "statusDate", order: "desc"])
-//    }
+    def getStatusHistory() {
+        statusHistory = AssetStatusEvent.findAllByAsset(this, [sort: "statusDate", order: "desc"])
+    }
     
     AssetStatusEvent findMostRecentStatusEvent() {
-        if (statusHistory && statusHistory.size() > 0) {
-           return statusHistory.sort{-it.statusDate.getTime()}[0] 
-        }
-        return null
-//        
-//        def criteria = AssetStatusEvent.createCriteria()
-//        def mostRecentStatus =  criteria.get(){
-//            asset{
-//                idEq(ident())
-//            }
-//            order("statusDate", "desc")
-//            maxResults 1
+//        if (statusHistory && statusHistory.size() > 0) {
+//           return statusHistory.sort{-it.statusDate.getTime()}[0] 
 //        }
-//        return mostRecentStatus
+//        return null
+        
+        def criteria = AssetStatusEvent.createCriteria()
+        def mostRecentStatus =  criteria.get(){
+            asset{
+                idEq(ident())
+            }
+            order("statusDate", "desc")
+            maxResults 1
+        }
+        return mostRecentStatus
     }
     
     def getProjectedStatus() {

@@ -1,6 +1,6 @@
 package com.mechzombie.infraview
 
-class AssetStatusEvent implements Comparable {
+class AssetStatusEvent {
 
     Date statusDate
     double status
@@ -11,15 +11,19 @@ class AssetStatusEvent implements Comparable {
     static mapping = {
         sort statusDate: "desc"
     }
-
+    
     static constraints = {
-        //statusDate()
-        //status()
         eventType inList: AssetStatusEventType.values()*.toString(), nullable: false, blank:true //['Installation', 'Repair', 'Inspection', 'Removal']
     }
-    int compareTo(obj) {
-        statusDate.compareTo(obj.statusDate)
-    }
+    
+        
+//    int compareTo(obj) {
+//        def base = statusDate.compareTo(obj.statusDate)
+//        if (base == 0){
+//            return ident().compareTo(obj.ident())
+//        }
+//        return base
+//    }
     
 //    static findMostRecentStatusEvent(Asset assetId) {
 //        def criteria = AssetStatusEvent.createCriteria()

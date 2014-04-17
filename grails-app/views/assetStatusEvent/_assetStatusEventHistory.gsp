@@ -26,7 +26,7 @@
 </table>
 
 
-    <div id="statusHistory-label" class="property-label"><g:message code="statusHistory.label" default="Status History" /></div><table>
+    <div id="statusHistory-label" class="property-label"><g:message code="statusHistory.label" default="Status History" /></div>
     <table>
         <thead>
         <tr>
@@ -41,7 +41,7 @@
         <!-- TODO: add a first row to allow direect entry with a SAVE button on the side -->
         <g:formRemote  name="addAssetStatusEventForm" on404="alert('not found!')" update="updateMe"
             url="[controller: 'assetStatusEvent', action:'saveToAssetPage']" onSuccess =""
-            onFailure="alert('Error!')">
+            onFailure="alert('Error!')" onUninitialized="alert('uh-oh!')">
         <tr>
             <g:hiddenField name="asset.id" value="${assetInstance.id}"/>
             <td><g:datePicker name="statusDate" precision="day" relativeYears="[-100..0]" /></td>
@@ -52,7 +52,7 @@
             <td><g:submitButton name="Save" value="Save" /></td>
         </tr>
         </g:formRemote>
-        <g:set var="history" value="${assetInstance.statusHistory.sort{-it.statusDate.getTime()}}"/> 
+        <g:set var="history" value="${assetInstance.getStatusHistory()}}"/> 
 <g:each in="${history}" status="i" var="assetStatusEvent">
     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
         <td><g:formatDate format="MM-dd-yyyy" date="${assetStatusEvent.statusDate}"/></td>
