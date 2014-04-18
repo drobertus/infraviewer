@@ -28,17 +28,10 @@
 
             <li class="fieldcontain">
                 <span id="assets-label" class="property-label"><g:message code="assetClass.assets.label" default="Assets" /></span>
-                <g:if test="${assetClassInstance?.assets}">
-                    <g:each in="${assetClassInstance.assets}" var="a">
-                        <span class="property-value" aria-labelledby="assets-label"><g:link controller="asset" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
-                    </g:each>
+                <g:if test="${assetClassInstance?.assets}">                    
+                    <span class="property-value" aria-labelledby="assets-label"><g:link controller="asset" action="index" id="${assetClassInstance.id}">Show List (count is ${Asset.countByAssetClass(assetClassInstance)})</g:link></span>                    
                 </g:if>
-                <g:else>
-                    <span class="property-value" aria-labelledby="assetClasses-label">None</span>
-                </g:else>
-                <span id="addNewAsset" class="property-label">
-                    <g:link class="create" action="create" controller="asset" params="['assetClass.id': assetClassInstance.id]">New Asset</g:link>
-                </span>
+                <span class="property-value" aria-labelledby="assets-label"><g:link class="create" action="create" controller="asset" params="['assetClass.id': assetClassInstance.id]">New Asset</g:link></span>
             </li>
 
             <g:if test="${assetClassInstance?.name}">

@@ -56,11 +56,40 @@
             
             
             <li class="fieldcontain">
+                            <!-- TODO: add a first row to allow direect entry with a SAVE button on the side -->
+        <g:formRemote  name="addAssetStatusEventForm" on404="alert('not found!')" update="updateMe"
+            url="[controller: 'assetStatusEvent', action:'saveToAssetPage']" onSuccess =""
+            onFailure="alert('Error!')" >
+            <div>
+            <table>
+        <thead>
+        <tr>
+            <g:sortableColumn style="width: 400px" property="statusDate" title="${message(code: 'assetStatusEvent.statusDate.label', default: 'Date')}" />
+            <g:sortableColumn style="width: 200px" property="status" title="${message(code: 'assetStatusEvent.status.label', default: 'Status')}" />
+            <g:sortableColumn property="eventType" title="${message(code: 'assetStatusEvent.eventType.label', default: 'Event Type')}" />
+            <g:sortableColumn property="status" title="${message(code: 'assetStatusEvent.actions.label', default: 'Actions')}" />                    
+        </tr>
+    </thead>
+        <tbody>
 
-                <div id="updateMe">    
+            <g:hiddenField name="asset.id" value="${assetInstance.id}"/>
+            <td><g:datePicker name="statusDate" precision="day" relativeYears="[-100..0]" /></td>
+            <td><g:textField style="width: 50px" name="status" /></td>
+            <td><g:select name="eventType" from="${AssetStatusEventType.values()}" 
+                    keys="${AssetStatusEventType.values()}" />
+            </td>
+            <td><g:submitButton name="Save" value="Save" /></td>
+            </tr>
+            </tbody>
+            </table>
+        </div>
+        </g:formRemote>
+                   
+                    
+                    <div id="updateMe"> 
                     <g:render template="/assetStatusEvent/assetStatusEventHistory" 
                                 model="['assetInstance': assetInstance]" />
-                </div>               
+                    </div>               
             </li>
         </ol>
         <g:form url="[resource:assetInstance, action:'delete']" method="DELETE">

@@ -73,12 +73,12 @@ class BootStrap {
         
         def hydrants = new AssetClass(name:'Hydrant', enterprise: e1, 
             description: 'Fire hydrant',
-    statusValueNew: 10.0,
-    statusValueReplace: 7.0,
-    statusValueDestroyed: 0.0,
-    expectedLifeSpanYears: 35.0,
-    standardInspectionInterval: 2.0,
-    standardMaintenanceInterval: 5.0).save(flush: true)
+            statusValueNew: 10.0,
+            statusValueReplace: 7.0,
+            statusValueDestroyed: 0.0,
+            expectedLifeSpanYears: 35.0,
+            standardInspectionInterval: 2.0,
+            standardMaintenanceInterval: 5.0).save(flush: true)
     }
     
     def destroy = {
