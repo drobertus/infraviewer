@@ -4,24 +4,23 @@
     <head>
         <meta name="layout" content="main">
         <title>InfraViewer</title>
-    <r:require module="application"/>
+    <r:require module='application' />
 </head>
 <body>
-<body>
-    <p>InfraViewer Home for ${enterprise.name}</p>
-
-    <div>
-        <div>
-            <div>Calendar</div>
-            <div>Work Orders</div>            
-            <div><g:link controller="assetClass" action="index">Asset Management</g:link></div>
+    <p><b>InfraViewer</b> Home for ${enterprise.name}</p>
+<a href="#show-enterprise" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
+    <div class="nav" role="navigation">
+        <ul>
+            <li>Calendar</li>
+            <li>Work Orders</li>            
+            <li><g:link controller="assetClass" action="index">Asset Management</g:link></li>
             <sec:ifAnyGranted roles="ROLE_ADMIN">
-            <div><g:link controller="enterprise" action="show" id="${enterprise.id}"> Enterprise Administration</g:link></dev>
-            <div>Reports</div>    
-            <div><g:link controller="user" action="index">User Administration</g:link></div>
+            <li><g:link controller="enterprise" action="show" id="${enterprise.id}"> Enterprise Administration</g:link></li>
+            <li>Reports</li>    
+            <li><g:link controller="user" action="index">User Administration</g:link></li>
             </sec:ifAnyGranted>
-            <div><g:link controller="user" action="show" id="${user.id}">My Info</g:link></div>
-        </div>
+            <li><g:link controller="user" action="show" id="${user.id}">My Info</g:link></li>
+        </ul>
     </div>
 </body>
 </html>
