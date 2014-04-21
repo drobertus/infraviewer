@@ -1,4 +1,4 @@
-<%@ page import="com.mechzombie.infraview.Enterprise" %>
+<%@ page import="com.mechzombie.infraview.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -53,8 +53,8 @@
         
             <li class="fieldcontain">
                 <span id="assetClasses-label" class="property-label"><g:message code="enterprise.assetClasses.label" default="Asset Classes" /></span>
-                
-                <span class="property-value" aria-labelledby="assetClasses-label">
+                <g:set var="assetClassCount" value="${AssetClass.countByEnterprise(enterpriseInstance)}"/>
+                <span class="property-value" aria-labelledby="assetClasses-label">${assetClassCount} found for this Enterprise
                     <g:link controller="assetClass" action="index" params="['enterprise.id': enterpriseInstance?.id]">Show</g:link>
                     <g:link controller="assetClass" action="create" params="['enterprise.id': enterpriseInstance?.id]">Create</g:link>
                 </span>
