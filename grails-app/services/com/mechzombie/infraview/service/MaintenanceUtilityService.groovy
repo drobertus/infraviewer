@@ -31,37 +31,26 @@ class MaintenanceUtilityService {
         // if the calculated date is before today then return today? 
         def foundVal
         def nextMaintenance = new Date()
-        for(AssetStatusEvent ase : statusHistory) {
-        //statusHistory.each() {
-            def eventType = AssetStatusEventType.valueOf(ase.eventType)
-            //println "event type = " + eventType
-            if (eventType.equals(AssetStatusEventType.Repair) ||
-                eventType.equals(AssetStatusEventType.Installation)) {
-                //println "status Date = ${ase.statusDate}"
-                def possible = ase.statusDate.plus((int)(asset.assetClass.standardMaintenanceInterval * (365.25)))
-                //println "possible = ${possible}"
-                //println "today = ${nextMaintenance}"
+        for(AssetStatusEvent ase : statusHistory) {        
+            def eventType = AssetStatusEventType.valueOf(ase.eventType)            
+            if (eventType.equals(AssetStatusEventType.Maintenance) ||
+                eventType.equals(AssetStatusEventType.Installation)) {         
+                def possible = ase.statusDate.plus((int)(asset.assetClass.standardMaintenanceInterval * (365.25)))                
                 if (possible.after(nextMaintenance)) {
-                    def asDate = new Date(possible.getTime())
-                   // println "returning 1 " + possible.class
-                   // println "asDate = "+ asDate
-                    //foundVal = possible  
+                    def asDate = new Date(possible.getTime())                   
                     return asDate 
                 }                
             }
-        }
-
-        //println("rturning  2")
+        }        
         return nextMaintenance
     }
     
     def getNextProjectedInspection(asset) {
-        def statusHistory = asset.statusHistory
+        def statusHistory = asset.getSortedStatusHistory
         if (!statusHistory || statusHistory.size() == 0) {
             return null
         }
-        
-        statusHistory = statusHistory.sort{-it.statusDate.getTime()}
+                
         // look back through the status event history
         // for the most recent maintenance 
         //  if found then add the maintenance interval from the AssetClass
@@ -71,26 +60,17 @@ class MaintenanceUtilityService {
         def nextMaintenance = new Date()
         
         for(AssetStatusEvent ase : statusHistory) {
-        //statusHistory.each() {
-            def eventType = AssetStatusEventType.valueOf(ase.eventType)
-            //println "event type = " + eventType
+            def eventType = AssetStatusEventType.valueOf(ase.eventType)            
             if (eventType.equals(AssetStatusEventType.Inspection) ||
-                eventType.equals(AssetStatusEventType.Installation)) {
-                //println "status Date = ${ase.statusDate}"
+                eventType.equals(AssetStatusEventType.Installation)) {                
                 def possible = ase.statusDate.plus((int)(asset.assetClass.standardInspectionInterval * (365.25)))
-                //println "possible = ${possible}"
-                //println "today = ${nextMaintenance}"
                 if (possible.after(nextMaintenance)) {
                     def asDate = new Date(possible.getTime())
-                   // println "returning 1 " + possible.class
-                   // println "asDate = "+ asDate
-                    //foundVal = possible  
                     return asDate 
                 }                
             }
         }
 
-        //println("rturning  2")
         return nextMaintenance
     }
 }

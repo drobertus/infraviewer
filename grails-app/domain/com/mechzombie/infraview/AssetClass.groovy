@@ -13,11 +13,20 @@ class AssetClass {
     Enterprise enterprise
     static hasMany = [assets: Asset]
     
+    
     // TODO: add configurations for "has/requires [Address, Geometry, Location, external id] 
     // plus possibly notes (per enterprise) about id source
     // for an asset class, types of acceptable Geometry (is it a point, line, area, network?
     //
-
+    boolean assetHasAddress 
+    boolean assetHasLocation
+    Geometry.GeometryType assetGeometryType
+    String assetExternalIdSource
+    
+    boolean organic
+    
+    
+    
     static constraints = {
         name( blank: false, nullable: false)
         description (blank: true, nullable: true)
@@ -26,5 +35,6 @@ class AssetClass {
         statusValueDestroyed(min: 0, blank: false)
         expectedLifeSpanYears(min: 0.01d, blank: false, nullable:false)
         standardMaintenanceInterval(blank: true, nullable: true)
+        assetGeometryType blank:true, nullable:true
     }
 }

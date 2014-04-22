@@ -5,7 +5,6 @@ class Geometry {
     enum GeometryType { POINT, LINE, AREA }
 
     GeometryType type
-    //List<double[]> points
     String points 
     
     static mapping = {
@@ -14,5 +13,6 @@ class Geometry {
 
     static constraints = {
         type()
+        points nullable: true
     }
 }

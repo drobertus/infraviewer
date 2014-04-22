@@ -7,7 +7,7 @@
         <r:require module='application' />
     </head>
 <body>
-    <p>Home for ${enterprise.name}</p>
+    <p>Home for ${enterprise.name} Administration</p>
 <a href="#show-enterprise" class="skip" tabindex="-1"><g:message code="default.link.skip.label" default="Skip to content&hellip;"/></a>
     <div class="nav" role="navigation">
         <ul>
