@@ -8,6 +8,7 @@ class Asset {
     String externalId
     String description
     String notes
+    boolean inInventory
     Location location
     AssetClass assetClass
     

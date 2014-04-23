@@ -5,6 +5,7 @@ import com.mechzombie.infraview.UserRole
 import com.mechzombie.infraview.Enterprise
 import com.mechzombie.infraview.AssetClass
 import com.mechzombie.infraview.Location
+import com.mechzombie.infraview.Geometry
 import grails.util.Environment
 
 class BootStrap {
@@ -78,7 +79,15 @@ class BootStrap {
             statusValueDestroyed: 0.0,
             expectedLifeSpanYears: 35.0,
             standardInspectionInterval: 2.0,
-            standardMaintenanceInterval: 5.0).save(flush: true)
+            standardMaintenanceInterval: 5.0,
+            assetHasAddress: false,
+            assetHasLocation: true,
+            assetGeometryType: Geometry.GeometryType.POINT,
+            organic: false,
+            assetClassCategory: "Water").save(flush: true)
+        
+        
+        assert AssetClass.count() == 1
     }
     
     def destroy = {

@@ -3,6 +3,7 @@ package com.mechzombie.infraview
 class AssetClass {
 
     String name
+    String assetClassCategory
     String description
     Integer statusValueNew
     Integer statusValueReplace
@@ -36,5 +37,7 @@ class AssetClass {
         expectedLifeSpanYears(min: 0.01d, blank: false, nullable:false)
         standardMaintenanceInterval(blank: true, nullable: true)
         assetGeometryType blank:true, nullable:true
+        assetExternalIdSource blank:true, nullable:true
+        assetClassCategory blank:true, nullable: true
     }
 }

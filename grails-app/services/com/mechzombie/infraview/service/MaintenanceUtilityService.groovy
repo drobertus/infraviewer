@@ -46,7 +46,7 @@ class MaintenanceUtilityService {
     }
     
     def getNextProjectedInspection(asset) {
-        def statusHistory = asset.getSortedStatusHistory
+        def statusHistory = asset.getSortedStatusHistory()
         if (!statusHistory || statusHistory.size() == 0) {
             return null
         }
