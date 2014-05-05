@@ -6,30 +6,27 @@
     </label>
 	<g:textField name="externalId" value="${assetInstance?.externalId}"/>
 </div>
-<!--
-<g:set var="mostRecentStatus" value="${assetInstance?.findMostRecentStatusEvent()}" />
-<div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'mostRecentStatus', 'error')} ">
-    <g:hiddenField name="mostRecentStatus.id" value="${mostRecentStatus?.id}"/>
-    <span>
-    <label for="mostRecentStatus.status">Last Inspection Status</br>(max:${assetInstance.assetClass.statusValueNew} min:${assetInstance.assetClass.statusValueDestroyed})</label>
-    <g:textField name="mostRecentStatus.status" value="${mostRecentStatus?.status}"/></span>
-    <span><g:message code="asset.mostRecentStatus.statusDate.label" default="Date" />
-    <g:datePicker name="mostRecentStatus.statusDate" precision="day" relativeYears="[-100..0]" value="${mostRecentStatus?.statusDate}"  />
-    </span>
-    <span>
-    <label for="eventType">Event Type</label>
-    
-    <g:select name="eventType" from="${AssetStatusEventType.values()}" 
-    keys="${AssetStatusEventType.values()}"
-    value="${mostRecentStatus?.status}" /></span>
-</div>
--->
+
 <div class="fieldcontain ${hasErrors(bean: assetInstance, field: 'description', 'error')} ">
     <label for="description">
         <g:message code="asset.description.label" default="Description" />	
     </label>
     <g:textField name="description" value="${assetInstance?.description}"/>
 </div>
+
+<g:if test="${assetInstance.assetClass.assetHasLocation}" >    
+<div class="fieldcontain ${hasErrors(bean: assetInstance.location, field: 'centroidLat', 'error')} ">
+    <label for="centroid">
+        <g:message code="asset.location.centroid.label" default="Coordinates (Lat-Lon)" />	
+    </label>
+    <span  class="fieldcontain ${hasErrors(bean: assetInstance.location, field: 'centroidLat', 'error')} ">
+        <g:textField name="centroidLat" value="${assetInstance?.location?.centroidLat}"/>
+    </span>
+    <span  class="fieldcontain ${hasErrors(bean: assetInstance.location, field: 'centroidLon', 'error')} ">>-<g:textField name="centroidLon" value="${assetInstance?.location?.centroidLon}"/>
+    </span>
+</div>    
+</g:if>
+        
 
 <g:hiddenField name="assetClass.id" value="${assetInstance.assetClass.id}"/>
 <g:hiddenField name="location.id" value="${assetInstance?.location?.id}"/>
@@ -45,6 +42,7 @@
     <g:if test="${assetInstance?.location?.hasAddress == 'true'}"><div id="theAddressBlock"></g:if>
     <g:else><div id="theAddressBlock" style="display:none" ></g:else>  
     
+        <g:set var="theAddress" value ="${assetInstance?.location?.address}" />
         <label for="location">
             <g:message code="asset.location.address.label" default="Address" />
         </label>
@@ -53,7 +51,7 @@
                 <g:message code="assetddress.addressline1.label" default="Address Line 1" />
                 <span class="required-indicator">*</span>
             </label>
-            <g:textField name="addressLine1" value="${assetInstance?.location?.address?.addressLine1}"/>
+            <g:textField name="addressLine1" value="${theAddress?.addressLine1}"/>
         </div>
         <div>
             <label for="addressLine2">

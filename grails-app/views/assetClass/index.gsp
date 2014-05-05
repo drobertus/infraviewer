@@ -17,7 +17,7 @@
         </ul>
     </div>
         <div id="list-assetClass" class="content scaffold-list" role="main">
-            <h1><g:message code="default.list.label" args="[entityName]" /> for ${enterprise.name}</h1>
+            <h1>Asset Classes for ${enterprise.name}</h1>
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
         </g:if>
@@ -25,6 +25,7 @@
             <thead>
                 <tr>
                     <g:sortableColumn property="name" title="${message(code: 'assetClass.name.label', default: 'Name')}" />
+                    <g:sortableColumn property="assetClassCategory" title="${message(code: 'assetClass.assetClassCategory.label', default: 'Category')}" />
                     <g:sortableColumn property="description" title="${message(code: 'assetClass.description.label', default: 'Description')}" />
                     <g:sortableColumn property="expectedLifeSpanYears" title="${message(code: 'assetClass.expectedLifeSpanYears.label', default: 'Life Span')}" />                  
                     <g:sortableColumn property="standardInspectionInterval" title="${message(code: 'assetClass.standardInspectionInterval.label', default: 'Inspection</br>Interval')}" />
@@ -36,6 +37,7 @@
                 <g:each in="${assetClassInstanceList}" status="i" var="assetClassInstance">
                     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
                         <td width='175'><g:link action="show" id="${assetClassInstance.id}">${fieldValue(bean: assetClassInstance, field: "name")}</g:link></td>
+                        <td>${fieldValue(bean: assetClassInstance, field: "assetClassCategory")}</td>					
                         <td>${fieldValue(bean: assetClassInstance, field: "description")}</td>					
                         <td>${fieldValue(bean: assetClassInstance, field: "expectedLifeSpanYears")}</td>
                         <td>${fieldValue(bean: assetClassInstance, field: "standardInspectionInterval")}</td>					

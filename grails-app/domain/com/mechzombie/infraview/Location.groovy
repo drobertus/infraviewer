@@ -3,8 +3,8 @@ package com.mechzombie.infraview
 class Location {
 
     String locationNotes
-    def centroidLat
-    def centroidLon
+    Double centroidLat
+    Double centroidLon
     Address address
     Geometry geometry
     boolean hasAddress
@@ -13,8 +13,14 @@ class Location {
         locationNotes blank:true, nullable: true
         geometry blank: true, nullable: true
         address blank: true, nullable: true
-        centroidLat blank: true, nullable: true
-        centroidLon blank: true, nullable: true
+        
+        centroidLat (blank:true, nullable: true, validator: { value ->
+                if (value && (value < -90.0 || value > 90.0)) return ["Latitude invalid"] }
+            )
+        centroidLon (blank:true, nullable: true, validator: { value ->
+                if (    value && (value < -180.0 || value > 180.0)) return ["Longitude invalid"] }
+            )
+      
     }
     
     /**

@@ -1,4 +1,4 @@
-<%@ page import="com.mechzombie.infraview.AssetClass;com.mechzombie.infraview.Enterprise;" %>
+<%@ page import="com.mechzombie.infraview.AssetClass;com.mechzombie.infraview.Enterprise;com.mechzombie.infraview.Geometry" %>
 
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'assets', 'error')} ">
 	<label for="assets">
@@ -25,12 +25,43 @@
 	<g:textField name="name" value="${assetClassInstance?.name}"/>
 </div>
 
+<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'assetClassCategory', 'error')} ">
+	<label for="assetClassCategory">
+		<g:message code="assetClass.assetClassCategory.label" default="Category" />
+		
+	</label>
+	<g:textField name="assetClassCategory" value="${assetClassInstance?.assetClassCategory}"/>
+</div>
+
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'description', 'error')} ">
 	<label for="description">
 		<g:message code="assetClass.description.label" default="Description" />
 		
 	</label>
 	<g:textField name="description" value="${assetClassInstance?.description}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'assetHasLocation', 'error')} ">
+	<label for="assetHasLocation">
+		<g:message code="assetClass.assetHasLocation.label" default="Has Location" />		
+	</label>
+	<g:checkBox name="assetHasLocation" value="${assetClassInstance?.description}"/>
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'assetGeometryType', 'error')} ">
+	<label for="assetGeometryType">
+		<g:message code="assetClass.assetHasLocation.label" default="Location Type" />		
+	</label>
+	<g:select name="user.company.id"
+          from="${Geometry.GeometryType}"
+          value="${assetClassInstance?.assetGeometryType}" />
+</div>
+
+<div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'assetHasAddress', 'error')} ">
+	<label for="assetHasAddress">
+		<g:message code="assetClass.assetHasLocation.label" default="Has Address" />		
+	</label>
+	<g:checkBox name="assetHasAddress" value="${assetClassInstance?.assetHasAddress}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: assetClassInstance, field: 'enterprise', 'error')} ">

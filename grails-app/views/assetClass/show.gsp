@@ -41,6 +41,11 @@
                 </li>
             </g:if>
 
+            <li class="fieldcontain">
+                <span id="category-label" class="property-label"><g:message code="assetClass.assetClassCategory.label" default="Category" /></span>
+                <span class="property-value" aria-labelledby="category-label"><g:fieldValue bean="${assetClassInstance}" field="assetClassCategory"/></span>
+            </li>
+
             <g:if test="${assetClassInstance?.description}">
                 <li class="fieldcontain">
                     <span id="description-label" class="property-label"><g:message code="assetClass.description.label" default="Description" /></span>
@@ -48,12 +53,40 @@
                 </li>
             </g:if>
 
-            <g:if test="${assetClassInstance?.enterprise}">
+            <g:if test="${assetClassInstance?.assetExternalIdSource}">
                 <li class="fieldcontain">
-                    <span id="enterprise-label" class="property-label"><g:message code="assetClass.enterprise.label" default="Enterprise" /></span>
-                    <span class="property-value" aria-labelledby="enterprise-label"><g:link controller="enterprise" action="show" id="${assetClassInstance?.enterprise?.id}">${assetClassInstance?.enterprise?.name}</g:link></span>
-                    </li>
+                    <span id="description-label" class="property-label"><g:message code="assetClass.externalIdSource.label" default="External Id Source" /></span>
+                    <span class="property-value" aria-labelledby="externalIdSource-label"><g:fieldValue bean="${assetClassInstance}" field="assetExternalIdSource"/></span>
+                </li>
             </g:if>
+
+            <g:if test="${assetClassInstance?.assetHasLocation}">
+            <li class="fieldcontain">
+                <span id="hasLocation-label" class="property-label"><g:message code="assetClass.hasLocation.label" default="Has Location" /></span>
+                <span class="property-value" aria-labelledby="hasLocation-label"><g:fieldValue bean="${assetClassInstance}" field="assetHasLocation"/></span>
+            </li>
+
+            <li class="fieldcontain">
+                <span id="locationType-label" class="property-label"><g:message code="assetClass.locationType.label" default="Location Type" /></span>
+                <span class="property-value" aria-labelledby="locationType-label"><g:fieldValue bean="${assetClassInstance}" field="assetGeometryType"/></span>
+            </li>
+            
+            <li class="fieldcontain">
+                <span id="hasAddress-label" class="property-label"><g:message code="assetClass.hasAddress.label" default="Has Address" /></span>
+                <span class="property-value" aria-labelledby="hasAddress-label"><g:fieldValue bean="${assetClassInstance}" field="assetHasAddress"/></span>
+            </li>
+            
+            </g:if>
+            
+            <li class="fieldcontain">
+                <span id="locationType-label" class="property-label"><g:message code="assetClass.locationType.label" default="Location Type" /></span>
+                <span class="property-value" aria-labelledby="locationType-label"><g:fieldValue bean="${assetClassInstance}" field="assetGeometryType"/></span>
+            </li>
+                        
+            <li class="fieldcontain">
+                <span id="organic-label" class="property-label"><g:message code="assetClass.organic.label" default="Is Biological" /></span>
+                <span class="property-value" aria-labelledby="organic-label"><g:fieldValue bean="${assetClassInstance}" field="organic"/></span>
+            </li>
 
             <g:if test="${assetClassInstance?.expectedLifeSpanYears}">
                 <li class="fieldcontain">

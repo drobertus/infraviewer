@@ -37,18 +37,15 @@ class AssetController {
 
     @Secured(['ROLE_USER'])
     def create(AssetClass assetClass) {
-       // println 'create params=' + params
+        println 'create params=' + params
         def asset = new Asset(params)
-        //if (!assetClass) {
-        //    println "no asset class found for create! ${params}"
-        //}
+        
         def assetClassId = params["assetClass.id"]
-        //println('assetclass id =[' + assetClassId + "]")
+        
         def assetClass1 = AssetClass.get(assetClassId )
-        //println("assetClass name = ${assetClass.name}")
-        //println("assetClass1 name = ${assetClass1.name}")
+       
         asset.assetClass  = assetClass1
-        respond asset //, model:[assetClass: assetClass] 
+        respond asset 
     }
 
     @Secured(['ROLE_USER'])
@@ -65,8 +62,25 @@ class AssetController {
         //TODO: we only want to create a Location when the 
         //asset is going to be saved
         if(!assetInstance.location) {
-            assetInstance.location = new Location().save(flush: true)
-            println "new location id = ${assetInstance.location.id}"            
+            println "the params befoer save are" + params
+            assetInstance.location = new Location(params)
+            assetInstance.location.validate()
+            println "the params befoer fail are" + params
+            if(assetInstance.location.hasErrors()){
+                 println "the location errors are " +  assetInstance.location.errors
+                 println "the asset errors are " +  assetInstance.errors
+                 params["assetClass.id"] = assetInstance.assetClass.id
+                 
+                 params["assetInstance"] = assetInstance
+                respond assetInstance.location.errors, view: 'create', model:params
+                return
+            }
+            else
+            {
+                assetInstance.location.save(flush: true)
+                println "new location id = ${assetInstance.location.id}"                
+            }
+            
         }
         
         addressHandlingService.buildAddress(assetInstance.location, params)

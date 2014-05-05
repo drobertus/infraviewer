@@ -21,7 +21,7 @@ class BootStrap {
         
         def activeDt = new Date()
         def rootEnterprise = new Enterprise(name: 'InfraView', activeDate: activeDt, location: new Location().save(flush:true)).save(flush: true)
-        
+        assert Enterprise.count() == 1
         println "Test environment"
 
         def e1 = new Enterprise(name: 'City of Longmont', activeDate: activeDt, location: new Location().save()).save(flush: true)
@@ -32,7 +32,7 @@ class BootStrap {
         def e2 = new Enterprise(name: 'Colorado DOT', activeDate: activeDt, location: new Location().save()).save(flush: true)
 
         assert Enterprise.count() == 4
-        //  new BootStrapTest().init()
+        //1 new BootStrapTest().init()
         println "Finished BootStrapTest"
 
         //}
