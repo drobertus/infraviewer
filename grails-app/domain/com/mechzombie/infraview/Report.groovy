@@ -8,10 +8,11 @@ class Report {
     ReportType reportType
     Date startDate
     Date endDate 
+    Date runDate
     
     static hasMany = [reportedAssetClasses: AssetClass]
     
     static constraints = {
-        bounds( blank: true, true: false)
+        bounds( blank: true, nullable: true)
     }
 }

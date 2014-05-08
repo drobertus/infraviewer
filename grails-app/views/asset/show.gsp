@@ -50,7 +50,7 @@
             <g:if test="${assetInstance?.location}">
                 <li class="fieldcontain">
                     <span id="location-label" class="property-label"><g:message code="asset.location.label" default="Location" /></span>
-                    <span class="property-value" aria-labelledby="location-label"><g:link controller="location" action="show" id="${assetInstance?.location?.id}">${assetInstance?.location?.getLocationString()}</g:link></span>
+                    <span class="property-value" aria-labelledby="location-label">${assetInstance?.location?.getLocationString()}</span>
                 </li>
             </g:if>            
             

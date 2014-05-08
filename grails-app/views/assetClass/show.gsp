@@ -1,5 +1,5 @@
 
-<%@ page import="com.mechzombie.infraview.AssetClass" %>
+<%@ page import="com.mechzombie.infraview.*" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -25,11 +25,11 @@
         </g:if>
         <ol class="property-list assetClass">
 
-
+            <g:set var="assetCountForAssetClass" value="${Asset.countByAssetClass(assetClassInstance)}"/>
             <li class="fieldcontain">
                 <span id="assets-label" class="property-label"><g:message code="assetClass.assets.label" default="Assets" /></span>
-                <g:if test="${assetClassInstance?.assets}">                    
-                    <span class="property-value" aria-labelledby="assets-label"><g:link controller="asset" action="index" id="${assetClassInstance.id}">Show List (count is ${Asset.countByAssetClass(assetClassInstance)})</g:link></span>                    
+                <g:if test="${assetCountForAssetClass > 0}">                    
+                    <span class="property-value" aria-labelledby="assets-label"><g:link controller="asset" action="index" params="['assetClass.id': assetClassInstance.id]">Show List (count is ${assetCountForAssetClass})</g:link></span>                    
                 </g:if>
                 <span class="property-value" aria-labelledby="assets-label"><g:link class="create" action="create" controller="asset" params="['assetClass.id': assetClassInstance.id]">New Asset</g:link></span>
             </li>
@@ -77,12 +77,7 @@
             </li>
             
             </g:if>
-            
-            <li class="fieldcontain">
-                <span id="locationType-label" class="property-label"><g:message code="assetClass.locationType.label" default="Location Type" /></span>
-                <span class="property-value" aria-labelledby="locationType-label"><g:fieldValue bean="${assetClassInstance}" field="assetGeometryType"/></span>
-            </li>
-                        
+                                   
             <li class="fieldcontain">
                 <span id="organic-label" class="property-label"><g:message code="assetClass.organic.label" default="Is Biological" /></span>
                 <span class="property-value" aria-labelledby="organic-label"><g:fieldValue bean="${assetClassInstance}" field="organic"/></span>

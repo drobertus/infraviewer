@@ -12,11 +12,18 @@ package com.mechzombie.infraview
  */
 enum ReportType {
     
-    AssetReplacementProjection,
-    AssetReplacementHistory,
-    InspectionAndMaintenanceProjection,
-    InspectionAndMaintenanceHistory,
+    AssetReplacementProjection("Asset Replacement Projection"),
+    AssetReplacementHistory("Asset Replacement History"),
+    InspectionAndMaintenanceProjection("Inspection and Maintenance Projection"),
+    InspectionAndMaintenanceHistory("Inspection and Maintenance History"),
     
+    private fullTitle
+    ReportType(fullTitle) {
+        this.fullTitle = fullTitle
+    }
     
+    def getFullTitle() {
+        return fullTitle
+    }
 }
 

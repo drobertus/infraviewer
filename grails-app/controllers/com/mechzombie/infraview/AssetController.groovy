@@ -54,7 +54,7 @@ class AssetController {
         
         //println('save params=' + params)
         if (assetInstance == null) {
-            println('returning null')
+           // println('returning null')
             notFound()
             return
         }
@@ -62,13 +62,13 @@ class AssetController {
         //TODO: we only want to create a Location when the 
         //asset is going to be saved
         if(!assetInstance.location) {
-            println "the params befoer save are" + params
+            //println "the params befoer save are" + params
             assetInstance.location = new Location(params)
             assetInstance.location.validate()
-            println "the params befoer fail are" + params
+            //println "the params befoer fail are" + params
             if(assetInstance.location.hasErrors()){
-                 println "the location errors are " +  assetInstance.location.errors
-                 println "the asset errors are " +  assetInstance.errors
+                // println "the location errors are " +  assetInstance.location.errors
+                // println "the asset errors are " +  assetInstance.errors
                  params["assetClass.id"] = assetInstance.assetClass.id
                  
                  params["assetInstance"] = assetInstance
@@ -78,7 +78,7 @@ class AssetController {
             else
             {
                 assetInstance.location.save(flush: true)
-                println "new location id = ${assetInstance.location.id}"                
+              //  println "new location id = ${assetInstance.location.id}"                
             }
             
         }

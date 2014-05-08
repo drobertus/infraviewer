@@ -7,11 +7,24 @@ import com.mechzombie.infraview.AssetClass
 import com.mechzombie.infraview.Location
 import com.mechzombie.infraview.Geometry
 import grails.util.Environment
+//import groovy.sql.Sql
 
 class BootStrap {
 
+    //def dataSource
+    
     def init = { servletContext ->
 
+    
+
+//        try {
+//            def sql = new Sql(dataSource)
+//            sql.executeUpdate('CREATE ALIAS InitGeoDB for "geodb.GeoDB.InitGeoDB"')
+//            sql.executeUpdate('CALL InitGeoDB()')
+//        } catch (java.sql.SQLException e) {
+//            log.debug('', e)
+//        }
+//        
                 
         def suRole = new Role(authority: 'ROLE_SUPERUSER').save(flush: true)
         def adminRole = new Role(authority: 'ROLE_ADMIN').save(flush: true)

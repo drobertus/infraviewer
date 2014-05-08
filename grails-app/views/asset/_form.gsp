@@ -17,14 +17,16 @@
 <g:if test="${assetInstance.assetClass.assetHasLocation}" >    
 <div class="fieldcontain ${hasErrors(bean: assetInstance.location, field: 'centroidLat', 'error')} ">
     <label for="centroid">
-        <g:message code="asset.location.centroid.label" default="Coordinates (Lat-Lon)" />	
+        <g:message code="asset.location.centroid.label" default="Centroid (Lat-Lon)" />	
     </label>
     <span  class="fieldcontain ${hasErrors(bean: assetInstance.location, field: 'centroidLat', 'error')} ">
         <g:textField name="centroidLat" value="${assetInstance?.location?.centroidLat}"/>
     </span>
-    <span  class="fieldcontain ${hasErrors(bean: assetInstance.location, field: 'centroidLon', 'error')} ">>-<g:textField name="centroidLon" value="${assetInstance?.location?.centroidLon}"/>
+    <span  class="fieldcontain ${hasErrors(bean: assetInstance.location, field: 'centroidLon', 'error')} "> - <g:textField name="centroidLon" value="${assetInstance?.location?.centroidLon}"/>
     </span>
 </div>    
+
+<!-- TODO: add support for different geometry types (linear, point polygon) -->
 </g:if>
         
 

@@ -1,10 +1,13 @@
 package com.mechzombie.infraview
 
+//import com.vividsolutions.jts.geom.Point
+
 class Location {
 
     String locationNotes
     Double centroidLat
     Double centroidLon
+  //  Point centroid
     Address address
     Geometry geometry
     boolean hasAddress
@@ -21,6 +24,7 @@ class Location {
                 if (    value && (value < -180.0 || value > 180.0)) return ["Longitude invalid"] }
             )
       
+    //    centroid (blank:true, nullable: true)
     }
     
     /**
