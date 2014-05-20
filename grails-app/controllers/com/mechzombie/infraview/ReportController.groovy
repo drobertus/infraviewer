@@ -1,7 +1,7 @@
 package com.mechzombie.infraview
 
 
-
+import com.mechzombie.infraview.service.*
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
 
@@ -9,7 +9,8 @@ import grails.transaction.Transactional
 class ReportController {
 
     static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
-
+    def reportService
+    
     def index(Integer max) {
         
         def theEnterprise = session['activeEnterprise']
@@ -123,5 +124,17 @@ class ReportController {
             }
             '*'{ render status: NOT_FOUND }
         }
+    }
+    
+    def runReport(Report reportToRun) {
+        println "running report params = ${params}"
+        println "reportToRun = ${reportToRun.id}"
+        //def rpt = params.report
+        //println("params report id Value ${params.report.id}")
+        //println("reportToRun id Value ${reportToRun.id}")
+        //println("rpt id = ${rpt.id}")
+        def rpt = Report.get(reportToRun.id)
+        println("calling to Service for ${rpt.id}")
+        reportService.runReport(rpt)
     }
 }

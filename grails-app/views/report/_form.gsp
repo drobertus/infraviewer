@@ -43,12 +43,12 @@
     optionKey="id" optionValue="name" size="5" value="${reportInstance?.reportedAssetClasses*.id}" class="many-to-many"/>
 </div>
 
-<div class="fieldcontain ${hasErrors(bean: reportInstance, field: 'runDate', 'error')} required">
-    <label for="runDate">
-        <g:message code="report.runDate.label" default="Run Date" />
+<div class="fieldcontain ${hasErrors(bean: reportInstance, field: 'scheduledRunDate', 'error')} required">
+    <label for="scheduledRunDate">
+        <g:message code="report.runDate.label" default="Scheduled Run Date" />
         <span class="required-indicator">*</span>
     </label>
-    <g:datePicker name="runDate" precision="day"  value="${reportInstance?.runDate}"  />
+    <g:datePicker name="scheduledRunDate" precision="day"  value="${reportInstance?.scheduledRunDate}"  />
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: reportInstance, field: 'bounds', 'error')} required">

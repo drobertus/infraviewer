@@ -17,7 +17,7 @@
             </ul>
         </div>
         <div id="list-report" class="content scaffold-list" role="main">
-            <h1><g:message code="default.list.label" args="[entityName]" /> List for ${enterprise.name}</h1>
+            <h1><g:message code="default.list.label" args="[entityName]" /> for ${enterprise.name}</h1>
         <g:if test="${flash.message}">
             <div class="message" role="status">${flash.message}</div>
         </g:if>
@@ -28,7 +28,7 @@
                     <g:sortableColumn property="reportType" title="${message(code: 'report.reportType.label', default: 'Report Type')}" />                                       
                     <g:sortableColumn property="startDate" title="${message(code: 'report.startDate.label', default: 'Start Date')}" />
                     <g:sortableColumn property="endDate" title="${message(code: 'report.endDate.label', default: 'End Date')}" />
-                    <g:sortableColumn property="runDate" title="${message(code: 'report.runDate.label', default: 'Run Date')}" />
+                    <g:sortableColumn property="scheduledRunDate" title="${message(code: 'report.scheduledRunDate.label', default: 'Scheduled Run Date')}" />
                 </tr>
             </thead>
             <tbody>
@@ -38,7 +38,7 @@
                         <td>${fieldValue(bean: reportInstance, field: "reportType.fullTitle")}</td>
                         <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.startDate}" /></td>
                         <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.endDate}" /></td>                    
-                        <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.runDate}" /></td>                        
+                        <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.scheduledRunDate}" /></td>                        
                     </tr>
                 </g:each>
             </tbody>

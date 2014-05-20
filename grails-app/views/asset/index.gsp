@@ -25,7 +25,6 @@
         <table>
             <thead>
                 <tr>
-                    <g:sortableColumn property="externalId" title="${message(code: 'asset.id.label', default: 'Id')}" />
                     <g:sortableColumn property="externalId" title="${message(code: 'asset.externalId.label', default: 'External Id')}" />
                     <g:sortableColumn property="description" title="${message(code: 'asset.description.label', default: 'Description')}" />
                     <g:sortableColumn property="notes" title="${message(code: 'asset.notes.label', default: 'Notes')}" />                                        
@@ -34,9 +33,8 @@
             </thead>
             <tbody>
                 <g:each in="${assetInstanceList}" status="i" var="assetInstance">
-                    <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                        <td><g:link controller="asset" action="show" id="${assetInstance.id}">Show</g:link></td>
-                        <td>${fieldValue(bean: assetInstance, field: "externalId")}</td>
+                    <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">                       
+                        <td><g:link controller="asset" action="show" id="${assetInstance.id}">${fieldValue(bean: assetInstance, field: "externalId")}</g:link></td>
                         <td>${fieldValue(bean: assetInstance, field: "description")}</td>
                         <td>${fieldValue(bean: assetInstance, field: "notes")}</td>                                                
                         <td>${assetInstance.location.getLocationString()}</td>

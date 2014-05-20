@@ -140,3 +140,4 @@ grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/home'
 //   // Additional user-type mappings
 //}
 
+infraview.report.root_folder="C:/temp/"
