@@ -126,14 +126,14 @@ class ReportController {
         }
     }
     
-    def runReport(Report reportToRun) {
+    def runReport() {
         println "running report params = ${params}"
-        println "reportToRun = ${reportToRun.id}"
+       // println "reportToRun = ${reportToRun.id}"
         //def rpt = params.report
         //println("params report id Value ${params.report.id}")
         //println("reportToRun id Value ${reportToRun.id}")
         //println("rpt id = ${rpt.id}")
-        def rpt = Report.get(reportToRun.id)
+        def rpt = Report.get(params.id)
         println("calling to Service for ${rpt.id}")
         reportService.runReport(rpt)
     }

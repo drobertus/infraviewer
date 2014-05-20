@@ -12,7 +12,7 @@ class ReportService {
     def runReport(Report reportToBuild) {
         println("Running!")
         def folderPath = grailsApplication.config.infraview.report.root_folder
-        println("param path= ${folderPath}" )
+       // println("param path= ${folderPath}" )
         File reportFolder = new File( folderPath + 
             reportToBuild.enterprise.id + "/")// + reportToBuild.title + ".json")
         

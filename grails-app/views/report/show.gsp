@@ -70,7 +70,7 @@
         <g:form url="[resource:reportInstance, action:'delete']" method="DELETE">
             <fieldset class="buttons">                
                 <g:remoteLink action="runReport" id="${reportInstance.id}"
-                    params='[report: "${reportInstance}"]' update="reportResults">Run Report</g:remoteLink>
+                    update="reportResults">Run Report</g:remoteLink>
                 <g:link class="edit" action="edit" resource="${reportInstance}"><g:message code="default.button.edit.label" default="Edit" /></g:link>
                 <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
             </fieldset>
