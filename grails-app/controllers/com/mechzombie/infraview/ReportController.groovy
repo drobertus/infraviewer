@@ -27,6 +27,20 @@ class ReportController {
         respond reportInstance
     }
 
+    def download() {
+        
+        def rpt = Report.get(params.id)
+        println("report path- ${rpt.pathToReportFile}")
+                
+        def theFileToShow = rpt.pathToReportFile
+        def theFile = new File(theFileToShow)
+        response.setHeader "Content-disposition", "attachment";
+        response.setHeader("Content-Type", "text/xml") 
+        response.setHeader("Content-disposition", "attachment;filename=${theFile.name}")
+        response.outputStream << theFile.newInputStream()
+
+    }
+    
     @Transactional
     def create() {
         println("creating new report")
@@ -126,15 +140,14 @@ class ReportController {
         }
     }
     
+    // TODO: this should rarely be invoked if the 
+    // trigger is a timer
     def runReport() {
-        println "running report params = ${params}"
-       // println "reportToRun = ${reportToRun.id}"
-        //def rpt = params.report
-        //println("params report id Value ${params.report.id}")
-        //println("reportToRun id Value ${reportToRun.id}")
-        //println("rpt id = ${rpt.id}")
+        
         def rpt = Report.get(params.id)
         println("calling to Service for ${rpt.id}")
-        reportService.runReport(rpt)
+        rpt.pathToReportFile = reportService.runReport(rpt)        
+        rpt.save(flush: true)
+        return "Report complete"
     }
 }

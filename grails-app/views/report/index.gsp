@@ -1,5 +1,5 @@
 
-<%@ page import="com.mechzombie.infraview.Report" %>
+<%@ page import="com.mechzombie.infraview.Report; org.codehaus.groovy.grails.plugins.codecs.URLCodec" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -26,9 +26,9 @@
                 <tr>
                     <g:sortableColumn property="title" title="${message(code: 'report.title.label', default: 'Title')}" />
                     <g:sortableColumn property="reportType" title="${message(code: 'report.reportType.label', default: 'Report Type')}" />                                       
-                    <g:sortableColumn property="startDate" title="${message(code: 'report.startDate.label', default: 'Start Date')}" />
-                    <g:sortableColumn property="endDate" title="${message(code: 'report.endDate.label', default: 'End Date')}" />
+                    <g:sortableColumn property="startDate" title="${message(code: 'report.startDate.label', default: 'Date Range')}" />                    
                     <g:sortableColumn property="scheduledRunDate" title="${message(code: 'report.scheduledRunDate.label', default: 'Scheduled Run Date')}" />
+                    <g:sortableColumn property="pathToReportFile" title="${message(code: 'report.pathToReportFile.label', default: 'View')}" />
                 </tr>
             </thead>
             <tbody>
@@ -36,9 +36,11 @@
                     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
                         <td><g:link controller="report" action="show" id="${reportInstance.id}">${reportInstance.title}</g:link></td>
                         <td>${fieldValue(bean: reportInstance, field: "reportType.fullTitle")}</td>
-                        <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.startDate}" /></td>
-                        <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.endDate}" /></td>                    
-                        <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.scheduledRunDate}" /></td>                        
+                        <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.startDate}" /> to <g:formatDate format="yyyy-MM-dd" date="${reportInstance.endDate}" /></td>                   
+                        <td><g:formatDate format="yyyy-MM-dd" date="${reportInstance.scheduledRunDate}" /></td>   
+                        <td><g:if test="${reportInstance.pathToReportFile == null}">Not Available</g:if>
+                            <g:else><g:link controller="report" action="download" id="${reportInstance.id}" >Download</g:link></g:else></td>
+                        
                     </tr>
                 </g:each>
             </tbody>

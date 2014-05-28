@@ -1,11 +1,4 @@
-import com.mechzombie.infraview.Role
-import com.mechzombie.infraview.State
-import com.mechzombie.infraview.User
-import com.mechzombie.infraview.UserRole
-import com.mechzombie.infraview.Enterprise
-import com.mechzombie.infraview.AssetClass
-import com.mechzombie.infraview.Location
-import com.mechzombie.infraview.Geometry
+import com.mechzombie.infraview.*
 import grails.util.Environment
 //import groovy.sql.Sql
 
@@ -101,6 +94,17 @@ class BootStrap {
         
         
         assert AssetClass.count() == 1
+        
+        //add a report
+        def startDate = new Date()
+        def endDate = startDate.plus(365 * 25)
+        def hydRpt = new Report(enterprise: e1, title: "Hydrant replacement",
+            reportType: ReportType.AssetReplacementProjection ,
+            startDate: startDate,
+            endDate: endDate, 
+            scheduledRunDate: startDate).save(flush: true)
+    
+        assert Report.count() == 1
     }
     
     def destroy = {

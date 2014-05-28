@@ -17,6 +17,4 @@ class Report {
         bounds( blank: true, nullable: true)
         pathToReportFile (blank: true, nullable:true)
     }
-    
-    
 }

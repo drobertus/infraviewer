@@ -66,7 +66,7 @@
             </g:if>
 
         </ol>
-        <div id="reportResults"/>
+        
         <g:form url="[resource:reportInstance, action:'delete']" method="DELETE">
             <fieldset class="buttons">                
                 <g:remoteLink action="runReport" id="${reportInstance.id}"
@@ -75,6 +75,7 @@
                 <g:actionSubmit class="delete" action="delete" value="${message(code: 'default.button.delete.label', default: 'Delete')}" onclick="return confirm('${message(code: 'default.button.delete.confirm.message', default: 'Are you sure?')}');" />
             </fieldset>
         </g:form>
+       <div id="reportResults"/>
     </div>
 </body>
 </html>
