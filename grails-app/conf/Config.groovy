@@ -139,5 +139,16 @@ grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/home'
 //   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.GeometryCollection)
 //   // Additional user-type mappings
 //}
+environments {
+    production {
+       infraview.report.root_folder="C:/prodRtps/"
+    }
+    development {
+        infraview.report.root_folder = "~/devReports/"
+    }
+    test {
+        infraview.report.root_folder = "~/testReports/"
+    }
+}
+//infraview.report.root_folder="C:/temp/"
 
-infraview.report.root_folder="C:/temp/"

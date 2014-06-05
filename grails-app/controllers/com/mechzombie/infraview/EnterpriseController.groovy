@@ -17,33 +17,13 @@ class EnterpriseController {
     def index(Integer max) {
         log.info "Showing list of ents"
         params.max = Math.min(max ?: 10, 100)
-        //println("shoping enterprise ${enterpriseInstance.name}")
         respond Enterprise.list(params), model:[enterpriseInstanceCount: Enterprise.count()]
     }
-    
-    def treeView(Integer top) {
-    
-        //
-        
-        def startEnts = []
-        if(top) {
-            startEnts << Enterprise.get(top)
-        }
-        else{
-            startEnts << Enterprise.findAllByParentEnterprise(null)            
-        }
 
-        
-        
-    }
-
-    //@Secured(['ROLE_ADMIN'])
+    @Secured(['ROLE_USER'])
     def show(Enterprise enterpriseInstance) {
         println("showing enterprise ${enterpriseInstance?.name}")
-        //def roleNames = principal.authorities*.authority
-        //if (roleNames.contains('ROLE_SUPERUSER')) {
         session['activeEnterprise'] = enterpriseInstance
-        //}
         respond enterpriseInstance
     }
 
@@ -164,29 +144,4 @@ class EnterpriseController {
             '*'{ render status: NOT_FOUND }
         }
     }
-
- //   def buildAddress(Location loc, def params) {
-        
-       //
-//        
-//        if (!params['_hasAddress']) {
-//            loc.hasAddress = false
-//            loc.address = null;
-//            loc.save flush: true            
-//            println("deleted Address")
-//            return
-//        }
-//        println("creaing or saving address")
-//        loc.hasAddress = true
-//        def theState = State.get(params.state)
-//        
-//        
-//        //println("the state id " + theState.id)
-//        loc.address = Address.findOrSaveWhere(addressLine1: params.addressLine1,
-//            addressLine2: params.addressLine2, city: params.city, state: theState,
-//            postalCode: params.postalCode)
-//        //println("find or saved address " + loc.address.id)
-//        loc.address.validate()
-//       // println("errros in addy are:" + loc.address.getErrors())
-    //}
 }

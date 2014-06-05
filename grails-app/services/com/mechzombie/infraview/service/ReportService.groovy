@@ -3,6 +3,7 @@ package com.mechzombie.infraview.service
 import com.mechzombie.infraview.*
 import grails.transaction.Transactional
 import groovy.json.JsonBuilder
+import groovy.xml.MarkupBuilder
 
 //@Transactional
 class ReportService {
@@ -29,25 +30,24 @@ class ReportService {
             report.delete()
         }
         //TODO: switch to MarkupBuilder, write to XML (or direct to HTML?)
-        def builder = new JsonBuilder()
-        
-        def root = builder.people {
-            person {
-               firstName 'Guillame'
-               lastName 'Laforge'
-               // Named arguments are valid values for objects too
-               address(
-                       city: 'Paris',
-                       country: 'France',
-                       zip: 12345,
-               )
-               married true
-               // a list of values
-               conferences 'JavaOne', 'Gr8conf'
-           }
+        def writer = new StringWriter()
+        def xml = new MarkupBuilder(writer)
+        xml.records() {
+            car(name:'HSV Maloo', make:'Holden', year:2006) {
+                country('Australia')
+                record(type:'speed', 'Production Pickup Truck with speed of 271kph')
+            }
+            car(name:'P50', make:'Peel', year:1962) {
+                country('Isle of Man')
+                record(type:'size', 'Smallest Street-Legal Car at 99cm wide and 59 kg in weight')
+            }
+            car(name:'Royale', make:'Bugatti', year:1931) {
+                country('France')
+                record(type:'price', 'Most Valuable Car at $15 million')
+            }
         }
 
-        report << builder.toString()
+        report << writer.toString()
         
         def urlPath  = report.absolutePath.replace("\\", "/")
         
@@ -56,8 +56,8 @@ class ReportService {
     
     def getFormattedFileName(theReport) {
         def rptPath = theReport.title + "_" +
-            theReport.startDate.format(dateFormat ) + "_to_" + 
-            theReport.endDate.format(dateFormat )
+        theReport.startDate.format(dateFormat ) + "_to_" + 
+        theReport.endDate.format(dateFormat )
             
         rptPath = rptPath.replaceAll(" ", "_")
         return rptPath

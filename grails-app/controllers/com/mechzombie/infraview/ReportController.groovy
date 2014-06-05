@@ -65,6 +65,7 @@ class ReportController {
             return
         }
 
+        //TODO: better error handling if this is null
         def ent = Enterprise.load(Integer.parseInt(params['enterprise.id']))
         reportInstance.enterprise = ent
         if (reportInstance.hasErrors()) {         

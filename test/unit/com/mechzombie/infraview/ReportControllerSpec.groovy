@@ -6,18 +6,48 @@ import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(ReportController)
-@Mock(Report)
+@Mock([Report, Enterprise, AssetClass, Location])
 class ReportControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        def testEnt = getTestEnt()
+        params["title"] = 'Test Reprt'
+        params["enterprise"] = testEnt
+        params["enterprise.id"] = "" + testEnt.ident()
+        params["reportType"] = ReportType.AssetReplacementHistory
+        
+        def endDate = new Date()
+        params["endDate"] = endDate
+        params["startDate"] = endDate.minus(3653)
+        params["scheduledRunDate"] = endDate
+        
+        def assetClassList = [] 
+       
+        
+        def assetClass1 = new AssetClass(name: 'Hydrant', 
+            statusValueNew: 10,
+            statusValueReplace: 5,
+            statusValueDestroyed: 0,
+            expectedLifeSpanYears: 35,
+            standardInspectionInterval: 1,
+            standardMaintenanceInterval: 3,
+            enterprise: testEnt).save(flush: true)
+        
+        assetClassList << assetClass1
+        
+        params["reportedAssetClasses"] = assetClassList
     }
 
     void "Test the index action returns the correct model"() {
 
         when:"The index action is executed"
+        
+            
+            def testEnt = getTestEnt()
+            
+            session['activeEnterprise'] = testEnt
             controller.index()
 
         then:"The model is correct"
@@ -27,6 +57,10 @@ class ReportControllerSpec extends Specification {
 
     void "Test the create action returns the correct model"() {
         when:"The create action is executed"
+        
+            def testEnt = getTestEnt()            
+            session['activeEnterprise'] = testEnt
+            
             controller.create()
 
         then:"The model is correctly created"
@@ -38,6 +72,7 @@ class ReportControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             def report = new Report()
             report.validate()
+            params["enterprise.id"] = "1"
             controller.save(report)
 
         then:"The create view is rendered again with the correct model"
@@ -142,5 +177,12 @@ class ReportControllerSpec extends Specification {
             Report.count() == 0
             response.redirectedUrl == '/report/index'
             flash.message != null
+    }
+    
+    def getTestEnt() {
+        return new Enterprise(name: 'City of Longmont', 
+            activeDate: new Date(), 
+            location: new Location().save(flush: true))
+            .save(flush: true)
     }
 }

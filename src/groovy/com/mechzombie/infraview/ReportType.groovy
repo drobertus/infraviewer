@@ -16,6 +16,9 @@ enum ReportType {
     AssetReplacementHistory("Asset Replacement History"),
     InspectionAndMaintenanceProjection("Inspection and Maintenance Projection"),
     InspectionAndMaintenanceHistory("Inspection and Maintenance History"),
+    InspectionAndMaintenanceOverdue("Current Inspection and Maintenance Overdue"),
+    AssetReplacementOverdue("Current Asset Replacement Overdue"),
+    
     
     private fullTitle
     ReportType(fullTitle) {

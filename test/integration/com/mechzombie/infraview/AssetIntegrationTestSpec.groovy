@@ -1,7 +1,5 @@
 package com.mechzombie.infraview
 
-
-
 import spock.lang.*
 import static org.junit.Assert.assertEquals
 /**
