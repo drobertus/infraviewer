@@ -21,6 +21,7 @@ local.properties
 .idea/
 target/
 out/
+cobertura.ser
 
 # External tool builders
 .externalToolBuilders/
