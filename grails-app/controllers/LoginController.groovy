@@ -2,7 +2,8 @@ import grails.converters.JSON
 
 import javax.servlet.http.HttpServletResponse
 
-import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+//import org.codehaus.groovy.grails.plugins.springsecurity.SpringSecurityUtils
+import grails.plugin.springsecurity.SpringSecurityUtils
 
 import org.springframework.security.authentication.AccountExpiredException
 import org.springframework.security.authentication.CredentialsExpiredException
@@ -29,10 +30,13 @@ class LoginController {
 	 */
 	def index = {
 		if (springSecurityService.isLoggedIn()) {
+            println('is logged in')
 			redirect uri: SpringSecurityUtils.securityConfig.successHandler.defaultTargetUrl
 		}
 		else {
-			redirect action: 'auth', params: params
+            println('is not logged in')
+
+            redirect action: 'auth', params: params
 		}
 	}
 
@@ -40,7 +44,7 @@ class LoginController {
 	 * Show the login page.
 	 */
 	def auth = {
-
+        println('showingthe auth page')
 		def config = SpringSecurityUtils.securityConfig
 
 		if (springSecurityService.isLoggedIn()) {
@@ -66,7 +70,8 @@ class LoginController {
 	 * Show denied page.
 	 */
 	def denied = {
-		if (springSecurityService.isLoggedIn() &&
+		println('goto the denied page')
+        if (springSecurityService.isLoggedIn() &&
 				authenticationTrustResolver.isRememberMe(SCH.context?.authentication)) {
 			// have cookie but the page is guarded with IS_AUTHENTICATED_FULLY
 			redirect action: 'full', params: params
@@ -88,6 +93,7 @@ class LoginController {
 	 */
 	def authfail = {
 
+        println('authfail')
 		def username = session[UsernamePasswordAuthenticationFilter.SPRING_SECURITY_LAST_USERNAME_KEY]
 		String msg = ''
 		def exception = session[WebAttributes.AUTHENTICATION_EXCEPTION]

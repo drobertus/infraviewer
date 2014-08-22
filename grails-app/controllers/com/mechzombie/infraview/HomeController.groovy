@@ -1,6 +1,6 @@
 package com.mechzombie.infraview
 
-import grails.plugins.springsecurity.Secured
+import grails.plugin.springsecurity.annotation.Secured
 
 @Secured(['ROLE_USER'])
 class HomeController {

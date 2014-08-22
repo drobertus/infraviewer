@@ -116,10 +116,10 @@ log4j = {
 }
 
 // Added by the Spring Security Core plugin:
-grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.mechzombie.infraview.User'
-grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.mechzombie.infraview.UserRole'
-grails.plugins.springsecurity.authority.className = 'com.mechzombie.infraview.Role'
-grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/home'
+grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.mechzombie.infraview.User'
+grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.mechzombie.infraview.UserRole'
+grails.plugin.springsecurity.authority.className = 'com.mechzombie.infraview.Role'
+grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/home'
 //grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/"(controller:"home")
 
 /* Added by the Hibernate Spatial Plugin. */

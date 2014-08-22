@@ -1,6 +1,6 @@
 package com.mechzombie.infraview
 
-import grails.plugins.springsecurity.Secured
+import grails.plugin.springsecurity.annotation.Secured
 import grails.converters.JSON
 
 @Secured(['ROLE_SUPERUSER'])
