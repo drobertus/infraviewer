@@ -28,5 +28,7 @@ enum ReportType {
     def getFullTitle() {
         return fullTitle
     }
+    
+    //abstract void generateReport (Enterprise ent, StringWriter rptContent);
 }
 

@@ -147,6 +147,10 @@ class ReportController {
         
         def rpt = Report.get(params.id)
         println("calling to Service for ${rpt.id}")
+        
+        String content = g.render(template: "templates/reportHeaderTemplate" , model:[report: rpt])
+        println "Template result= ${content}"
+        
         rpt.pathToReportFile = reportService.runReport(rpt)        
         rpt.save(flush: true)
         return "Report complete"

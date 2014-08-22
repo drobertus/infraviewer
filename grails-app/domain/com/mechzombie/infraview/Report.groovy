@@ -11,6 +11,7 @@ class Report {
     Date scheduledRunDate
     String pathToReportFile
     
+    
     static hasMany = [reportedAssetClasses: AssetClass]
     
     static constraints = {

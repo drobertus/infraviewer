@@ -1,5 +1,8 @@
 package com.mechzombie.infraview
 
+import grails.rest.Resource
+
+//@Resource(uri='/asset')
 class Asset {
 
     def depreciationCalculatorService

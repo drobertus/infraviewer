@@ -97,7 +97,7 @@ class BootStrap {
         
         //add a report
         def startDate = new Date()
-        def endDate = startDate.plus(365 * 25)
+        def endDate = startDate.plus(365)
         def hydRpt = new Report(enterprise: e1, title: "Hydrant replacement",
             reportType: ReportType.AssetReplacementProjection ,
             startDate: startDate,
