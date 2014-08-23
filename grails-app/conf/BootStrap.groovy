@@ -44,29 +44,29 @@ class BootStrap {
         //}
         
         //println 'init 2'
-        def testUserBasic = new User(username: 'user@longmont.gov', enabled: true, password: 'pass', enterprise: e1)
-        def forestryUser = new User(username: 'admin@forestry.gov', enabled: true, password: 'pass', enterprise: e1forestry).save(flush:true)
-        def testUser = new User(username: 'admin@longmont.gov', enabled: true, password: 'pass', enterprise: e1)
-        def su = new User(username: 'su@infraview.com', enabled: true, password: 'pass', enterprise: rootEnterprise)
+        def testUserBasic = new InfraUser(username: 'user@longmont.gov', enabled: true, password: 'pass', enterprise: e1)
+        def forestryUser = new InfraUser(username: 'admin@forestry.gov', enabled: true, password: 'pass', enterprise: e1forestry).save(flush:true)
+        def testUser = new InfraUser(username: 'admin@longmont.gov', enabled: true, password: 'pass', enterprise: e1)
+        def su = new InfraUser(username: 'su@infraview.com', enabled: true, password: 'pass', enterprise: rootEnterprise)
 
         testUser.save(flush: true)
         testUserBasic.save(flush: true)
         su.save(flush: true)
         //println 'init 3'
-        assert User.count() == 4
+        assert InfraUser.count() == 4
         
-        UserRole.create( testUser, adminRole, true)
-        UserRole.create( testUser, userRole, true )
-        UserRole.create( forestryUser, adminRole, true)
-        UserRole.create( forestryUser, userRole, true )
-        UserRole.create( testUserBasic, userRole, true)
-        UserRole.create (su, suRole, true)
-        UserRole.create (su, userRole, true)
-        UserRole.create (su, adminRole, true)
+        InfraUserRole.create( testUser, adminRole, true)
+        InfraUserRole.create( testUser, userRole, true )
+        InfraUserRole.create( forestryUser, adminRole, true)
+        InfraUserRole.create( forestryUser, userRole, true )
+        InfraUserRole.create( testUserBasic, userRole, true)
+        InfraUserRole.create (su, suRole, true)
+        InfraUserRole.create (su, userRole, true)
+        InfraUserRole.create (su, adminRole, true)
 
 
         
-        assert UserRole.count() == 8
+        assert InfraUserRole.count() == 8
 
         println 'saved new user admin:pass, and user:pass, su:pass, forestry:pass'
 

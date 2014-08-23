@@ -1,6 +1,5 @@
 package com.mechzombie.infraview
 
-
 import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
@@ -14,15 +13,18 @@ class UserController {
     
     @Secured(['ROLE_USER'])
     def index(Integer max) {
+        println "params- userCOntroller.index=${params}"
         def theEnterprise = session['activeEnterprise']
         
         params.max = Math.min(max ?: 10, 100)
-        def theUsers = User.findAllByEnterprise(theEnterprise, params)
+        def theUsers = InfraUser.findAllByEnterprise(theEnterprise, params)
+        println "userCount=${theUsers.size()}"
         respond theUsers, model:[userInstanceCount: theUsers.size()]
     }
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN', 'ROLE_USER'])
-    def show(User userInstance) {
+    def show(InfraUser userInstance) {
+        println "userInstance- userCOntroller.show=${userInstance}"
         respond userInstance
     }
 
@@ -34,13 +36,13 @@ class UserController {
         def roleNames = springSecurityService.principal.authorities*.authority
         def roles = getAvailableRoles(theEnterprise, roleNames)
         //println "params =" + params
-        render(view: 'create', model:[userInstance: new User(params), availableRoles: roles])
+        render(view: 'create', model:[userInstance: new InfraUser(params), availableRoles: roles])
 
     }
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
-    def save(User userInstance) {
+    def save(InfraUser userInstance) {
         
         if (userInstance == null) {      
             notFound()
@@ -57,7 +59,7 @@ class UserController {
         def paramAuths = params.authorities
         paramAuths.each() {
             def theRole = Role.findById(it)
-            UserRole.create( userInstance, theRole, true)
+            InfraUserRole.create( userInstance, theRole, true)
         }
       
         request.withFormat {
@@ -71,7 +73,7 @@ class UserController {
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
-    def edit(User userInstance) {
+    def edit(InfraUser userInstance) {
         def theEnterprise = session.activeEnterprise
         //println 'create user params=' + params
         //println 'session variables=' + session
@@ -85,7 +87,7 @@ class UserController {
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
-    def update(User userInstance) {
+    def update(InfraUser userInstance) {
         
         if (userInstance == null) {
             notFound()
@@ -103,13 +105,13 @@ class UserController {
         paramAuths.each() {
             def theRole = Role.findById(it)
             if(!existingRoles.contains(theRole)) {
-              UserRole.create( userInstance, theRole, true)
+              InfraUserRole.create( userInstance, theRole, true)
             }
         }
 
         existingRoles.each() {
             if(!paramAuths.contains(it.id.toString() ) ) {
-                UserRole.remove(userInstance, it, true)
+                InfraUserRole.remove(userInstance, it, true)
             }
         }
         
@@ -126,7 +128,7 @@ class UserController {
 
     @Secured(['ROLE_SUPERUSER'])
     @Transactional
-    def delete(User userInstance) {
+    def delete(InfraUser userInstance) {
 
         if (userInstance == null) {
             notFound()

@@ -6,12 +6,12 @@ import org.junit.Before
 import spock.lang.*
 
 @TestFor(UserController)
-@Mock([User, Enterprise, UserRole, Role, Location])
+@Mock([InfraUser, Enterprise, InfraUserRole, Role, Location])
 class UserControllerSpec extends Specification {
 
     @Before
     void setup() {
-        User.metaClass.encodePassword = { -> }
+        InfraUser.metaClass.encodePassword = { -> }
     }
     
     def populateValidParams(params) {
@@ -49,7 +49,7 @@ class UserControllerSpec extends Specification {
     void "Test the create action returns the correct model"() {
         setup:
         
-            def loggedInUser = Mock(User)
+            def loggedInUser = Mock(InfraUser)
             def suRole = new Role(authority: 'ROLE_SUPERUSER')
             def adminRole = new Role(authority: 'ROLE_ADMIN')
             def userRole = new Role(authority: 'ROLE_USER')
@@ -76,7 +76,7 @@ class UserControllerSpec extends Specification {
     void "Test the save action correctly persists an instance"() {
 
         when:"The save action is executed with an invalid instance"
-            def user = new User()
+            def user = new InfraUser()
             user.validate()
             println("user errors invlaid= ${user.errors}")
             controller.save(user)
@@ -88,7 +88,7 @@ class UserControllerSpec extends Specification {
         when:"The save action is executed with a valid instance"
             response.reset()
             populateValidParams(params)
-            user = new User(params)
+            user = new InfraUser(params)
             //user.springSecurityService = new SpringSecurityService() 
             user.validate()
             println("user errors= ${user.errors}")
@@ -97,7 +97,7 @@ class UserControllerSpec extends Specification {
         then:"A redirect is issued to the show action"
             response.redirectedUrl == '/user/show/1'
             controller.flash.message != null
-            User.count() == 1
+            InfraUser.count() == 1
     }
 
     void "Test that the show action returns the correct model"() {
@@ -109,7 +109,7 @@ class UserControllerSpec extends Specification {
 
         when:"A domain instance is passed to the show action"
             populateValidParams(params)
-            def user = new User(params)
+            def user = new InfraUser(params)
             controller.show(user)
 
         then:"A model is populated containing the domain instance"
@@ -119,7 +119,7 @@ class UserControllerSpec extends Specification {
     void "Test that the edit action returns the correct model"() {
                 setup:
         
-            def loggedInUser = Mock(User)
+            def loggedInUser = Mock(InfraUser)
             def suRole = new Role(authority: 'ROLE_SUPERUSER')
             def adminRole = new Role(authority: 'ROLE_ADMIN')
             def userRole = new Role(authority: 'ROLE_USER')
@@ -143,7 +143,7 @@ class UserControllerSpec extends Specification {
 
         when:"A domain instance is passed to the edit action"
             populateValidParams(params)
-            def user = new User(params)
+            def user = new InfraUser(params)
             controller.edit(user)
 
         then:"A model is populated containing the domain instance"
@@ -161,7 +161,7 @@ class UserControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            def user = new User()
+            def user = new InfraUser()
             user.validate()
             controller.update(user)
 
@@ -172,7 +172,7 @@ class UserControllerSpec extends Specification {
         when:"A valid domain instance is passed to the update action"
             response.reset()
             populateValidParams(params)
-            user = new User(params)
+            user = new InfraUser(params)
             //user.springSecurityService = new SpringSecurityService() 
             user.save(flush: true)
             controller.update(user)
@@ -193,18 +193,18 @@ class UserControllerSpec extends Specification {
         when:"A domain instance is created"
             response.reset()
             populateValidParams(params)
-            def user = new User(params)
+            def user = new InfraUser(params)
             //user.springSecurityService = new SpringSecurityService() 
             user.save(flush: true)
 
         then:"It exists"
-            User.count() == 1
+            InfraUser.count() == 1
 
         when:"The domain instance is passed to the delete action"
             controller.delete(user)
 
         then:"The instance is deleted"
-            User.count() == 0
+            InfraUser.count() == 0
             response.redirectedUrl == '/user/index'
             flash.message != null
     }

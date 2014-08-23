@@ -115,52 +115,17 @@ log4j = {
            'net.sf.ehcache.hibernate'
 }
 
-
-
 // Added by the Spring Security Core plugin:
-grails.plugin.springsecurity.rejectIfNoRule = false
-grails.plugin.springsecurity.fii.rejectPublicInvocations = false
-
-grails.plugin.springsecurity.userLookup.userDomainClassName = 'com.mechzombie.infraview.InfraUser'
-grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.mechzombie.infraview.InfraUserRole'
-grails.plugin.springsecurity.authority.className = 'com.mechzombie.infraview.Role'
-grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/home'
-grails.plugin.springsecurity.securityConfigType = 'Annotation'
+grails.plugins.springsecurity.userLookup.userDomainClassName = 'com.mechzombie.infraview.User'
+grails.plugins.springsecurity.userLookup.authorityJoinClassName = 'com.mechzombie.infraview.UserRole'
+grails.plugins.springsecurity.authority.className = 'com.mechzombie.infraview.Role'
+grails.plugins.springsecurity.successHandler.defaultTargetUrl = '/home'
 //grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/"(controller:"home")
 
-
 /* Added by the Hibernate Spatial Plugin. */
-//grails.gorm.default.mapping = {
-//   /* Added by the Hibernate Spatial Plugin. */
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.LineString)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Point)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Polygon)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiLineString)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiPoint)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiPolygon)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.LinearRing)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Puntal)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Lineal)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Polygonal)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Geometry)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.GeometryCollection)
-//   // Additional user-type mappings
-//}
-
-grails.plugin.springsecurity.interceptUrlMap = [
-  '/dbconsole*/**':['permitAll']
-]
-
-environments {
-    production {
-       infraview.report.root_folder="C:/prodRtps/"
-    }
-    development {
-        infraview.report.root_folder = "~/devReports/"
-    }
-    test {
-        infraview.report.root_folder = "~/testReports/"
-    }
+grails.gorm.default.mapping = {
+   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Geometry)
+   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.GeometryCollection)
+   // Additional user-type mappings
 }
-//infraview.report.root_folder="C:/temp/"
 

@@ -1,5 +1,5 @@
 
-<%@ page import="com.mechzombie.infraview.User" %>
+<%@ page import="com.mechzombie.infraview.InfraUser" %>
 <!DOCTYPE html>
 <html>
     <head>
@@ -36,21 +36,21 @@
                 </tr>
             </thead>
             <tbody>
-                <g:each in="${userInstanceList}" status="i" var="userInstance">
+                <g:each in="${infraUserInstanceList}" status="i" var="infraUserInstance">
                     <tr class="${(i % 2) == 0 ? 'even' : 'odd'}">
-                        <td><g:link action="show" id="${userInstance.id}">${fieldValue(bean: userInstance, field: "username")}</g:link></td>
-                        <td>${fieldValue(bean: userInstance.enterprise, field: "name")}</td>
-                        <td>${userInstance.getAuthorities().authority}</td>
-                        <td><g:formatBoolean boolean="${userInstance.accountExpired}" /></td>
-                        <td><g:formatBoolean boolean="${userInstance.accountLocked}" /></td>
-                        <td><g:formatBoolean boolean="${userInstance.enabled}" /></td>
-                        <td><g:formatBoolean boolean="${userInstance.passwordExpired}" /></td>
+                        <td><g:link action="show" id="${infraUserInstance.id}">${fieldValue(bean: infraUserInstance, field: "username")}</g:link></td>
+                        <td>${fieldValue(bean: infraUserInstance.enterprise, field: "name")}</td>
+                        <td>${infraUserInstance.getAuthorities().authority}</td>
+                        <td><g:formatBoolean boolean="${infraUserInstance.accountExpired}" /></td>
+                        <td><g:formatBoolean boolean="${infraUserInstance.accountLocked}" /></td>
+                        <td><g:formatBoolean boolean="${infraUserInstance.enabled}" /></td>
+                        <td><g:formatBoolean boolean="${infraUserInstance.passwordExpired}" /></td>
                     </tr>
                 </g:each>
             </tbody>
         </table>
         <div class="pagination">
-            <g:paginate total="${userInstanceCount ?: 0}" />
+            <g:paginate total="${infraUserInstanceCount ?: 0}" />
         </div>
     </div>
 </body>

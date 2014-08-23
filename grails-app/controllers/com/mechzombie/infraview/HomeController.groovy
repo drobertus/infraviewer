@@ -6,7 +6,10 @@ import grails.plugin.springsecurity.annotation.Secured
 class HomeController {
     def springSecurityService
 
+    @Secured(['ROLE_USER'])
     def index() {
+        
+         println('home controller')
         //def roles = springSecurityService.getPrincipal().getAuthorities()
         // will be a List of String
         def roleNames = principal.authorities*.authority
@@ -20,7 +23,7 @@ class HomeController {
             return
         }
         else { 
-            def theUser = User.findByUsername(principal.username)
+            def theUser = InfraUser.findByUsername(principal.username)
             session['activeEnterprise'] = theUser.enterprise
             if (roleNames.contains('ROLE_ADMIN')) {
                 

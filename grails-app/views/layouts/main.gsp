@@ -6,7 +6,7 @@
 		<g:layoutHead/>
         <asset:javascript src="application.js"/>
 	    <asset:stylesheet href="login.css"/>
-        <asset:stylesheet href="main.css"/>
+        <!-- asset:stylesheet href="main.css"/ -->
 		<r:layoutResources />
 	</head>
 	<body>

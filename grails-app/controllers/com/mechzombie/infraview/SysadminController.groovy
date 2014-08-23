@@ -7,6 +7,7 @@ import grails.converters.JSON
 class SysadminController {
 
     def index() {
+        println('sysadmin controller')
         def allEnts = Enterprise.getAll()
 
         render(view: "index", model: [allEnts: allEnts, entityName: 'Enterprise'])

@@ -6,7 +6,7 @@ class Enterprise {
     Date activeDate
     Location location
     Enterprise parentEnterprise
-    static hasMany = [assetClasses: AssetClass, users: User, childEnterprises: Enterprise ]    
+    static hasMany = [assetClasses: AssetClass, users: InfraUser, childEnterprises: Enterprise ]    
     
     
     static mapping = {
