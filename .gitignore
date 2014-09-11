@@ -1,7 +1,7 @@
 #################
 ## Eclipse
 #################
-
+.gradle/
 *.pydevproject
 .project
 .metadata

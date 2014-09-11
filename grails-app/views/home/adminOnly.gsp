@@ -17,9 +17,9 @@
             <sec:ifAnyGranted roles="ROLE_ADMIN">
             <li><g:link controller="enterprise" action="show" id="${enterprise.id}"> Enterprise Administration</g:link></li>
             <li><g:link controller="report" action="index" id="${enterprise.id}">Reports</g:link></li>    
-            <li><g:link controller="user" action="index">User Administration</g:link></li>
+            <li><g:link controller="infraUser" action="index">User Administration</g:link></li>
             </sec:ifAnyGranted>
-            <li><g:link controller="user" action="show" id="${user.id}">My Info</g:link></li>
+            <li><g:link controller="infraUser" action="show" id="${user.id}">My Info</g:link></li>
         </ul>
     </div>
 </body>

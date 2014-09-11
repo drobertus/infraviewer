@@ -46,7 +46,7 @@ class ReportServiceIntegTest extends Specification {
             //assertNotNull testEnt
             
             assert rptXml.name() == 'assetReport'
-        assert rptXml.reportMetaData@enterprise == testEnt.name    
+        assert rptXml.reportMetaData.@enterprise == testEnt.name
         assert rptXml.assetTypesList.@count == '1'
             assert rptXml.assetTypesList.asset.@name == 'Sign post'
             println "Should be 'Sign post' ${rptXml.assetTypesList.asset.@name}"
