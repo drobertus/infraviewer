@@ -20,7 +20,7 @@ class AssetReplacementProjectionService extends BaseReport {
         println(" we are writing to file " )
        xml.assetReport() {           
            reportMetaData( runDate: new Date(),  enterprise: params.enterprise.name, title: params.title) {}           
-            dateRange(startDate:params.startDate , endDate: params.endDate, year:2006) {}
+            dateRange(startDate:params.startDate , endDate: params.endDate, year: 2006) {}
             assetTypesList(count: params.reportedAssetClasses.size()) {
                params.reportedAssetClasses.each() { assetClass ->
                     asset(name: assetClass.name){}

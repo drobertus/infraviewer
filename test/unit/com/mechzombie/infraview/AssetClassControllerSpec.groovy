@@ -54,7 +54,8 @@ class AssetClassControllerSpec extends Specification {
             controller.save(assetClass)
 
         then:"The create view is rendered again with the correct model"
-            model.assetClassInstance!= null
+            println 'asset class controller model=' + model
+            model.assetClassInstance != null
             view == 'create'
 
         when:"The save action is executed with a valid instance"

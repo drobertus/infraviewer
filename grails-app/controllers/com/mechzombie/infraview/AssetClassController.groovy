@@ -31,15 +31,15 @@ class AssetClassController {
     @Secured(['ROLE_ADMIN'])
     @Transactional
     def save(AssetClass assetClassInstance) {
-        // println 'params=' + params
+        println 'params=' + params
         if (assetClassInstance == null) {
-        //    println("asset class is null")
+            println("asset class is null")
             notFound()
             return
         }
 
         if (assetClassInstance.hasErrors()) {
-       //     println('errors found' + assetClassInstance.errors)
+            println('errors found' + assetClassInstance.errors)
             respond assetClassInstance.errors, view:'create', model:[enterprise: session.activeEnterprise]
             return
         }

@@ -26,7 +26,7 @@
         <table>
             <thead>
                 <tr>
-                    <g:sortableColumn property="username" title="${message(code: 'user.username.label', default: 'Username')}" />
+                    <g:sortableColumn property="username" title="${message(code: 'user.username.label', default: 'User Name')}" />
                     <g:sortableColumn property="enterprise" title="${message(code: 'user.username.label', default: 'Enterprise')}" />
                     <g:sortableColumn property="authorities" title="${message(code: 'user.username.label', default: 'Roles')}" />
                     <g:sortableColumn property="accountExpired" title="${message(code: 'user.accountExpired.label', default: 'Expired')}" />

@@ -19,13 +19,13 @@ class InfraUserController {
         params.max = Math.min(max ?: 10, 100)
         def theUsers = InfraUser.findAllByEnterprise(theEnterprise, params)
         println "userCount=${theUsers.size()}"
-        respond theUsers, model:[userInstanceCount: theUsers.size()]
+        respond theUsers, model:[infraUserInstanceCount: theUsers.size()]
     }
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN', 'ROLE_USER'])
-    def show(InfraUser userInstance) {
-        println "userInstance- userCOntroller.show=${userInstance}"
-        respond userInstance
+    def show(InfraUser infraUserInstance) {
+        println "userInstance- userCOntroller.show=${infraUserInstance}"
+        respond infraUserInstance
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
@@ -36,112 +36,113 @@ class InfraUserController {
         def roleNames = springSecurityService.principal.authorities*.authority
         def roles = getAvailableRoles(theEnterprise, roleNames)
         //println "params =" + params
-        render(view: 'create', model:[userInstance: new InfraUser(params), availableRoles: roles])
+        render(view: 'create', model:[infraUserInstance: new InfraUser(params), availableRoles: roles])
 
     }
     
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
-    def save(InfraUser userInstance) {
+    def save(InfraUser infraUserInstance) {
         
-        if (userInstance == null) {      
+        if ( infraUserInstance == null) {      
             notFound()
             return
         }
 
-        if (userInstance.hasErrors()) {
-            respond userInstance.errors, view:'create'
+        if ( infraUserInstance.hasErrors()) {
+            println 'user instance has errors! can not save-' + infraUserInstance.errors
+            respond infraUserInstance.errors, view:'create'
             return
         }
         
-        userInstance.save flush:true
+        infraUserInstance.save flush:true
         
         def paramAuths = params.authorities
         paramAuths.each() {
             def theRole = Role.findById(it)
-            InfraUserRole.create( userInstance, theRole, true)
+            InfraUserRole.create( infraUserInstance, theRole, true)
         }
       
         request.withFormat {
             form {
-                flash.message = message(code: 'default.created.message', args: [message(code: 'userInstance.label', default: 'User'), userInstance.username])
-                redirect userInstance
+                flash.message = message(code: 'default.created.message', args: [message(code: 'infraUserInstance.label', default: 'User'), infraUserInstance.username])
+                redirect infraUserInstance
             }
-            '*' { respond userInstance, [status: CREATED] }
-        }
-        
+            '*' { respond infraUserInstance, [status: CREATED] }
+        }        
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
-    def edit(InfraUser userInstance) {
-        println 'editing user'
+    def edit(InfraUser infraUserInstance) {
+        println 'editing user params:' + params
         def theEnterprise = session.activeEnterprise
         //println 'create user params=' + params
         //println 'session variables=' + session
         def roleNames = springSecurityService.principal.authorities*.authority
         def roles = getAvailableRoles(theEnterprise, roleNames)
         //println "params =" + params
-        respond userInstance, model:[availableRoles: roles]
-        //render(view: 'edit', model:[userInstance: userInstance, availableRoles: roles])
+        respond infraUserInstance, model:[availableRoles: roles]
+        //render(view: 'edit', model:[userInstance: infraUserInstance, availableRoles: roles])
         
     }
 
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
-    def update(InfraUser userInstance) {
+    def update(InfraUser infraUserInstance) {
         
-        if (userInstance == null) {
+        if ( infraUserInstance == null) {
             notFound()
             return
         }
 
-        if (userInstance.hasErrors()) {
-            respond userInstance.errors, view:'edit'
+        if ( infraUserInstance.hasErrors()) {
+            println "update failed- user has errors: ${infraUserInstance.errors}"
+            respond infraUserInstance.errors, view:'edit'
             return
         }
         
         
-        def existingRoles = userInstance.getAuthorities()       
+        def existingRoles = infraUserInstance.getAuthorities()       
         def paramAuths = params.authorities
         paramAuths.each() {
             def theRole = Role.findById(it)
             if(!existingRoles.contains(theRole)) {
-              InfraUserRole.create( userInstance, theRole, true)
+              InfraUserRole.create( infraUserInstance, theRole, true)
             }
         }
 
         existingRoles.each() {
             if(!paramAuths.contains(it.id.toString() ) ) {
-                InfraUserRole.remove(userInstance, it, true)
+                InfraUserRole.remove(infraUserInstance, it, true)
             }
         }
         
-        userInstance.save flush:true
+        infraUserInstance.save flush:true
         
         request.withFormat {
             form {
-                flash.message = message(code: 'default.updated.message', args: [message(code: 'User.label', default: 'User'), userInstance.username])
-                redirect userInstance
+                flash.message = message(code: 'default.updated.message', args: [message(code: 'InfraUser.label', default: 'User'), infraUserInstance.username])
+                redirect infraUserInstance
             }
-            '*'{ respond userInstance, [status: OK] }
+            '*'{ respond infraUserInstance, [status: OK] }
         }
     }
 
     @Secured(['ROLE_SUPERUSER'])
     @Transactional
-    def delete(InfraUser userInstance) {
+    def delete(InfraUser infraUserInstance) {
 
-        if (userInstance == null) {
+        if ( infraUserInstance == null) {
             notFound()
             return
         }
         //TODO: change this from a delete to a 'deactivate' - have lists not return deactivated users
         //UserRole.removeAll(userInstance)
-        userInstance.delete flush:true
+        infraUserInstance.delete flush:true
 
         request.withFormat {
             form {
-                flash.message = message(code: 'default.deleted.message', args: [message(code: 'User.label', default: 'User'), userInstance.username])
+                flash.message = message(code: 'default.deleted.message', args: [message(code: 'InfraUser.label', default: 'User'), infraUserInstance.username])
                 redirect action:"index", method:"GET"
             }
             '*'{ render status: NO_CONTENT }
@@ -151,7 +152,7 @@ class InfraUserController {
     protected void notFound() {
         request.withFormat {
             form {
-                flash.message = message(code: 'default.not.found.message', args: [message(code: 'userInstance.label', default: 'User'), params.id])
+                flash.message = message(code: 'default.not.found.message', args: [message(code: 'infraUserInstance.label', default: 'User'), params.id])
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }

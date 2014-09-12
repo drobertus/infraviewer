@@ -13,7 +13,7 @@ class EnterpriseControllerSpec extends Specification {
     def populateValidParams(params) {
         assert params != null
       
-        def location = new Location(hasAddress:false).save(flush: true)    
+        def location = new Location(hasAddress:false).save(flush: true)          
         params["name"] = 'ent1'
         params["activeDate"] = new Date()
         params["location"] = location
@@ -47,21 +47,27 @@ class EnterpriseControllerSpec extends Specification {
         when:"The save action is executed with an invalid instance"
             def enterprise = new Enterprise()
             enterprise.validate()
+            request.method = 'POST'
             controller.save(enterprise)
 
         then:"The create view is rendered again with the correct model"
-            model.enterpriseInstance!= null
-            view == 'create'
-
+            //this was changed from != null- investigating the changes since the grails version rev
+            model.enterpriseInstance != null
+            //remmed out the check for view until I can sort out fails
+            view == 'create'            
              
         when:"The save action is executed with a valid instance"
             response.reset()
+            request.method = 'POST'
+            request.format='form'
             populateValidParams(params)
             enterprise = new Enterprise(params)
-
+            enterprise.validate()
+            
             controller.save(enterprise)
 
         then:"A redirect is issued to the show action"
+            
             response.redirectedUrl == '/enterprise/show/1'
             controller.flash.message != null
             Enterprise.count() == 1
@@ -102,17 +108,22 @@ class EnterpriseControllerSpec extends Specification {
     void "Test the update action performs an update on a valid domain instance"() {
         setup:
             controller.addressHandlingService = new AddressHandlingService()   
-        
+            
         when:"Update is called for a domain instance that doesn't exist"
+            request.method = 'PUT'
+            request.format='form'
             controller.update(null)
 
         then:"A 404 error is returned"
+            //TODO: we need to check the response status code
+            //response.status == 404
             response.redirectedUrl == '/enterprise/index'
             flash.message != null
 
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
+            request.method = 'PUT'
             def enterprise = new Enterprise()
             enterprise.validate()
             controller.update(enterprise)
@@ -123,6 +134,8 @@ class EnterpriseControllerSpec extends Specification {
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
+            request.method = 'PUT'
+
             populateValidParams(params)
             enterprise = new Enterprise(params).save(flush: true)
             controller.update(enterprise)
@@ -134,9 +147,12 @@ class EnterpriseControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            request.method = 'DELETE'
+            request.format='form'    
             controller.delete(null)
 
         then:"A 404 is returned"
+            println 'response on delete=' + response.status
             response.redirectedUrl == '/enterprise/index'
             flash.message != null
 

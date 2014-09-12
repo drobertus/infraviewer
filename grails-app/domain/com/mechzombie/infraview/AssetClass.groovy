@@ -25,8 +25,8 @@ class AssetClass {
     String assetExternalIdSource
     
     boolean organic
-    
-    
+ 
+
     
     static constraints = {
         name( blank: false, nullable: false)
@@ -39,5 +39,6 @@ class AssetClass {
         assetGeometryType blank:true, nullable:true
         assetExternalIdSource blank:true, nullable:true
         assetClassCategory blank:true, nullable: true
+        organic nullable: false
     }
 }

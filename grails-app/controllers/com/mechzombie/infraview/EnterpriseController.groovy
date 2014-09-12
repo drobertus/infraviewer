@@ -35,12 +35,16 @@ class EnterpriseController {
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
     def save(Enterprise enterpriseInstance) {
+        //log.info 'the save is attempted'
+        //println('enterprise save params = ' + params)
         if (enterpriseInstance == null) {
             notFound()
             return
         }
+        //println(' ent save 1')
         def theLoc
         if (!enterpriseInstance.location) {
+          //  println(' ent save 2')
             theLoc = new Location(hasAddress: (params['_hasAddress'] != null))            
             theLoc.validate()
             if (theLoc.hasErrors()) {
@@ -49,13 +53,14 @@ class EnterpriseController {
             theLoc.save(flush:true)
            enterpriseInstance.location = theLoc
         }
-        
+        //println( 'ent save 3')
         enterpriseInstance.validate()
         if (enterpriseInstance.hasErrors()) {
+          //  println(' ent errors = ' + enterpriseInstance.errors)
             respond enterpriseInstance.errors, view:'create'
             return
         }
-
+//println( 'ent save 4')
         addressHandlingService.buildAddress(enterpriseInstance.location, params)
         if (enterpriseInstance?.location?.address?.hasErrors()) {
             //println("found errors ${enterpriseInstance.location.address.errors}")
@@ -64,7 +69,7 @@ class EnterpriseController {
             return;
         }
         
-        println("new ent = " + enterpriseInstance)
+  //      println("new ent = " + enterpriseInstance)
         enterpriseInstance.save flush:true
 
         request.withFormat {
