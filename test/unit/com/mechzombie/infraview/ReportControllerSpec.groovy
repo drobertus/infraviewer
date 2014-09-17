@@ -70,6 +70,8 @@ class ReportControllerSpec extends Specification {
     void "Test the save action correctly persists an instance"() {
 
         when:"The save action is executed with an invalid instance"
+            request.method = 'POST'
+            request.format='form'
             def report = new Report()
             report.validate()
             params["enterprise.id"] = "1"
@@ -81,6 +83,8 @@ class ReportControllerSpec extends Specification {
 
         when:"The save action is executed with a valid instance"
             response.reset()
+            request.method = 'POST'
+            request.format='form'
             populateValidParams(params)
             report = new Report(params)
 
@@ -126,6 +130,8 @@ class ReportControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            request.method = 'PUT'
+            request.format='form'
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -135,6 +141,8 @@ class ReportControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
+            request.method = 'PUT'
+            request.format='form'
             def report = new Report()
             report.validate()
             controller.update(report)
@@ -156,6 +164,8 @@ class ReportControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            request.method = 'DELETE'
+            request.format='form'
             controller.delete(null)
 
         then:"A 404 is returned"

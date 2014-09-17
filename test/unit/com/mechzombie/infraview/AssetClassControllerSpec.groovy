@@ -49,6 +49,9 @@ class AssetClassControllerSpec extends Specification {
     void "Test the save action correctly persists an instance"() {
 
         when:"The save action is executed with an invalid instance"
+            request.method = 'POST'
+            request.format='form'
+            
             def assetClass = new AssetClass()
             assetClass.validate()
             controller.save(assetClass)
@@ -60,6 +63,9 @@ class AssetClassControllerSpec extends Specification {
 
         when:"The save action is executed with a valid instance"
             response.reset()
+            request.method = 'POST'
+            request.format='form'
+            
             populateValidParams(params)
             assetClass = new AssetClass(params)
             //println("the name =" + assetClass.name)
@@ -106,6 +112,8 @@ class AssetClassControllerSpec extends Specification {
 
     void "Test the update action performs an update on a valid domain instance"() {
         when:"Update is called for a domain instance that doesn't exist"
+            request.method = 'PUT'  
+            request.format='form'            
             controller.update(null)
 
         then:"A 404 error is returned"
@@ -115,6 +123,8 @@ class AssetClassControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
+            request.method = 'PUT'
+            request.format='form'
             def assetClass = new AssetClass()
             assetClass.validate()
             controller.update(assetClass)
@@ -125,6 +135,7 @@ class AssetClassControllerSpec extends Specification {
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
+            request.method = 'PUT'
             populateValidParams(params)
             assetClass = new AssetClass(params).save(flush: true)
             controller.update(assetClass)
@@ -136,6 +147,8 @@ class AssetClassControllerSpec extends Specification {
 
     void "Test that the delete action deletes an instance if it exists"() {
         when:"The delete action is called for a null instance"
+            request.method = 'DELETE'
+            request.format='form'
             controller.delete(null)
 
         then:"A 404 is returned"

@@ -9,7 +9,11 @@ hibernate {
     cache.use_query_cache = false
     cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory' // Hibernate 3
 //    cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory' // Hibernate 4
+    //the flush mode it, by default, set to AUTO.  changing it to commit can drastically
+    //boost performance at the expense of data safety.  The default is 'safety-first'
+    flush.mode='commit'
 }
+
 
 // environment specific settings
 environments {
