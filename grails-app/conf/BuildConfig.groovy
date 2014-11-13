@@ -86,5 +86,8 @@ grails.project.dependency.resolution = {
         runtime ":cache-headers:1.1.7"
         
         test ":code-coverage:1.2.7"
+        test ":webdriver:0.4.2"
+        test ":cucumber:1.0.1"
+        
     }
 }

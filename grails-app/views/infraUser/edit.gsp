@@ -1,4 +1,4 @@
-<%@ page import="com.mechzombie.infraview.User" %>
+<%@ page import="com.mechzombie.infraview.InfraUser" %>
 <!DOCTYPE html>
 <html>
     <head>
