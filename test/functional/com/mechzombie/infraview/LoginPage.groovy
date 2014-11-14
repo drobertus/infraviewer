@@ -16,15 +16,16 @@ class LoginPage extends WebDriverPage {
 
     static expectedTitle = "Login"
     static expectedURL = ~"/login/.*"
+    
 
     String username
     String password
     String message
 
-    ButtonElement<LoginPage> loginButton
+    ButtonElement submit
 
     static elements = {
-        message(By.xpath("//div[@class='messages']"))
+        message(By.xpath("//div[@class='login_message']"))
     }
 	
 }

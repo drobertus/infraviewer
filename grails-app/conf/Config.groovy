@@ -91,6 +91,14 @@ grails.hibernate.osiv.readonly = false
 environments {
     development {
         grails.logging.jul.usebridge = true
+        System.setProperty("webdriver.browser", "chrome")
+        if (System.properties['os.name'].toLowerCase().contains('windows')) {
+            System.setProperty("webdriver.chrome.driver", new File("test/resources/chromedriver.exe").getAbsolutePath())
+        } else {
+            println "it's not Windows"
+        }
+        
+        println "chrome driver = ${System.getProperty("webdriver.chrome.driver")}"
     }
     production {
         grails.logging.jul.usebridge = false
@@ -117,6 +125,8 @@ log4j.main = {
            'org.springframework',
            'org.hibernate',
            'net.sf.ehcache.hibernate'
+    
+    //debug 'org.springframework.security'
 }
 
 
