@@ -12,7 +12,7 @@ grails.project.fork = [
     //  compile: [maxMemory: 256, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
 
     // configure settings for the test-app JVM, uses the daemon by default
-    //test: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
+    test: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, daemon:true],
     // configure settings for the run-app JVM
     run: [maxMemory: 768, minMemory: 64, debug: false, maxPerm: 256, forkReserve:false],
     // configure settings for the run-war JVM
@@ -41,53 +41,39 @@ grails.project.dependency.resolution = {
         grailsCentral()
         mavenCentral()
         // uncomment these (or add new ones) to enable remote dependency resolution from public Maven repositories
-        // mavenRepo "http://repository.codehaus.org"
-        // mavenRepo "http://download.java.net/maven/2/"
-        // mavenRepo "http://repository.jboss.com/maven2/"
-        // these two repos are used for spatial database access and data manipulation 
-        // mavenRepo 'http://download.osgeo.org/webdav/geotools'
-        // mavenRepo 'http://www.hibernatespatial.org/repository'
-
+        //mavenRepo "http://repository.codehaus.org"
+        //mavenRepo "http://download.java.net/maven/2/"
+        //mavenRepo "http://repository.jboss.com/maven2/"
     }
 
     dependencies {
         // specify dependencies here under either 'build', 'compile', 'runtime', 'test' or 'provided' scopes e.g.
-        // runtime 'mysql:mysql-connector-java:5.1.24'
+        // runtime 'mysql:mysql-connector-java:5.1.29'
+        // runtime 'org.postgresql:postgresql:9.3-1101-jdbc41'
+        //test "org.grails:grails-datastore-test-support:1.0-grails-2.4"
     }
 
     plugins {
         // plugins for the build system only
-        build ":tomcat:7.0.52.1"
+        build ":tomcat:7.0.55"
 
         // plugins for the compile step
-        compile ":scaffolding:2.1.0"
-        compile ':cache:1.1.3'
-        compile ':asset-pipeline:1.9.7' //8.3'
-        //compile ":spring-security-core:1.2.7.3"
-        compile ':spring-security-core:2.0-RC4'
-        //compile ":hibernate-spatial:0.0.4"
-        
-        
+        compile ":scaffolding:2.1.2"
+        compile ':cache:1.1.7'
+        compile ":asset-pipeline:1.9.6"
+	compile ':spring-security-core:2.0-RC4'
+
         // plugins needed at runtime but not for compilation
-        //runtime ":hibernate:3.6.10.6" // or ":hibernate4:4.1.11.6"
-        //runtime ':hibernate4:4.3.5.2' // or ':hibernate:3.6.10.14'
-        runtime ':hibernate:3.6.10.14'
+        runtime ":hibernate4:4.3.5.5" // or ":hibernate:3.6.10.17"
         runtime ":database-migration:1.4.0"
-        runtime ":jquery:1.11.1" //0.2" //1.10.2.2"
-        runtime ":resources:1.2.8"
-        //runtime ":hibernate-spatial-hdb:0.0.4"
-        //TODO: make these env dependent (test, dev, prod)
-        //runtime ":hibernate-spatial-mysql:0.0.4"
-        
-        // Uncomment these (or add new ones) to enable additional resources capabilities
-   //     runtime ":zipped-resources:1.0.1"
-   //     runtime ":cached-resources:1.1"
-        runtime ":yui-minify-resources:0.1.5"
-        runtime ":cache-headers:1.1.7"
-        
-        test ":code-coverage:1.2.7"
-        test ":webdriver:0.4.2"
+        runtime ":jquery:1.11.1"
+        //runtime ":resources:1.2.8"
+        // Uncomment these to enable additional asset-pipeline capabilities
+        //compile ":sass-asset-pipeline:1.9.0"
+        //compile ":less-asset-pipeline:1.10.0"
+        //compile ":coffee-asset-pipeline:1.8.0"
+        //compile ":handlebars-asset-pipeline:1.3.0.3"
+	test ":webdriver:0.4.2"
         test ":cucumber:1.0.1"
-        
     }
 }

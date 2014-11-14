@@ -4,10 +4,10 @@
 		<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><g:layoutTitle default="InfraViewer - The Civic Infrastructure Manager"/></title>
 		<g:layoutHead/>
-        <asset:javascript src="application.js"/>
-	    <asset:stylesheet href="login.css"/>
-        <!-- asset:stylesheet href="main.css"/ -->
-		<r:layoutResources />
+            <asset:javascript src="application.js"/>
+            <!-- asset:stylesheet href="main.css"/ -->
+            <asset:stylesheet href="application.css"/>
+		<!-- r:layoutResources / -->
 	</head>
 	<body>
 	<table><tr><td>
@@ -23,6 +23,6 @@
         </div>
      </td></tr></table>
 		<g:layoutBody/>
-		<r:layoutResources />
+		<!-- r:layoutResources / -->
 	</body>
 </html>

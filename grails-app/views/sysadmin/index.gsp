@@ -3,7 +3,7 @@
 <head>
 	<meta name='layout' content='main'/>
 	<title>InfraView - The Civic Infrastructure Manager</title>
-	<r:require module='application' />
+	<asset:javascript src="application.js"/>
 </head>
 <body>
 <script>

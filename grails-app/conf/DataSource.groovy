@@ -7,11 +7,11 @@ dataSource {
 hibernate {
     cache.use_second_level_cache = true
     cache.use_query_cache = false
-    cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory' // Hibernate 3
-//    cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory' // Hibernate 4
+//    cache.region.factory_class = 'net.sf.ehcache.hibernate.EhCacheRegionFactory' // Hibernate 3
+    cache.region.factory_class = 'org.hibernate.cache.ehcache.EhCacheRegionFactory' // Hibernate 4
     //the flush mode it, by default, set to AUTO.  changing it to commit can drastically
     //boost performance at the expense of data safety.  The default is 'safety-first'
-    flush.mode='commit'
+    //flush.mode='commit'
 }
 
 
@@ -22,6 +22,7 @@ environments {
             //logSql = true
             dbCreate = "create-drop" // one of 'create', 'create-drop', 'update', 'validate', ''
             url = "jdbc:h2:mem:devDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
+	    dialect = ImprovedH2Dialect
            // dialect = "org.hibernatespatial.geodb.GeoDBDialect"
         }
     }
@@ -30,6 +31,7 @@ environments {
             //logSql = true
             dbCreate = "update"
             url = "jdbc:h2:mem:testDb;MVCC=TRUE;LOCK_TIMEOUT=10000;DB_CLOSE_ON_EXIT=FALSE"
+	    dialect = ImprovedH2Dialect
             // dialect = "org.hibernatespatial.geodb.GeoDBDialect"
         }
     }
@@ -52,7 +54,3 @@ environments {
     }
 }
 
-/* Added by the Hibernate Spatial Plugin. */
-dataSource {
-   dialect = org.hibernatespatial.geodb.GeoDBDialect
-}

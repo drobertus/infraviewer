@@ -11,12 +11,12 @@
 //    grails.config.locations << "file:" + System.properties["${appName}.config.location"]
 // }
 
-grails.project.groupId = 'com.mechzombie.infraview' // change this to alter the default package name and Maven publishing destination
+grails.project.groupId = appName // change this to alter the default package name and Maven publishing destination
 
 // The ACCEPT header will not be used for content negotiation for user agents containing the following strings (defaults to the 4 major rendering engines)
 grails.mime.disable.accept.header.userAgents = ['Gecko', 'WebKit', 'Presto', 'Trident']
-grails.mime.types = [
-    all:           '*/*',
+grails.mime.types = [ // the first one is the default format
+    all:           '*/*', // 'all' maps to '*' or the first available format in withFormat
     atom:          'application/atom+xml',
     css:           'text/css',
     csv:           'text/csv',
@@ -58,12 +58,11 @@ grails {
             }
         }
         // escapes all not-encoded output at final stage of outputting
-        filteringCodecForContentType {
-            //'text/html' = 'html'
-        }
+        // filteringCodecForContentType.'text/html' = 'html'
     }
 }
- 
+
+
 grails.converters.encoding = "UTF-8"
 // scaffolding templates configuration
 grails.scaffolding.templates.domainSuffix = 'Instance'
@@ -83,6 +82,12 @@ grails.exceptionresolver.params.exclude = ['password']
 // configure auto-caching of queries by default (if false you can cache individual queries with 'cache: true')
 grails.hibernate.cache.queries = false
 
+// configure passing transaction's read-only attribute to Hibernate session, queries and criterias
+// set "singleSession = false" OSIV mode in hibernate configuration after enabling
+grails.hibernate.pass.readonly = false
+// configure passing read-only to OSIV session by default, requires "singleSession = false" OSIV mode
+grails.hibernate.osiv.readonly = false
+
 environments {
     development {
         grails.logging.jul.usebridge = true
@@ -93,9 +98,8 @@ environments {
     }
 }
 
-
 // log4j configuration
-log4j = {
+log4j.main = {
     // Example of changing the log pattern for the default console appender:
     //
     //appenders {
@@ -116,8 +120,6 @@ log4j = {
 }
 
 
-
-// Added by the Spring Security Core plugin:
 grails.plugin.springsecurity.rejectIfNoRule = false
 grails.plugin.springsecurity.fii.rejectPublicInvocations = false
 
@@ -126,26 +128,6 @@ grails.plugin.springsecurity.userLookup.authorityJoinClassName = 'com.mechzombie
 grails.plugin.springsecurity.authority.className = 'com.mechzombie.infraview.Role'
 grails.plugin.springsecurity.successHandler.defaultTargetUrl = '/home'
 grails.plugin.springsecurity.securityConfigType = 'Annotation'
-//grails.plugins.springsecurity.successHandler.defaultTargetUrl = "/"(controller:"home")
-
-
-/* Added by the Hibernate Spatial Plugin. */
-//grails.gorm.default.mapping = {
-//   /* Added by the Hibernate Spatial Plugin. */
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.LineString)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Point)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Polygon)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiLineString)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiPoint)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.MultiPolygon)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.LinearRing)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Puntal)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Lineal)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Polygonal)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.Geometry)
-//   'user-type'(type:org.hibernatespatial.GeometryUserType, class:com.vividsolutions.jts.geom.GeometryCollection)
-//   // Additional user-type mappings
-//}
 
 grails.plugin.springsecurity.interceptUrlMap = [
   '/dbconsole*/**':['permitAll']
@@ -153,7 +135,7 @@ grails.plugin.springsecurity.interceptUrlMap = [
 
 environments {
     production {
-       infraview.report.root_folder="C:/prodRtps/"
+       infraview.report.root_folder="~/prodRtps/"
     }
     development {
         infraview.report.root_folder = "~/devReports/"
@@ -162,5 +144,3 @@ environments {
         infraview.report.root_folder = "~/testReports/"
     }
 }
-//infraview.report.root_folder="C:/temp/"
-

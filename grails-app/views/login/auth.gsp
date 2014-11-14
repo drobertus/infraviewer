@@ -2,7 +2,9 @@
 <head>
 	<meta name='layout' content='main'/>
 	<title><g:message code="springSecurity.login.title"/></title>
-	<r:require modules='application, login' />
+        <asset:javascript src="application.js"/>
+        <asset:stylesheet href="login.css"/>
+	<!-- r:require modules='application, login' / -->
 </head>
 <body>
 <div id='login'>
