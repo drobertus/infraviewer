@@ -55,10 +55,11 @@
                 <span id="assetClasses-label" class="property-label"><g:message code="enterprise.assetClasses.label" default="Asset Classes" /></span>
                 <g:set var="assetClassCount" value="${AssetClass.countByEnterprise(enterpriseInstance)}"/>
                 <span class="property-value" aria-labelledby="assetClasses-label">${assetClassCount} found for this Enterprise
-                    <g:link controller="assetClass" action="index" params="['enterprise.id': enterpriseInstance?.id]">Show</g:link>
+                    <g:link controller="assetClass" action="index" params="['enterprise.id': enterpriseInstance?.id]">Show</g:link>                                    
+                    <sec:ifAnyGranted roles="ROLE_ADMIN">                    
                     <g:link controller="assetClass" action="create" params="['enterprise.id': enterpriseInstance?.id]">Create</g:link>
+                    </sec:ifAnyGranted>
                 </span>
-                    
             </li>
         
 

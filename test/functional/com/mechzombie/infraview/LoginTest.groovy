@@ -102,6 +102,13 @@ class LoginTest {
         
     }
     
+    /**
+    *Test the asset event actions
+    **/
+    @Test
+    public void testAssetEventActions() {
+        
+    }
     
 }
 

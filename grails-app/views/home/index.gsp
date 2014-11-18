@@ -16,7 +16,7 @@
             <div>Work Orders</div>
             <div>Infrastructure</div>
             <div><g:link controller="enterprise" action="show" id="${enterprise.id}">My Organization</g:link></div>
-            <div><g:link controller="user" action="show" id="${user.id}">My Info</g:link></div>
+            <div><g:link controller="infraUser" action="show" id="${user.id}">My Info</g:link></div>
         </div>    
     </div>
 </body>
