@@ -12,7 +12,7 @@
     <div class="nav" role="navigation">
         <ul>
             <li>Calendar</li>
-            <li>Work Orders</li>            
+            <li><g:link controller="workOrder" action="index">Work Orders</g:link></li>            
             <li><g:link controller="assetClass" action="index">Asset Management</g:link></li>
             <sec:ifAnyGranted roles="ROLE_ADMIN">
             <li><g:link controller="enterprise" action="show" id="${enterprise.id}"> Enterprise Administration</g:link></li>

@@ -13,7 +13,7 @@
     <div>        
         <div>            
             <div>My Calendar</div>
-            <div>Work Orders</div>
+            <div><g:link controller="workOrder" action="index">My Work Orders</g:link></div>
             <div>Infrastructure</div>
             <div><g:link controller="enterprise" action="show" id="${enterprise.id}">My Organization</g:link></div>
             <div><g:link controller="infraUser" action="show" id="${user.id}">My Info</g:link></div>
