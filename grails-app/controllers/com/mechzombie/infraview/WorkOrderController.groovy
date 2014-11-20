@@ -28,11 +28,12 @@ class WorkOrderController {
     def create() {
         println "createWork order called -> ${params}"
         //params['eventType'] = WorkOrderStatusType.Incomplete
-        respond new WorkOrder(eventType: WorkOrderStatusType.Incomplete, 
+        respond new WorkOrder(eventType: WorkOrderStatusType.Unscheduled, 
             enterprise: session['activeEnterprise'],
             reportedDate: new Date(),
             completedDate: null,
-            projectManager: null
+            projectManager: null,
+            reportedBy: principal.username
         )
     
     }
