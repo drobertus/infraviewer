@@ -30,7 +30,7 @@
         <g:message code="workOrder.workType.label" default="Work Type" />
         <span class="required-indicator">*</span>
     </label>
-    <g:select name="workType" from="${workOrderInstance.constraints.workType.inList}" required="" value="${workOrderInstance?.workType}" valueMessagePrefix="workOrder.workType"/>
+    <g:select name="workType" from="${AssetStatusEventType.values()}" required="" value="${workOrderInstance?.workType}" valueMessagePrefix="workOrder.workType"/>
 </div>
 
 
@@ -93,7 +93,7 @@
     <label for="notes">
         <g:message code="workOrder.notes.label" default="Notes" />        
     </label>
-    <g:textArea name="notes" required="" value="${workOrderInstance?.notes}"/>
+    <g:textArea name="notes" value="${workOrderInstance?.notes}"/>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: workOrderInstance, field: 'projectManager', 'error')} ">

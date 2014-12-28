@@ -45,6 +45,8 @@ class WorkOrderController {
             return
         }
 
+        checkWorkOrderRuleManagement(workOrderInstance)
+        
         if (workOrderInstance.hasErrors()) {
             respond workOrderInstance.errors, view:'create'
             return
@@ -72,6 +74,8 @@ class WorkOrderController {
             return
         }
 
+        checkWorkOrderRuleManagement(workOrderInstance)
+        
         if (workOrderInstance.hasErrors()) {
             respond workOrderInstance.errors, view:'edit'
             return
@@ -114,6 +118,21 @@ class WorkOrderController {
                 redirect action: "index", method: "GET"
             }
             '*'{ render status: NOT_FOUND }
+        }
+    }
+    
+    /**
+    *This handles rules for work orders such as state, dates, types, etc.
+    */
+    void checkWorkOrderRuleManagement(WorkOrder wo) {
+        //checked completed info
+        if (!WorkOrderStatusType.Completed.equals(wo.status) ) {
+            wo.completedDate = null
+            wo.certifiedCompleteBy = null
+        }
+        
+        if (!WorkOrderStatusType.Unscheduled.equals(wo.status) ) {
+            wo.scheduledWorkDate = null            
         }
     }
 }
