@@ -48,7 +48,13 @@ $(document).ready(function() {
                 </g:eachError>
             </ul>
         </g:hasErrors>
-        <g:form url="[resource:enterpriseInstance, action:'update']" method="PUT" >
+      <!--  
+        <g:uploadForm controller="upload" action="uploadEnterpriseLogo">
+            <input  type="file" name="logoImage" />
+            <g:actionSubmit controller="upload" class="save" action="uploadEnterpriseLogo" value="Upload Logo"/> 
+        </g:uploadForm>
+        -->
+        <g:uploadForm controller="enterprise" action="update" id="${enterpriseInstance.id}" name="entData">  url="[resource:enterpriseInstance, action:'update']" method="PUT"  >
             <g:hiddenField name="version" value="${enterpriseInstance?.version}" />
             <fieldset class="form">
                 <g:render template="form"/>
@@ -56,7 +62,7 @@ $(document).ready(function() {
             <fieldset class="buttons">
                 <g:actionSubmit class="save" action="update" value="${message(code: 'default.button.update.label', default: 'Update')}" />
             </fieldset>
-        </g:form>
+        </g:uploadForm>
     </div>
 </body>
 </html>

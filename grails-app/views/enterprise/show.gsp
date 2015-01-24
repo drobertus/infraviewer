@@ -30,6 +30,11 @@
                 <span class="property-value" aria-labelledby="name-label"><g:fieldValue bean="${enterpriseInstance}" field="name"/></span>
             </li>
 
+            <li class="fieldcontain">
+                <span id="logo-label" class="property-label"><g:message code="enterprise.logo.label" default="Logo" /></span>
+                <span class="property-value" aria-labelledby="logo-label"><img src="${createLink(controller: 'enterprise', action: 'displayLogo')}" width="60" height="60"/>   </span>
+            </li>
+    
         <g:if test="${enterpriseInstance?.parentEnterprise}">    
             <li class="fieldcontain">
                 <span id="parent-label" class="property-label"><g:message code="enterprise.parent.label" default="Parent Enterprise" /></span>

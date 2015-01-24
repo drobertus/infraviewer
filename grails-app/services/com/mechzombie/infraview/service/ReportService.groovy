@@ -5,7 +5,7 @@ import grails.transaction.Transactional
 import groovy.json.JsonBuilder
 import groovy.xml.MarkupBuilder
 
-//@Transactional
+@Transactional
 class ReportService {
 
     static transactional = true

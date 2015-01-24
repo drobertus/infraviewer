@@ -16,6 +16,7 @@ class WorkOrder {
     AssetClass assetClass
     Asset asset
     WorkOrderStatusType status
+    StoredFileSet imageSet
     
     static hasMany = [assignedStaff: InfraUser]
     
@@ -29,7 +30,8 @@ class WorkOrder {
         certifiedCompleteBy nullable: true, blank: true
         completedDate nullable: true, blank: true
         scheduledWorkDate nullable: true, blank: true
-        
+        workOrderId unique: 'assetClass', nullable: false, blank: false
+        imageSet nullable: true, blank:true
         
     }
 }

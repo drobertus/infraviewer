@@ -126,12 +126,15 @@ class WorkOrderController {
     */
     void checkWorkOrderRuleManagement(WorkOrder wo) {
         //checked completed info
+        println ("setting work order info : ${wo}")
         if (!WorkOrderStatusType.Completed.equals(wo.status) ) {
+            println 'status not complete'
             wo.completedDate = null
             wo.certifiedCompleteBy = null
         }
         
-        if (!WorkOrderStatusType.Unscheduled.equals(wo.status) ) {
+        if (WorkOrderStatusType.Unscheduled.equals(wo.status) ) {
+            println 'unscheduled- removing scheduled date'
             wo.scheduledWorkDate = null            
         }
     }

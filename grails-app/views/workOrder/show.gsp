@@ -51,6 +51,15 @@
                     </li>
                 </g:if>
 
+                <g:if test="${workOrderInstance?.reportedBy}">
+                    <li class="fieldcontain">
+                        <span id="reportedBy-label" class="property-label"><g:message code="workOrder.reportedBy.label" default="Reported By" /></span>
+
+                        <span class="property-value" aria-labelledby="reportedBy-label"><g:fieldValue bean="${workOrderInstance}" field="reportedBy"/></span>
+
+                    </li>
+                </g:if>
+                
                 <g:if test="${workOrderInstance?.reportedDate}">
                     <li class="fieldcontain">
                         <span id="reportedDate-label" class="property-label"><g:message code="workOrder.reportedDate.label" default="Reported Date" /></span>
@@ -89,12 +98,32 @@
                 </g:if>
                 </g:if>
                 
+                <g:if test="${workOrderInstance?.notes}">
+                    <li class="fieldcontain">
+                        <span id="notes-label" class="property-label"><g:message code="workOrder.notes.label" default="Notes" /></span>
+
+                        <span class="property-value" aria-labelledby="notes-label"><g:fieldValue bean="${workOrderInstance}" field="notes"/></span>
+
+                    </li>
+                </g:if>
+                
+                
+                <g:if test="${workOrderInstance?.location}">
+                    <li class="fieldcontain">
+                        <span id="location-label" class="property-label"><g:message code="workOrder.location.label" default="Location" /></span>
+
+                        <span class="property-value" aria-labelledby="location-label"><g:link controller="location" action="show" id="${workOrderInstance?.location?.id}">${workOrderInstance?.location?.encodeAsHTML()}</g:link></span>
+
+                    </li>
+                </g:if>
+                
+                
                 <g:if test="${workOrderInstance?.assignedStaff}">
                     <li class="fieldcontain">
                         <span id="assignedStaff-label" class="property-label"><g:message code="workOrder.assignedStaff.label" default="Assigned Staff" /></span>
 
                         <g:each in="${workOrderInstance.assignedStaff}" var="a">
-                            <span class="property-value" aria-labelledby="assignedStaff-label"><g:link controller="infraUser" action="show" id="${a.id}">${a?.encodeAsHTML()}</g:link></span>
+                            <span class="property-value" aria-labelledby="assignedStaff-label"><g:link controller="infraUser" action="show" id="${a.id}">${a.username}</g:link></span>
                         </g:each>
 
                     </li>
@@ -120,50 +149,19 @@
                 </g:if>
 
                 </g:if>
-                <g:if test="${workOrderInstance?.enterprise}">
-                    <li class="fieldcontain">
-                        <span id="enterprise-label" class="property-label"><g:message code="workOrder.enterprise.label" default="Enterprise" /></span>
-
-                        <span class="property-value" aria-labelledby="enterprise-label"><g:link controller="enterprise" action="show" id="${workOrderInstance?.enterprise?.id}">${workOrderInstance?.enterprise?.name}</g:link></span>
-
-                    </li>
-                </g:if>
-
-                <g:if test="${workOrderInstance?.location}">
-                    <li class="fieldcontain">
-                        <span id="location-label" class="property-label"><g:message code="workOrder.location.label" default="Location" /></span>
-
-                        <span class="property-value" aria-labelledby="location-label"><g:link controller="location" action="show" id="${workOrderInstance?.location?.id}">${workOrderInstance?.location?.encodeAsHTML()}</g:link></span>
-
-                    </li>
-                </g:if>
                 
-                <g:if test="${workOrderInstance?.notes}">
-                    <li class="fieldcontain">
-                        <span id="notes-label" class="property-label"><g:message code="workOrder.notes.label" default="Notes" /></span>
-
-                        <span class="property-value" aria-labelledby="notes-label"><g:fieldValue bean="${workOrderInstance}" field="notes"/></span>
-
-                    </li>
-                </g:if>
+                
 
                 <g:if test="${workOrderInstance?.projectManager}">
                     <li class="fieldcontain">
                         <span id="projectManager-label" class="property-label"><g:message code="workOrder.projectManager.label" default="Project Manager" /></span>
 
-                        <span class="property-value" aria-labelledby="projectManager-label"><g:link controller="infraUser" action="show" id="${workOrderInstance?.projectManager?.id}">${workOrderInstance?.projectManager?.encodeAsHTML()}</g:link></span>
+                        <span class="property-value" aria-labelledby="projectManager-label"><g:link controller="infraUser" action="show" id="${workOrderInstance?.projectManager?.id}">${workOrderInstance?.projectManager?.username}</g:link></span>
 
                     </li>
                 </g:if>
 
-                <g:if test="${workOrderInstance?.reportedBy}">
-                    <li class="fieldcontain">
-                        <span id="reportedBy-label" class="property-label"><g:message code="workOrder.reportedBy.label" default="Reported By" /></span>
-
-                        <span class="property-value" aria-labelledby="reportedBy-label"><g:fieldValue bean="${workOrderInstance}" field="reportedBy"/></span>
-
-                    </li>
-                </g:if>
+       
 
                 
             </ol>

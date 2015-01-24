@@ -1,12 +1,24 @@
 <%@ page import="com.mechzombie.infraview.*" %>
 
 <div class="fieldcontain ${hasErrors(bean: enterpriseInstance, field: 'name', 'error')} ">
+  
     <label for="name">
         <g:message code="enterprise.name.label" default="Name" />
         <span class="required-indicator">*</span>
     </label>
     <g:textField name="name" value="${enterpriseInstance?.name}"/>
 </div>
+
+
+
+<div class="fieldcontain ${hasErrors(bean: enterpriseInstance, field: 'logoFileName', 'error')} ">
+    <label for="logo">
+        <g:message code="enterprise.logo.label" default="Logo" />
+    </label>
+    <img src="${createLink(controller: 'enterprise', action: 'displayLogo')}" width="60" height="60"/>   
+    <input  type="file" name="logoImage" />           
+</div>
+
 
 <g:hiddenField name="location" value="${enterpriseInstance?.location?.id}"/>
 <g:hiddenField name="location.address" value="${enterpriseInstance?.location?.address?.id}"/>   
@@ -65,9 +77,9 @@
 <div class="fieldcontain ${hasErrors(bean: enterpriseInstance, field: 'assetClasses', 'error')} ">
     <label for="assetClasses">
         <g:message code="enterprise.assetClasses.label" default="Asset Classes" />
-    </label>
-    <g:link controller="assetClass" action="index" params="['enterprise.id': enterpriseInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'assetClass.label', default: 'Asset Classes')])}</g:link>
+    </label>    
     <g:select name="assetClasses" from="${enterpriseInstance?.assetClasses}" multiple="yes" optionKey="id" optionValue="name" size="5" value="${enterpriseInstance?.assetClasses*.name}" class="many-to-many"/>
+    <g:link controller="assetClass" action="index" params="['enterprise.id': enterpriseInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'assetClass.label', default: 'Asset Classes')])}</g:link>
 </div>
 
 <div class="fieldcontain ${hasErrors(bean: enterpriseInstance, field: 'users', 'error')} ">
@@ -77,10 +89,10 @@
 
     <ul class="one-to-many">
         <g:each in="${enterpriseInstance?.users}" var="u">
-            <li><g:link controller="user" action="show" id="${u.id}">${u?.username}</g:link></li>
+            <li><g:link controller="infraUser" action="show" id="${u.id}">${u?.username}</g:link></li>
             </g:each>
         <li class="add">
-            <g:link controller="user" action="create" params="['enterprise.id': enterpriseInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'user.label', default: 'User')])}</g:link>
+            <g:link controller="infraUser" action="create" params="['enterprise.id': enterpriseInstance?.id]">${message(code: 'default.add.label', args: [message(code: 'user.label', default: 'User')])}</g:link>
             </li>
         </ul>
 

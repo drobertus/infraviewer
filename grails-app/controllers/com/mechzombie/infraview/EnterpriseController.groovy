@@ -4,14 +4,16 @@ package com.mechzombie.infraview
 import grails.plugin.springsecurity.annotation.Secured
 import static org.springframework.http.HttpStatus.*
 import grails.transaction.Transactional
+import org.springframework.web.multipart.commons.CommonsMultipartFile
 
 @Transactional(readOnly = true )
 class EnterpriseController {
 
     def springSecurityService
     def addressHandlingService
+    def fileService
     
-    static allowedMethods = [save: "POST", update: "PUT", delete: "DELETE"]
+    static allowedMethods = [save: "POST", update: "POST", delete: "DELETE"]
     
     @Secured(['ROLE_SUPERUSER'])
     def index(Integer max) {
@@ -35,8 +37,7 @@ class EnterpriseController {
     @Secured(['ROLE_SUPERUSER', 'ROLE_ADMIN'])
     @Transactional
     def save(Enterprise enterpriseInstance) {
-        //log.info 'the save is attempted'
-        //println('enterprise save params = ' + params)
+        
         if (enterpriseInstance == null) {
             notFound()
             return
@@ -52,35 +53,43 @@ class EnterpriseController {
             }
             theLoc.save(flush:true)
            enterpriseInstance.location = theLoc
-        }
-        //println( 'ent save 3')
+        }        
         enterpriseInstance.validate()
-        if (enterpriseInstance.hasErrors()) {
-          //  println(' ent errors = ' + enterpriseInstance.errors)
+        if (enterpriseInstance.hasErrors()) {        
             respond enterpriseInstance.errors, view:'create'
             return
         }
-//println( 'ent save 4')
+
         addressHandlingService.buildAddress(enterpriseInstance.location, params)
         if (enterpriseInstance?.location?.address?.hasErrors()) {
-            //println("found errors ${enterpriseInstance.location.address.errors}")
-            //enterpriseInstance.errors << enterpriseInstance.location.address.errors
             respond enterpriseInstance.location.address.errors, view: 'create'
             return;
         }
-        
-  //      println("new ent = " + enterpriseInstance)
         enterpriseInstance.save flush:true
+        uploadLogo params, enterpriseInstance.id
 
         request.withFormat {
             form {
                 flash.message = message(code: 'default.created.message', args: [message(code: 'enterpriseInstance.label', default: 'Enterprise'), enterpriseInstance.id])
                 redirect enterpriseInstance
             }
-            '*' { respond enterpriseInstance, [status: CREATED] }
+            '*' { respond enterpriseInstance, [view: 'show', status: CREATED] }
         }
     }
 
+    def displayLogo() {
+        def theEnt = session['activeEnterprise']       
+        def img = fileService.getCurrentEnterpriseLogo(theEnt.id)
+
+        if (img) {
+           
+            response.setHeader('Content-length', "${img.length}")
+            response.contentType = 'image/jpg' // or the appropriate image content type
+            response.outputStream << img
+            response.outputStream.flush()
+        }
+    }
+    
     @Secured(['ROLE_ADMIN'])
     def edit(Enterprise enterpriseInstance) {
         respond enterpriseInstance
@@ -89,13 +98,12 @@ class EnterpriseController {
     @Secured(['ROLE_ADMIN'])
     @Transactional
     def update(Enterprise enterpriseInstance) {
-        //println "params =${params}"
+        //println "update params =${params}"
         if (enterpriseInstance == null) {
             notFound()
             return
         }
-
-        
+                
         if (enterpriseInstance.hasErrors()) {
           //  println("errors are: ${enterpriseInstance.getErrors()}")
             respond enterpriseInstance.errors, view:'edit'
@@ -108,15 +116,16 @@ class EnterpriseController {
             respond enterpriseInstance.errors, view: 'edit'
             return;
         }
-        
+ 
         enterpriseInstance.save flush:true
+        uploadLogo params, enterpriseInstance.id
         
         request.withFormat {
-            form {
+            form {              
                 flash.message = message(code: 'default.updated.message', args: [message(code: 'Enterprise.label', default: 'Enterprise'), enterpriseInstance.id])
                 redirect enterpriseInstance
-            }
-            '*'{ respond enterpriseInstance, [status: OK] }
+            }            
+            '*'{ respond enterpriseInstance, [view:'show', status: OK] }
         }
     }
 
@@ -140,6 +149,20 @@ class EnterpriseController {
         }
     }
 
+    private void uploadLogo(params, theEnt){
+
+        CommonsMultipartFile f = params['logoImage']        
+        if (f) {           
+            if (f.bytes) {
+                println("updating logo for ${theEnt} with ${f.originalFilename}")
+                fileService.uploadEnterpriseLogo(f.bytes, f.originalFilename, theEnt)    
+            }
+        }
+        else {
+            println 'no logoImage section found'
+        }
+    }
+    
     protected void notFound() {
         request.withFormat {
             form {

@@ -10,14 +10,14 @@ import org.codehaus.groovy.grails.plugins.webdriver.WebDriverHelper
 import org.junit.Rule
 import org.junit.Before
 import org.junit.Test
+import spock.lang.Ignore
+
 import groovy.util.logging.Log
 
 import static org.junit.Assert.assertEquals
 import static org.junit.Assert.assertTrue
-/**
- *
- * @author David
- */
+
+@Ignore
 @Log
 class LoginTest {
     @Rule
@@ -102,13 +102,13 @@ class LoginTest {
         
     }
     
-    /**
-    *Test the asset event actions
-    **/
-    @Test
-    public void testAssetEventActions() {
-        
-    }
+//    /**
+//    *Test the asset event actions
+//    **/
+//    @Test
+//    public void testAssetEventActions() {
+//        
+//    }
     
 }
 

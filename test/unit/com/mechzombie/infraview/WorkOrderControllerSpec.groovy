@@ -13,6 +13,24 @@ class WorkOrderControllerSpec extends Specification {
         assert params != null
         // TODO: Populate valid properties like...
         //params["name"] = 'someValidName'
+        
+//            Enterprise enterprise    
+//    Location location
+//    Date reportedDate
+//    Date scheduledWorkDate
+//    String reportedBy
+//    String notes
+//    InfraUser projectManager
+//    String workOrderId
+//    Date completedDate    
+//    InfraUser certifiedCompleteBy
+//    AssetStatusEventType workType
+//    AssetClass assetClass
+//    Asset asset
+//    WorkOrderStatusType status
+//    StoredFileSet imageSet
+//    
+//    static hasMany = [assignedStaff: InfraUser]
     }
 
     void "Test the index action returns the correct model"() {

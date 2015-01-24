@@ -110,7 +110,7 @@ class EnterpriseControllerSpec extends Specification {
             controller.addressHandlingService = new AddressHandlingService()   
             
         when:"Update is called for a domain instance that doesn't exist"
-            request.method = 'PUT'
+            request.method = 'POST'
             request.format='form'
             controller.update(null)
 
@@ -123,7 +123,7 @@ class EnterpriseControllerSpec extends Specification {
 
         when:"An invalid domain instance is passed to the update action"
             response.reset()
-            request.method = 'PUT'
+            request.method = 'POST'
             def enterprise = new Enterprise()
             enterprise.validate()
             controller.update(enterprise)
@@ -134,7 +134,7 @@ class EnterpriseControllerSpec extends Specification {
 
         when:"A valid domain instance is passed to the update action"
             response.reset()
-            request.method = 'PUT'
+            request.method = 'POST'
 
             populateValidParams(params)
             enterprise = new Enterprise(params).save(flush: true)

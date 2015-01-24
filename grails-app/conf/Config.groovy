@@ -39,7 +39,7 @@ grails.resources.adhoc.patterns = ['/images/*', '/css/*', '/js/*', '/plugins/*']
 
 // Legacy setting for codec used to encode data with ${}
 grails.views.default.codec = "html"
-
+grails.views.javascript.library="jquery"
 // The default scope for controllers. May be prototype, session or singleton.
 // If unspecified, controllers are prototype scoped.
 grails.controllers.defaultScope = 'singleton'
@@ -143,14 +143,18 @@ grails.plugin.springsecurity.interceptUrlMap = [
   '/dbconsole*/**':['permitAll']
 ]
 
+
 environments {
     production {
        infraview.report.root_folder="~/prodRtps/"
+       infraview.files.root_folder="~/iv_files/"
     }
     development {
         infraview.report.root_folder = "~/devReports/"
+        infraview.files.root_folder="~/iv_files/"
     }
     test {
         infraview.report.root_folder = "~/testReports/"
+        infraview.files.root_folder="~/iv_files/"
     }
 }
