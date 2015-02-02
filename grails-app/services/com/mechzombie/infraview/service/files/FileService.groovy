@@ -27,11 +27,12 @@ class FileService {
             folder.logo.delete()
         }
         def logoFileName = "logo.jpg"
-        def saved = new File(folder.mainFolder, logoFileName).newOutputStream()       
+        def logo = new File(folder.mainFolder, logoFileName)
+        def saved = logo.newOutputStream()       
         
         saved   << input
         saved.close()
-        
+        folder.logo = logo
     }
     
     

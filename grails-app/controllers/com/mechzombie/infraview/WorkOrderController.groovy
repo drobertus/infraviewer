@@ -33,21 +33,22 @@ class WorkOrderController {
             reportedDate: new Date(),
             completedDate: null,
             projectManager: null,
-            reportedBy: principal.username
+            reportedBy: springSecurityService.principal.username
         )
     
     }
 
     @Transactional
     def save(WorkOrder workOrderInstance) {
+
         if (workOrderInstance == null) {
             notFound()
             return
         }
 
         checkWorkOrderRuleManagement(workOrderInstance)
-        
-        if (workOrderInstance.hasErrors()) {
+
+        if (workOrderInstance.hasErrors()) {            
             respond workOrderInstance.errors, view:'create'
             return
         }
@@ -137,5 +138,6 @@ class WorkOrderController {
             println 'unscheduled- removing scheduled date'
             wo.scheduledWorkDate = null            
         }
+        wo.validate()
     }
 }

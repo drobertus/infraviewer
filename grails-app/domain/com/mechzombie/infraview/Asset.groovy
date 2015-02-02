@@ -29,6 +29,13 @@ class Asset {
         //statusHistory nullable: true
     }
     
+    void addToStatusHistory(AssetStatusEvent event) {
+        if (!statusHistory) {
+            statusHistory = AssetStatusEvent.findByAsset(this.ident)
+        }
+        statusHistory.add(event)
+    }
+    
     def getSortedStatusHistory() {
         statusHistory = AssetStatusEvent.findAllByAsset(this, [sort: "statusDate", order: "desc"])
     }

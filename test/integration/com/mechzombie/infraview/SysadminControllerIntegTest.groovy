@@ -29,7 +29,8 @@ class SysadminControllerIntegTest extends GroovyTestCase {
 
         println 'this is a test'
 
-        controller.getListOfEnterprises()
+        def ents = controller.getListOfEnterprises()
+        println "The Ents = ${ents}"
         def response = controller.response.text
         println "got response : ${response}"
 

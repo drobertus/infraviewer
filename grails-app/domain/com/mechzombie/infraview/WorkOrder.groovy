@@ -32,6 +32,7 @@ class WorkOrder {
         scheduledWorkDate nullable: true, blank: true
         workOrderId unique: 'assetClass', nullable: false, blank: false
         imageSet nullable: true, blank:true
+        location nullable: true, blank: true
         
     }
 }

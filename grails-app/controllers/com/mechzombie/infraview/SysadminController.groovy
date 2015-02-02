@@ -14,7 +14,6 @@ class SysadminController {
     }
 
     def getListOfEnterprises() {
-        def ents = Enterprise.getAll()
-        render ents as JSON
+        render Enterprise.listOrderByName() as JSON        
     }
 }

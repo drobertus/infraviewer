@@ -39,7 +39,7 @@ class AssetIntegrationTestSpec extends Specification {
             def statusEvent = new AssetStatusEvent(asset: nonSelectedAsset, statusDate: eventDate,
                 status: y, eventType: AssetStatusEventType.Inspection).save()
             //println "status event (shouldnt appear)= ${statusEvent.id} ${statusEvent.statusDate} ${statusEvent.asset.id}  "
-            nonSelectedAsset.addToStatusHistory(statusEvent)//.save(flush:true)
+            nonSelectedAsset.addToStatusHistory(statusEvent) //getStatusHistory().add(statusEvent)//.save(flush:true)
         }
         nonSelectedAsset.save(flush:true)
         y = 5

@@ -1,18 +1,28 @@
 package com.mechzombie.infraview
 
 
+import grails.plugin.springsecurity.SpringSecurityService
 
 import grails.test.mixin.*
 import spock.lang.*
 
 @TestFor(WorkOrderController)
-@Mock(WorkOrder)
+@Mock([WorkOrder, Enterprise, Asset, AssetClass, InfraUser])
 class WorkOrderControllerSpec extends Specification {
 
     def populateValidParams(params) {
         assert params != null
         // TODO: Populate valid properties like...
-        //params["name"] = 'someValidName'
+        //params["name"] = 'someValidName'        
+        
+        params['enterprise'] = Enterprise.load(3)
+        params['reportedDate'] = new Date()
+        params['workOrderId'] = 'thisWOid'
+        params['workType'] = AssetStatusEventType.Maintenance
+        params['assetClass'] = AssetClass.load(8)
+        params['asset'] = Asset.load(120)
+        params['status'] = WorkOrderStatusType.Unscheduled
+        params['reportedBy'] = 'Mr. Street'
         
 //            Enterprise enterprise    
 //    Location location
@@ -44,6 +54,15 @@ class WorkOrderControllerSpec extends Specification {
     }
 
     void "Test the create action returns the correct model"() {
+        setup:
+        def theUser = Mock(InfraUser)
+        theUser.userName >> 'Bill'
+        controller.springSecurityService = [
+            encodePassword: 'password',
+            reauthenticate: { String u -> true},
+            loggedIn: true,
+            principal: theUser]
+        
         when:"The create action is executed"
             controller.create()
 
