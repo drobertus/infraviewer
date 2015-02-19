@@ -28,7 +28,7 @@ class SysadminControllerSpec extends Specification {
         given:
         //def entMock = GroovyMock(Enterprise, global: true)
         //def entMock = MockFor(Enterprise)
-        Enterprise.metaClass.static.getAll = { entList }
+        Enterprise.metaClass.static.listOrderByName = { entList }
         when:
 
         println 'this is a test'

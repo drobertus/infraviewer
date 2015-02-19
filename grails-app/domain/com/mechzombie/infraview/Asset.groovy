@@ -31,7 +31,7 @@ class Asset {
     
     void addToStatusHistory(AssetStatusEvent event) {
         if (!statusHistory) {
-            statusHistory = AssetStatusEvent.findByAsset(this.ident)
+            statusHistory = AssetStatusEvent.findByAsset(this.id)
         }
         statusHistory.add(event)
     }
